@@ -1,8 +1,7 @@
 library(Matrix)
 library(e1071)
 
-A = readMM("/Users/nicoloripamonti/Desktop/universit??/Magistrale/Secondo Semestre/Metodi del Calcolo Scientifico/Progetto/MCS_Project/Matrici/ex15.mtx", 
-           package = "Matrix")
+A = readMM("/Users/nicoloripamonti/Desktop/universit??/Magistrale/Secondo Semestre/Metodi del Calcolo Scientifico/Progetto/MCS_Project/Matrici/ex15.mtx")
 
 A = t(A)*A
 
