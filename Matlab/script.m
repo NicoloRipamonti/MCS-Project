@@ -1,3 +1,5 @@
+tic
+
 %Leggo la matrice A
 A = Problem.A;
 
@@ -21,6 +23,8 @@ quindi x = R \ (R' \ b)
 
 y = R' \ b;
 x = R \ y;
+
+toc
 
 %{
 Calcolo errore fra x (soluzione calcolata) e xe (soluzione
