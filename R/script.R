@@ -1,19 +1,25 @@
 library(Matrix)
 library(e1071)
 
-A = readMM("/Users/nicoloripamonti/Desktop/universit??/Magistrale/Secondo Semestre/Metodi del Calcolo Scientifico/Progetto/MCS_Project/Matrici/ex15.mtx", 
-           package = "Matrix")
+start_time <- Sys.time()
 
-A = t(A)*A
+A = readMM("../Matrici/ex15.mtx")
 
-sol = rep(1, times = nrow(A))
+xe = rep(1, times = nrow(A))
 
-b = A * sol
+b = A %*% xe
 
 C = chol(A)
 
-y1 = t(C) / b
+y = solve(t(C), b)
 
-x1 = C / y1
+x = solve(C, y)
 
-Err.ass = norm(x1 - sol)
+end_time <- Sys.time()
+
+end_time - start_time
+
+xe = as.matrix(xe)
+
+errore = norm(x - xe) / norm(as.matrix(xe))
+format(errore, scientific = TRUE)
