@@ -9,7 +9,7 @@ xe = ones(size(A,1), 1);
 %Calcolo b dalla equazione Axe = b
 b = A * xe;
 
-%Calcolo Cholsky triangolare inferiore della matrice A 
+%Calcolo Cholesky triangolare inferiore della matrice A 
 R = chol(A);
 
 %{
