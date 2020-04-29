@@ -28,8 +28,7 @@ format(Errore, scientific = TRUE)
 
 Time  = end_time - start_time
 
+Errore
 Memory
 Time
 
-Mean.Time = mean.difftime(Time, Time1, Time2, Time3, Time4, Time5, Time6, Time7, Time8, Time9, trim = 0)
-Mean.Time
