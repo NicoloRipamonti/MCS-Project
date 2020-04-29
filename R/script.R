@@ -1,18 +1,18 @@
 library(Matrix)
 library(e1071)
 
+##MATRIX EX15:
+ex15= readMM("../Matrici/ex15.mtx")
 
-A = readMM("../Matrici/ex15.mtx")
+xe = rep(1, times = nrow(ex15))
 
-xe = rep(1, times = nrow(A))
-
-b = A%*% xe
+b = ex15 %*% xe
 
 start_time <- Sys.time()
-C = chol(A)
+C = chol(ex15)
 end_time <- Sys.time()
 
-Memory = object.size(chol(A))
+Memory = object.size(chol(ex15))
 
 y = solve(t(C), b)
 
@@ -20,11 +20,11 @@ x = solve(C, y)
 
 
 Time  = end_time - start_time
-
+format(Time, scientific = TRUE)
 xe = as.matrix(xe)
 
-errore = norm(x - xe) / norm(as.matrix(xe))
-format(errore, scientific = TRUE)
+Errore = norm(x - xe) / norm(as.matrix(xe))
+format(Errore, scientific = TRUE)
 
 Memory
 Time
