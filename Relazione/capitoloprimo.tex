@@ -1,0 +1,39 @@
+\section{MathLab} 
+
+\section{C++}
+\subsection{Eigen}
+\textit{Eigen} è una libreria di modelli C++ per l'algebra lineare, ovvero che supporta il calcolo e la risoluzione di matrici, vettori, solutori numerici e algoritmi correlati.
+
+Supporta matrici di qualsiasi dimensione, dalle piccole matrici di dimensioni fisse alle matrici dense arbitrariamente grandi, fino alle matrici sparse e il suo ecosistema offre molte funzionalità specializzate come l'ottimizzazione non lineare, le funzioni di matrice, un solutore polinomiale e molto altro.
+
+In Eigen, le matrici a dimensione fissa sono completamente ottimizzate: l'allocazione dinamica della memoria viene evitata e i loop vengono srotolati quando serve, mentre per le matrici di grandi dimensioni, viene prestata particolare attenzione alla compatibilità con la cache.
+
+Gli algoritmi del pacchetto open source in questione sono accuratamente selezionati per l'affidabilità. I compromessi di affidabilità sono chiaramente documentati e sono disponibili decomposizioni estremamente sicure.
+
+\textit{"L'implementazione di un algoritmo su Eigen è come copiare semplicemente lo pseudocodice."}
+
+Eigen ha un buon supporto per il compilatore mentre si esegue una suite di test per garantire affidabilità e aggirare eventuali bug del compilatore. Eigen è anche standard C ++ 98 e mantiene tempi di compilazione molto ragionevoli.
+
+Eigen è un software open source concesso in licenza con Mozilla Public License 2.0 dalla versione 3.1.1. 
+
+Attualmente Eigen ha un'ottima \href{http://eigen.tuxfamily.org/dox/}{documentazione} e tale libreria viene tuttora mantenuta alla versione 3.7.7, rilasciata nel Novembre del 2018.
+
+\section{R}
+\subsection{Matrix}
+Il pacchetto di R \textit{Matrix} fornisce un set di classi per matrici dense e sparse che estendono le classi base delle matrici già presenti in R. I metodi per un'ampia gamma di funzioni e operatori applicati agli oggetti di queste classi forniscono un accesso efficiente alla soluzione di sistemi lineari, matrici dense e matrici sparse.
+
+Una caratteristica notevole del pacchetto è che ogni volta che una matrice viene fattorizzata, la fattorizzazione viene memorizzata come parte della matrice originale in modo che ulteriori operazioni sulla matrice possano riutilizzare questa fattorizzazione.
+
+In particolare del pacchetto Matrix, sono state usate due funzioni:
+
+\begin{description}
+\item[\verb!readMM()] Funzione utilizzata per leggere un file di tipo MatrixMarket. All'interno della funzione basta inserire il percorso del file;
+\item[\verb!chol()] Funzione che calcola la fattorizzazione di Choleski di una matrice quadrata simmetrica e definita positiva. Gli argomenti che si possono inserire all'interno della funzione sono:
+\begin{description}
+\item[x] Una matrice quadrata (sparsa o densa); se x non è definito positivo, viene segnalato un errore. per la nostra implementazione abbiamo utilizzato come argomento della funzione solamente la matrice;
+
+\item[pivot] Valore logico che indica se si deve usare il pivot. Attualmente, questo non viene utilizzato per matrici dense.
+
+\item[cache] Valore logico che indica se il risultato deve essere memorizzato nella cache; si noti che questo argomento è sperimentale e disponibile solo per alcune matrici sparse.
+\end{description}
+\end{description}

@@ -1,0 +1,93 @@
+\documentclass[12pt,twoside]{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{graphicx}
+\usepackage[a4paper,width=150mm,top=35mm,bottom=35mm,bindingoffset=6mm]{geometry}
+
+\usepackage[output-decimal-marker={,}]{siunitx}
+\usepackage[italian]{varioref}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{titlesec, blindtext, color}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{subfig}
+\usepackage{relsize} 
+\usepackage{wrapfig}
+\usepackage{setspace}
+\usepackage{amsthm}
+\usepackage{guit}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{tcolorbox}
+\usepackage{quoting}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+\definecolor{gray75}{gray}{0.75}
+ 
+\lstdefinestyle{mystyle}{
+    language=R,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    morekeywords={TRUE},
+    deletekeywords={upper,lower,model,data,control},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=false,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=6pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{black}
+}
+\lstset{style=mystyle}
+
+\usepackage[font=footnotesize, labelfont=bf]{caption}
+\graphicspath{ {images/} }
+
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
+
+%comandi rapidi:
+\newcommand{\hsp}{\hspace{20pt}}
+\newcommand{\code}{\texttt}
+
+\begin{document}
+
+\input{front}
+\input{abstract}
+
+\tableofcontents
+
+\chapter{Descrizione delle librerie}
+\input{capitoloprimo}
+
+\chapter{Analisi dei risultati}
+\input{capitolosecondo}
+
+\chapter{Confronto dei risultati}
+\input{capitoloterzo}
+
+\chapter{Codici sorgente}
+\input{capitoloquarto}
+
+
+\chapter*{Conclusioni}
+\input{conclusioni}
+
+\end{document}

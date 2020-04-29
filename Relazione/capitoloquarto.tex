@@ -1,0 +1,181 @@
+\section{10-Fold Cross Validation}
+\label{10fcv}
+\subsubsection*{Che cos'è?}
+Sono state eseguite delle 10-Fold Cross Validation sui diversi modelli utilizzati.\\
+La k-fold cross-validation consiste nella suddivisione del dataset totale in k parti di uguale numerosità e, ad ogni passo, la k-esima parte del dataset viene ad essere il validation dataset, mentre la restante parte costituisce il training dataset. \\Così, per ognuna delle k parti si allena il modello, evitando quindi problemi di overfitting, ma anche di campionamento asimmetrico del training dataset, tipico della suddivisione del dataset in due sole parti (ovvero training e validation dataset).
+
+\medskip
+In altre parole, si suddivide il campione osservato in gruppi di egual numerosità, si esclude iterativamente un gruppo alla volta e lo si cerca di predire con i gruppi non esclusi. 
+Tutto ciò al fine di verificare la bontà del modello di predizione utilizzato.
+
+\subsubsection*{Implementazione}
+
+All'interno dello script R, basta aggiungere un oggetto di tipo \textit{trainControl} alla funzione \textit{train()}.
+
+Un oggetto \textit{trainControl} è cosi definito:
+
+\begin{lstlisting}[caption=Definizione oggetto trainControl]
+	control = trainControl(method = "repeatedcv", 
+			number = 10, 
+			repeats = 3, classProbs = TRUE, 
+			summaryFunction = twoClassSummary)
+\end{lstlisting}
+
+A questo punto, basterà aggiungerlo come attributo \textit{trControl} ad una funzione \textit{train()}, come di seguito:
+
+\begin{lstlisting}[caption=Training con train control]
+model = train(targetColumn ~ ., 
+	data = trainset, 
+	method = 'svmRadial',
+	metric = "ROC", 
+	trControl = control)
+\end{lstlisting}
+
+Utilizzando questa tecnica, abbiamo addestrato i diversi modelli (ovvero: Decision Tree, SVM e Neural Network).
+
+
+\section{Stima delle misure di performance}
+
+Le misure di performance vengono utilizzate per poter comprendere in che modo un modello di machine learning effettua una predizione su un set di test, valutandone i risultati rispetto a delle labels definite a priori.
+
+Nel progetto abbiamo utilizzato diverse misure di performance per i modelli, nei prossimi paragrafi vengono descritte.
+
+\subsection{Matrice di confusione}
+La matrice di confusione è una rappresentazione dell'accuratezza di classificazione statistica.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{matrice_confusione_esempio}
+\end{figure}
+
+Da una matrice di confusione si possono dedurre diverse statistiche: \textbf{sensitività} (ovvero la true positive rate, TPR), \textbf{specificità} (ovvero true negative rate, TNR) e \textbf{accuratezza} (vicinanza delle misurazioni a un valore specifico).
+
+\newpage
+
+\begin{itemize}
+	\item Modello Albero decisionale:
+    \begin{figure}[H]
+     	\centering
+	    \includegraphics[width=0.35\textwidth]{rpart_matrix}	
+    \end{figure}	
+    \item Modello SVM:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.35\textwidth]{svm_matrix}	
+    \end{figure}
+	\item Modello Rete neurale:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.35\textwidth]{nn_matrix}	
+	\end{figure}
+
+
+\end{itemize}
+
+\subsection{Precision, Recall, F-Measure}
+Queste tre misure, ricavabili da una matrice di confusione, vanno a dare ulteriori informazioni circa la predizione del modello.\\
+La \textbf{precision} è la frazione di istanze rilevanti fra le istanze, mentre la \textbf{recall} è la frazione fra il numero di istanze rilevanti totali e il numero di istanze rilevanti trovate.\\
+La \textbf{F-Measure} infine è la media armonica fra \textbf{precision} e \textbf{recall}.
+
+\begin{itemize}
+	\item Modello SVM:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.35\textwidth]{svm_stats}	
+	\end{figure}
+	\item Modello Rete neurale:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.35\textwidth]{nn_stats}	
+	\end{figure}
+	\item Modello Albero decisionale:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.35\textwidth]{rpart_stats}	
+	\end{figure}
+	
+\end{itemize}
+
+Da queste statistiche si può notare che i modelli abbiano dei livelli (o statistiche) molto simili, differiscono al più di 0.1 unità.\\
+Essendo questi valori superiori all'80\% possiamo dire che i modelli hanno alti valori di precision, recall e F-M, e che tra questi non ci sia un migliore in termini assoluti.
+
+\newpage
+
+\subsection{ROC e AUC}
+
+Una curva ROC (receiver operating characteristic curve) è un grafico che mostra le performances di un modello di classificazione in ogni soglia di classificazione.
+
+Si potrebbe dire che questa curva ci da informazioni su \textit{quanto il modello sia in grado di distinguere fra le classi} (in questo caso T o F).\\
+
+Il valore di AUC, compreso tra 0 e 1, equivale infatti alla probabilità che il risultato del classificatore applicato ad un individuo estratto a caso dal gruppo dei malati sia superiore a quello ottenuto applicandolo ad un individuo estratto a caso dal gruppo dei sani.
+
+Questa curva mostra due parametri:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\textwidth]{roc_example}	
+\end{figure}
+
+\subsubsection{Come leggere la curva ROC}
+
+Per leggere la curva ROC, ha senso mostrare questo esempio:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{roc_1}	
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{roc_2}	
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{roc_3}	
+\end{figure}
+
+Le curve rappresentano le distribuzioni di TN (true negative) e TP (true positive), la situazione ideale è quando queste distribuzioni non si interesecano, quindi la ROC è una curva che passa da (0,0), (0, 1) e (1, 1).\\
+Quando queste si intersecano in parte, la ROC non sarà quella ideale, ma ciò dipende sempre da quanto l'intersezione sia grande.
+
+\begin{description}
+	\item [SVM] Per quanto riguarda il modello SVM, la curva ROC è rappresentata come segue:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.90\textwidth]{svm_auc}	
+	\end{figure}
+	Il valore di AUC è molto buono (0.82)
+	
+	\item [Rete neurale] Per quanto riguarda il modello Rete neurale, la curva ROC è rappresentata come segue:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.85\textwidth]{nn_auc}	
+	\end{figure}
+	Anche in questo modello il valore di AUC è molto buono (0.83), SVM e NNet si comportano in maniera molto simile.
+	
+	\item [Albero decisionale] Per quanto riguarda il modello Albero decisionale, la curva ROC è rappresentata come segue:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.86\textwidth]{rpart_auc}	
+	\end{figure}
+	Per quanto riguarda l'albero, il valore di AUC è comunque buono (0.77) ma non all'altezza degli altri due modelli.\\
+	Vengono ora mostrati i tre modelli sullo stesso grafico, per avere un confronto netto:
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.86\textwidth]{roc_together}	
+	\end{figure}
+
+	
+	Da tale grafico si può dedurre che Rete neurale e SVM si comportano in modo molto simile nel riconoscimento di TP e TN, mentre l'Albero di decisione, nonostante si trovi ad alti livelli, effettua una classificazione leggermente inferiori agli altri due.
+	
+	
+	
+\end{description}
+
+
+
+
+
+
+
+
+
