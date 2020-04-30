@@ -32,3 +32,4 @@ con tutti 1)
 %}
 
 errore = norm(x - xe) / norm(xe);
+errore;

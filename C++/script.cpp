@@ -9,27 +9,40 @@ using namespace Eigen;
 
 int main()
 {
-    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
 
-    SparseMatrix<double> A;
-    loadMarket(A, "../Matrici/apache2.mtx");
-	
-	cout << "Operazioni con apache2.mtx" << endl;
+    list<string> listOfMatrixes = {"../Matrici/ex15.mtx",
+                                   "../Matrici/shallow_water1.mtx"};
 
-    VectorXd xe = VectorXd::Constant(A.rows(), 1);
+    //Create an iterator of std::list
+    std::list<string>::iterator it;
+    cout << endl;
 
-    VectorXd b = A.selfadjointView<Lower>() * xe;
+    for (it = listOfMatrixes.begin(); it != listOfMatrixes.end(); it++) {
+		
+        chrono::steady_clock::time_point begin = chrono::steady_clock::now();
 
-    SimplicialLDLT<SparseMatrix<double>> chol(A);
+        SparseMatrix<double> A;
+		
+        loadMarket(A, *it);
 
-    VectorXd x = chol.solve(b);
+        cout << "Cholesky con " << *it << endl;
 
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Time difference = " << chrono::duration_cast<chrono::milliseconds>(end - begin).count() << "ms" << endl;
+        VectorXd xe = VectorXd::Constant(A.rows(), 1);
 
-    double relative_error = (x - xe).norm() / (xe).norm();
+        VectorXd b = A.selfadjointView<Lower>() * xe;
 
-    cout << "Relative error = " << relative_error << endl;
+        LDLT<SparseMatrix<double>> chol(A);
 
-    //errore = norm(x - xe) / norm(xe)
+        VectorXd x = chol.solve(b);
+
+        chrono::steady_clock::time_point end = chrono::steady_clock::now();
+		
+        cout << "Time difference = " << chrono::duration_cast<chrono::seconds>(end - begin).count() << "s" << endl;
+
+        double relative_error = (x - xe).norm() / (xe).norm();
+        
+        cout << "Relative error = " << relative_error << endl;
+
+        cout << endl << "****" << endl << endl;
+    }
 }
