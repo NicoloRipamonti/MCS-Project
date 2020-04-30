@@ -1,93 +1,15 @@
 \section{Descrizione dei modelli di Machine Learning scelti} 
 \subsection{Descrizione del modello Decision Tree}
 
-Un albero di decisione è un sistema con n variabili in input e m variabili in output; le variabili in input, ossia gli attributi, sono derivate 
-dall'osservazione dell'ambiente. \\
-Le ultime variabili in output, invece, identificano la decisione, o l'azione, da intraprendere.\\
-Il processo decisionale è rappresentato con un albero logico rovesciato dove ogni nodo è una funzione condizionale.\\
-Ogni nodo verifica una condizione, ossia un test, su una particolare proprietà dell'ambiente e ha due o più diramazioni verso il basso. \\
-Il processo consiste in una sequenza di test: essa comincia sempre dal nodo radice, ovvero il nodo genitore situato più in alto della struttura, 
-e procede verso il basso; la decisione finale si trova nei nodi foglia terminali, quelli più in basso. \\
-In questo modo, dopo aver analizzato le varie condizioni, l'agente giunge alla decisione finale.\\
-In altre parole, nel machine learning un albero di decisione è un modello predittivo, dove ogni nodo interno rappresenta una variabile, un arco verso un nodo figlio rappresenta un possibile valore per quella proprietà e una foglia il valore predetto per la variabile obiettivo a partire dai valori delle altre proprietà, 
-che nell'albero è rappresentato dal cammino dal nodo radice al nodo foglia. \\
-Normalmente un albero di decisione viene costruito utilizzando tecniche di apprendimento a partire dall'insieme dei dati iniziali (dataset), il quale può essere diviso in due sottoinsiemi: il training set sulla base del quale si crea la struttura dell'albero e il test set che viene utilizzato per testare l'accuratezza del modello predittivo così creato.\\
-\'E stato scelto tale modello nello sviluppo del progetto perchè è adeguato per la predizione di valori binari e, nonostante la sua complessità rispetto ad altri modelli sia elevata, il dataset non è eccessivamente pesante, per cui la sua esecuzione sul medesimo non crea problemi.
 
-Si presenta di seguito un piccolo plot che rappresenta un esempio di albero di decisione applicato al dataset esaminato:
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{rpart_extract}
 \end{figure}
 
-Questo invece rappresenta l'output su console:
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{result_rpart}
-\end{figure}
-
-Da qui si deduce come, in seguito ad una 10-Fold cross validation (discussa nel paragrafo 4.1), l'albero viene costruito su diversi livelli di complessità, ognuno con delle statistiche diverse. \\L'algoritmo sceglie in modo automatico il livello migliore in base alle statistiche e restituisce l'albero costruito con questo livello di complessità.
-
 \subsection{Descrizione del modello SVM}
 
-Il Support Vector Machine (SVM) è un algoritmo di apprendimento automatico supervisionato che può essere utilizzato sia per scopi di classificazione che di regressione. \\
-L’algoritmo SVM ottiene la massima efficacia nei problemi di classificazione binari, e questo rappresenta uno dei motivi per cui si è scelto di utilizzare tale modello per il nostro progetto: il nostro problema, infatti, è binario. \\
-L’SVM è basato sull’idea di trovare un iperpiano che divida al meglio un set di dati in due classi.\\
-Per un’attività di classificazione con solo due dimensioni spaziali x e y, un iperpiano è raffigurato come una linea che separa e classifica un insieme di dati.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{SVM}
-\end{figure}
-
-I support vector, invece, sono i punti dati più vicini all’iperpiano. \\Tali punti dipendono dal set di dati che si sta analizzando e, se vengono rimossi o modificati, alterano la posizione dell’iperpiano divisorio.\\ Per questo motivo, possono essere considerati gli elementi critici di un set di dati.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{svm2}
-\end{figure}
-
-Il margine, infine, è definito come la distanza tra i vettori di supporto di due classi differenti più vicini all’iperpiano. \\ Alla metà di questa distanza viene tracciato l’iperpiano, o retta nel caso si stia lavorando a due dimensioni. \\
-Il Support Vector Machine ha l’obiettivo di identificare l’iperpiano che meglio divide i vettori di supporto in classi. \\ Per farlo esegue i seguenti step:
-\begin{itemize}
-	
-\item Cerca un iperpiano linearmente separabile o un limite di decisione che separa i valori di una classe dall’altro; se ne esiste più di uno, cerca quello che ha margine più alto con i vettori di supporto, per migliorare l’accuratezza del modello.
-
-\item Se tale iperpiano non esiste, SVM utilizza una mappatura non lineare per trasformare i dati di allenamento in una dimensione superiore (se siamo a due dimensioni, valuterà i dati in 3 dimensioni); in questo modo, i dati di due classi possono sempre essere separati da un iperpiano, che sarà scelto per la suddivisione dei dati.	
-\end{itemize}
-
-Qui di seguito il risultato del lancio di SVM sul nostro training set:
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{result_svm}
-\end{figure}
-
-\newpage
-
-\subsection{Descrizione del modello delle reti neurali}
-Le reti neurali artificiali sono modelli matematici composti da neuroni artificiali di ispirazione alle reti neurali biologiche, quella umana o animale, e vengono utilizzate per risolvere problemi ingegneristici di Intelligenza Artificiale legati a diversi ambiti tecnologici come l’informatica, l’elettronica, la simulazione o altre discipline.\\
-Volendo dare una definizione più dettagliata potremmo dire che le reti neurali sono modelli di calcolo matematico-informatici basati sul funzionamento delle reti neurali biologiche, ossia modelli costituiti da interconnessioni di informazioni; tali interconnessioni derivano da neuroni artificiali e processi di calcolo basati sul modello delle scienze cognitive chiamato “connessionismo”.\\
-Le reti neurali artificiali sono strutture non-lineari di dati statistici organizzate come strumenti di modellazione: ricevono segnali esterni su uno strato di nodi (che rappresenta l’unità di elaborazione, il processore); ognuno di questi nodi è collegato a svariati nodi interni della rete che sono organizzati a più livelli, in modo che ogni singolo nodo possa elaborare i segnali ricevuti trasmettendo ai livelli successivi il risultato delle sue elaborazioni.\\
-Affinché questo processo risulti performante è necessario “addestrare” le reti neurali, ossia fare in modo che apprendano come comportarsi nel momento in cui andrà risolto un problema.\\
-Vi sono tre grandi paradigmi di apprendimento, ciascuno corrispondente ad un particolare compito astratto di apprendimento. \\
-Si tratta dell'apprendimento supervisionato, apprendimento non supervisionato e l'apprendimento per rinforzo; di solito, un tipo di architettura di rete può essere impiegato in qualsiasi di tali compiti.\\
-Nel nostro caso, si parla di apprendimento supervisionato, in cui si dispone di un insieme di dati per l'addestramento (o training set) comprendente esempi tipici d'ingressi con le relative uscite loro corrispondenti: in tal modo la rete può imparare ad inferire la relazione che li lega. \\ 
-Successivamente, la rete è addestrata mediante un opportuno algoritmo, il quale usa tali dati allo scopo di modificare i pesi ed altri parametri della rete stessa in modo tale da minimizzare l'errore di previsione relativo all'insieme d'addestramento.\\
-L'obiettivo finale dell'apprendimento supervisionato è la previsione del valore dell'uscita per ogni valore valido dell'ingresso, basandosi soltanto su un numero limitato di esempi di corrispondenza.\\
-Per fare ciò, la rete deve essere dotata di un'adeguata capacità di generalizzazione, con riferimento a casi ad essa ignoti; ciò consente di risolvere problemi di regressione o classificazione.\\
-E' stato utilizzato questo modello perchè esso è estremamente efficiente per quanto riguarda problemi di classificazione binaria.
-
-\newpage
-
-Qui di seguito il risultato del lancio di Rete neurale sul nostro training set:
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{result_nnet}
-\end{figure}
 
 
 
