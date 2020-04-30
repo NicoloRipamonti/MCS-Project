@@ -1,14 +1,13 @@
 library(Matrix)
 library(e1071)
 
-##MATRIX EX15:
-
-
-A= readMM("../Matrici/cfd1.mtx")
+start_time_setup <- Sys.time()
+A= readMM("../Matrici/apache2.mtx")
 
 xe = rep(1, times = nrow(A))
 
 b = A %*% xe
+end_time_setup <- Sys.time()
 
 start_time <- Sys.time()
 C = chol(A)
@@ -16,9 +15,11 @@ end_time <- Sys.time()
 
 Memory = object.size(chol(A))
 
+start_time_solving <- Sys.time()
 y = solve(t(C), b)
 
 x = solve(C, y)
+end_time_solving <- Sys.time()
 
 xe = as.matrix(xe)
 
@@ -26,9 +27,13 @@ Errore = norm(x - xe) / norm(as.matrix(xe))
 
 format(Errore, scientific = TRUE)
 
-Time  = end_time - start_time
+Time_Setup = end_time_setup - start_time_setup
+Time_Chol  = end_time - start_time
+Time_Solving = end_time_solving - start_time_solving
 
 Errore
 Memory
-Time
+Time_Setup
+Time_Chol
+Time_Solving
 

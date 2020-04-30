@@ -9,8 +9,14 @@ xe = ones(size(A,1), 1);
 %Calcolo b dalla equazione Axe = b
 b = A * xe;
 
+toc
+tic
+
 %Calcolo Cholesky triangolare inferiore della matrice A 
 R = chol(A);
+
+toc
+tic
 
 %{
 Calcolo la soluzione del sistema:
