@@ -13,9 +13,27 @@ L'obiettivo del primo progetto è quello di implementare algoritmi per la risolu
 
 ### Matlab
 
+Per eseguire lo script su Matlab, caricare nel workspace la matrice da trattare con:
+
 ```bash
-pip install foobar
+load('cfd2.mat')
 ```
+Successivamente lanciare lo script.
+
+### C++ 
+
+Per eseguire lo script su C++, compilarlo attraverso
+
+```bash
+g++ -I eigen-eigen-323c052e1731 script.cpp -o script
+```
+
+e lanciarlo passando come argomento la matrice da trattare, ad esempio:
+
+```bash
+./script "..Matrici/cfd2.mtx"
+```
+
 
 ## Usage
 
