@@ -124,7 +124,7 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 | shallow_water1.mtx | 21.5715 s    | 5.4666 s        | 9.5677 s    | 5.2170 s     |
 | ex15.mtx           | 0.2315 s     | 0.5718 s        | 0.6481 s    | 0.1943 s     |
 | parabolic_fem.mtx  | `out of mem` | 85.8982 s       | 75.7502 s   | `out of mem` |
-| apache2.mtx        | `out of mem` | `std::badalloc` | 1611.8161 s | `out of mem  |
+| apache2.mtx        | `out of mem` | `std::badalloc` | 1611.8161 s | `out of mem` |
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
