@@ -96,14 +96,14 @@ Time difference of 0.01097298 secs
 
 Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati in modalità energetica massime prestazioni, con il singolo programma aperto (e un task manager per controllare l'utilizzo della memoria)
 
-| Errore             | Matlab       | C++ (Win bash)  | C++ (Ubuntu bash) |      R     |
-| -------------      |:------------:|:---------------:|:-----------------:|:----------:|
-| ex15.mtx           |  8.5736e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
-| shallow_water1.mtx |  3.1985e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
-| cfd1.mtx           |  2.7864e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
-| cfd2.mtx           |  6.8098e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
-| parabolic_fem.mtx  | `out of mem` |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
-| apache2.mtx        | `out of mem` |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
+| Errore             | Matlab       | C++ (Win bash) | C++ (Ubuntu bash) |      R     |
+| -------------      |:------------:|:--------------:|:-----------------:|:----------:|
+| ex15.mtx           |  8.5736e-07  |   6.6293-07    |    7.2664e-07     | 5.1994e-07 |
+| shallow_water1.mtx |  3.1985e-16  |   2.4323-16    |    2.4293e-16     | 2.5329e-16 |
+| cfd1.mtx           |  2.7864e-13  |   2.5442-12    |    2.5044e-12     | 3.9818e-11 |
+| cfd2.mtx           |  6.8098e-13  |   5.3424-13    |    5.5531e-12     | 1.7934e-11 |
+| parabolic_fem.mtx  | `out of mem` |   2.9088-12    |    2.4557e-12     |`out of mem`|
+| apache2.mtx        | `out of mem` | `std::badalloc`|    9.8846e-11     |`out of mem`|
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
