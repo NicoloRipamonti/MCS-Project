@@ -105,6 +105,24 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 | parabolic_fem.mtx  | `out of mem` |   2.9088-12    |    2.4557e-12     |`out of mem`|
 | apache2.mtx        | `out of mem` | `std::badalloc`|    9.8846e-11     |`out of mem`|
 
+| Memoria            | R            | C++ Win         | C++ Lin | Matlab       |
+|--------------------|--------------|-----------------|---------|--------------|
+| cfd1.mtx           | 953MB        | 461MB           | 450MB   | 1206MB       |
+| cfd2.mtx           | 1874MB       | 895MB           | 887.6MB | 2409MB       |
+| shallow_water1.mtx | 276MB        | 36MB            | 35.8MB  | 351MB        |
+| ex15.mtx           | 3.1MB        | 3MB             | 4.1MB   | 27MB         |
+| parabolic_fem.mtx  | `out of mem` | 485MB           | 502MB   | `out of mem` |
+| apache2.mtx        | `out of mem` | `std::badalloc` | 2619MB  | `out of mem` |
+
+| Tempo totale       | R           | C++ Win        | C++ Lin     | Matlab      |
+|--------------------|-------------|----------------|-------------|-------------|
+| cfd1.mtx           | 82.6357 s   | 202.4469 s     | 218.9470 s  | 7.6486 s    |
+| cfd2.mtx           | 231.3900 s  | 974.5525 s     | 1064.9390 s | 34.4108s    |
+| shallow_water1.mtx | 21.5715 s   | 5.4666 s       | 9.5677 s    | 5.2170 s    |
+| ex15.mtx           | 0.2315 s    | 0.5718 s       | 0.6481 s    | 0.1943 s    |
+| parabolic_fem.mtx  | out of mem' | 85.8982 s      | 75.7502 s   | out of mem' |
+| apache2.mtx        | out of mem' | std::badalloc' | 1611.8161 s | out of mem' |
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
