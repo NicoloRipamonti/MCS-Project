@@ -103,7 +103,7 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 | cfd1.mtx           |  2.7864e-13  |   2.5442-12    |    2.5044e-12     | 3.9818e-11 |
 | cfd2.mtx           |  6.8098e-13  |   5.3424-13    |    5.5531e-12     | 1.7934e-11 |
 | parabolic_fem.mtx  | `out of mem` |   2.9088-12    |    2.4557e-12     |`out of mem`|
-| apache2.mtx        | `out of mem` | `std::badalloc`|    9.8846e-11     |`out of mem`|
+| apache2.mtx        | `out of mem` | `std::badalloc`|    9.8846e-11     |`out of mem`|  
 
 | Memoria            | R            | C++ Win         | C++ Lin | Matlab       |
 |--------------------|--------------|-----------------|---------|--------------|
@@ -113,6 +113,8 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 | ex15.mtx           | 3.1MB        | 3MB             | 4.1MB   | 27MB         |
 | parabolic_fem.mtx  | `out of mem` | 485MB           | 502MB   | `out of mem` |
 | apache2.mtx        | `out of mem` | `std::badalloc` | 2619MB  | `out of mem` |
+
+---
 
 | Tempo totale       | R           | C++ Win        | C++ Lin     | Matlab      |
 |--------------------|-------------|----------------|-------------|-------------|
@@ -127,6 +129,8 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+$-b \pm \sqrt{b^2 - 4ac} \over 2a$
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
