@@ -34,6 +34,16 @@ e lanciarlo passando come argomento la matrice da trattare, ad esempio:
 ./script "..Matrici/cfd2.mtx"
 ```
 
+i risulati verranno visualizzati quando il processo è terminato, un esempio è il seguente: 
+
+```bash
+Cholesky con ../Matrici/ex15.mtx
+Time Setup = 0.32702s
+Time Cholesky = 0.172623s
+Time Resolve = 0.0133566s
+Relative error = 6.62936e-07
+```
+
 ### R
 
 Per eseguire lo script su R, aprire lo script e sostituire alla linea 5 del codice il nome della matrice da trattare, ad es:
