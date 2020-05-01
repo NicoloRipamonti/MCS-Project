@@ -1,5 +1,4 @@
 tic
-memory
 
 %Leggo la matrice A
 A = Problem.A;
@@ -10,12 +9,14 @@ xe = ones(size(A,1), 1);
 %Calcolo b dalla equazione Axe = b
 b = A * xe;
 
+disp('Time setup:');
 toc
 tic
 
 %Calcolo Cholesky triangolare inferiore della matrice A 
 R = chol(A);
 
+disp('Time Cholesky:');
 toc
 tic
 
@@ -31,6 +32,7 @@ quindi x = R \ (R' \ b)
 y = R' \ b;
 x = R \ y;
 
+disp('Time resolve:');
 toc
 
 %{
@@ -39,5 +41,5 @@ con tutti 1)
 %}
 
 errore = norm(x - xe) / norm(xe);
-errore;
-memory
+disp('Errore: ');
+disp(errore);
