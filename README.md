@@ -34,16 +34,14 @@ e lanciarlo passando come argomento la matrice da trattare, ad esempio:
 ./script "..Matrici/cfd2.mtx"
 ```
 
+### R
 
-## Usage
+Per eseguire lo script su R, aprire lo script e sostituire alla linea 5 del codice il nome della matrice da trattare, ad es:
 
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+```bash
+A = readMM("../Matrici/parabolic_fem.mtx")
 ```
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
