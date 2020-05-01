@@ -1,6 +1,5 @@
 \section{Analisi del dataset}
-Analizzando la struttura del nostro dataset, possiamo notare che il minimo valore per il glucosio, per la pressione del sangue, per lo spessore della pelle, per il BMI e per l'insulina è uguale a 0; siccome è impossibile, per un essere umano, avere anche solo uno di questi valori a 0, questi ultimi vengono trasformati in NA.\\
-A seguito di questa trasformazione, noteremo, attraverso il grafico seguente, la percentuale di valori NA presenti all'interno del nostro dataset.
+
 
 \begin{figure}[H]
 	\centering
@@ -11,76 +10,11 @@ Una volta effettuata tale sostituizione, il dataset viene pulito eliminando tutt
 
 Di seguito vengono proposti i grafici relativi a determinate variabili predittiva del dataset per capire meglio il significato di ciascuna di esse.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Rplot2}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Rplot3}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Rplot4}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Rplot5}
-\end{figure}
-
-\newpage
-
-Di seguito è riportato, invece, un grafico riassuntivo di ciascuna variabile predittiva con relative correlazioni tra di loro.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{Rplot6}
-\end{figure}
-
-\newpage
 
 
 
 
-\section{Descrizione della PCA} 
-La \textit{Principal Component Analysis} (PCA) è una procedura statistica che utilizza una trasformazione ortogonale per convertire un insieme di osservazioni di variabili numeriche eventualmente correlate in un insieme di valori di variabili linearmente non correlate chiamate componenti principali. \\ Questa trasformazione è definita in modo tale che il primo componente principale abbia la maggiore varianza possibile (vale a dire, tiene conto della maggior variabilità possibile nei dati) e ogni componente successivo ha a sua volta la maggiore varianza possibile sotto il vincolo che è ortogonale ai componenti precedenti. \\I vettori risultanti sono un insieme di basi ortogonali non correlate. \\PCA è sensibile al relativo ridimensionamento delle variabili originali.\\
-La PCA viene utilizzata principalmente come strumento di analisi dei dati esplorativi e per la creazione di modelli predittivi, come nel caso in esame. \\La PCA può essere eseguita mediante decomposizione di autovalori di una matrice di covarianza dei dati (o correlazione) o decomposizione di valori singolari di una matrice di dati, di solito dopo una fase di \textbf{standardizzazione} dei dati iniziali. \\La standardizzazione di ciascun attributo consiste nel centrare la media (sottraendo ogni valore di dati dalla media misurata della sua variabile in modo che la sua media sia zero) e, possibilmente, normalizzando la varianza di ciascuna variabile per renderla uguale a 1.\\
-I risultati di una PCA sono di solito discussi in termini di punteggi dei componenti, se tali punteggi sono standardizzati per la varianza unitaria, i caricamenti devono contenere la varianza dei dati (e questa è la grandezza degli autovalori).\\
-PCA è la più semplice delle vere analisi multivariate basate su autovettori.\\ Spesso, il suo funzionamento può essere considerato come rivelazione della struttura interna dei dati in un modo che spiega meglio la varianza nei dati.
 
-\newpage
-
-La PCA, applicata al nostro dataset, restituisce i seguenti risultati:
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\textwidth]{pca1}
-\end{figure}
-Da tali risultati, si nota che le dimensioni più importanti nella valutazione del target sono \textit{n\_pregnant}, \textit{age} e \textit{glucosio}.\\
-Successivamente, notiamo il grafico delle varianze cumulate delle varie dimensioni restituite dalla PCA:
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\textwidth]{pca2}
-\end{figure}
-
-Mentre questo è il risultato restituito su console:
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.85\textwidth]{pca3}
-\end{figure}
-
-Per ottenere un risultato accettabile sono sufficienti solamente 5 delle 8 dimensioni; infatti, con queste ultime, si arriva ad una varianza cumulata del 83\% (che è un ottimo risultato).
-
-Nonostante ciò, dato il dataset, non c'è un vero bisogno di ridurre il numero di dimensioni in quanto 8 non è un valore così alto.
-
-Infine, viene qui di seguito presentato il grafico che rappresenta il valore \textit{cos2} per ogni individuo, maggiore è questo valore, migliore è la rappresentazione dell'individuo dai component principali.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{pca4}
-\end{figure}
 
 
 
