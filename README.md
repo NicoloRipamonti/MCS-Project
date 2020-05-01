@@ -105,6 +105,8 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 | parabolic_fem.mtx  | `out of mem` |   2.9088-12    |    2.4557e-12     |`out of mem`|
 | apache2.mtx        | `out of mem` | `std::badalloc`|    9.8846e-11     |`out of mem`|  
 
+---
+
 | Memoria            | R            | C++ Win         | C++ Lin | Matlab       |
 |--------------------|--------------|-----------------|---------|--------------|
 | cfd1.mtx           | 953MB        | 461MB           | 450MB   | 1206MB       |
@@ -130,7 +132,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
-$-b \pm \sqrt{b^2 - 4ac} \over 2a$
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
