@@ -14,8 +14,11 @@ L'obiettivo del primo progetto è quello di implementare algoritmi per la risolu
 Come leggere i risulati?
 
 * Time setup
-Tempo trascorso per leggere la matrice, creare la matrice 'xe' e la 'b':
-- <img src="https://latex.codecogs.com/gif.latex?O_t=\text { Onset event at time bin } t " /> 
+Tempo trascorso per leggere la matrice, creare la matrice _xe_ e la _B_.
+* Time Cholesky
+Tempo trascorso per calcolare la matrice di Cholesky (triangolare inferiore) _R_.
+* Time resolve
+Tempo trascorso per calcolare la soluzione _x_
 
 ### Matlab
 
