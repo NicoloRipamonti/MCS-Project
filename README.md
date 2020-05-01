@@ -1,10 +1,17 @@
 # Metodi del Calcolo Scientifico
 
-Foobar is a Python library for dealing with word pluralization.
+Relazioni e implementazioni Progetto 1 e Progetto ? 
 
-## Installation
+## Progetto 1 - Cholesky
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+L'obiettivo del primo progetto è quello di implementare algoritmi per la risoluzione di matrici sparse simmetriche e definite positive di grandi dimensioni, per farlo abbiamo utilizzato quattro ambienti:
+
+* Matlab
+* C++
+* C++ (su Ubuntu 20.04 LTS installato tramite WSL)
+* R
+
+### Matlab
 
 ```bash
 pip install foobar
