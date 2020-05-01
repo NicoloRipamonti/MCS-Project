@@ -19,6 +19,8 @@ Tempo trascorso per leggere la matrice, creare la matrice _xe_ e la _B_.
 Tempo trascorso per calcolare la matrice di Cholesky (triangolare inferiore) _R_.
 * **Time resolve**  
 Tempo trascorso per calcolare la soluzione _x_
+* **Errore**  
+L' errore relativo tra la soluzione calcolata _x_ e la soluzione esatta _xe_
 
 ### Matlab
 
@@ -89,6 +91,19 @@ Time difference of 0.02691793 secs
 > Time_Solving
 Time difference of 0.01097298 secs
 ```
+
+### Risultati
+
+Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati in modalità energetica massime prestazioni, con il singolo programma aperto (e un task manager per controllare l'utilizzo della memoria)
+
+| Errore             | Matlab       | C++ (Win bash)  | C++ (Ubuntu bash) |      R     |
+| -------------      |:------------:|:---------------:|:-----------------:|:----------:|
+| ex15.mtx           |  8.5736e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
+| shallow_water1.mtx |  3.1985e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
+| cfd1.mtx           |  2.7864e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
+| cfd2.mtx           |  6.8098e-13  |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
+| parabolic_fem.mtx  | `out of mem` |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
+| apache2.mtx        | `out of mem` |   2.7864e-13    |    2.7864e-13     | 2.7864e-13 |
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
