@@ -20,6 +20,20 @@ load('cfd2.mat')
 ```
 Successivamente lanciare lo script.
 
+Su console verranno stampati i risultati come segue:
+
+```bash
+>> script
+Time setup:
+Elapsed time is 0.001899 seconds.
+Time Cholesky:
+Elapsed time is 0.187418 seconds.
+Time resolve:
+Elapsed time is 0.005750 seconds.
+Errore: 
+8.5736e-07
+```
+
 ### C++ 
 
 Per eseguire lo script su C++, compilarlo attraverso
@@ -52,6 +66,20 @@ Per eseguire lo script su R, aprire lo script e sostituire alla linea 5 del codi
 A = readMM("../Matrici/parabolic_fem.mtx")
 ```
 
+i risultati verranno stampati su console come segue:
+
+```bash
+> Errore
+5.199477e-07
+> Memory
+3127552 bytes
+> Time_Setup
+Time difference of 0.08876419 secs
+> Time_Chol
+Time difference of 0.02691793 secs
+> Time_Solving
+Time difference of 0.01097298 secs
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
