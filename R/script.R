@@ -2,7 +2,7 @@ library(Matrix)
 library(e1071)
 
 start_time_setup <- Sys.time()
-A= readMM("../Matrici/apache2.mtx")
+A = readMM("../Matrici/ex15.mtx")
 
 xe = rep(1, times = nrow(A))
 
@@ -10,15 +10,15 @@ b = A %*% xe
 end_time_setup <- Sys.time()
 
 start_time <- Sys.time()
-C = chol(A)
+R = chol(A)
 end_time <- Sys.time()
 
 Memory = object.size(chol(A))
 
 start_time_solving <- Sys.time()
-y = solve(t(C), b)
+y = solve(t(R), b)
 
-x = solve(C, y)
+x = solve(R, y)
 end_time_solving <- Sys.time()
 
 xe = as.matrix(xe)
