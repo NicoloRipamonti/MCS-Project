@@ -11,6 +11,12 @@ L'obiettivo del primo progetto è quello di implementare algoritmi per la risolu
 * C++ (su Ubuntu 20.04 LTS installato tramite WSL)
 * R
 
+Come leggere i risulati?
+
+* Time setup
+Tempo trascorso per leggere la matrice, creare la matrice 'xe' e la 'b':
+- <img src="https://latex.codecogs.com/gif.latex?O_t=\text { Onset event at time bin } t " /> 
+
 ### Matlab
 
 Per eseguire lo script su Matlab, caricare nel workspace la matrice da trattare con:
