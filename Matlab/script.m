@@ -1,4 +1,5 @@
 tic
+memory
 
 %Leggo la matrice A
 A = Problem.A;
@@ -39,3 +40,4 @@ con tutti 1)
 
 errore = norm(x - xe) / norm(xe);
 errore;
+memory
