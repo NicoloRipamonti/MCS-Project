@@ -1,5 +1,4 @@
 library(Matrix)
-library(e1071)
 
 start_time_setup <- Sys.time()
 A = readMM("../Matrici/ex15.mtx")
@@ -36,4 +35,5 @@ Memory
 Time_Setup
 Time_Chol
 Time_Solving
+
 

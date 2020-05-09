@@ -23,6 +23,8 @@
 %%
 \documentclass[preprint,12pt]{elsarticle}
 
+
+
 %% Use the option review to obtain double line spacing
 %% \documentclass[preprint,review,12pt]{elsarticle}
 
@@ -52,9 +54,16 @@
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers after \end{frontmatter}.
 \usepackage{lineno}
-
 \usepackage{hyperref}
 \usepackage{quoting}
+\usepackage{float}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{minted}
+\usetikzlibrary{matrix,shapes,arrows,positioning,chains}
+
+% load package with some of the available options - you may not need this!
+\usepackage[autolinebreaks,useliterate]{mcode}
 
 
 
@@ -80,6 +89,46 @@
 % \biboptions{}
 
 \begin{document}
+	
+	\tikzset{
+		desicion/.style={
+			diamond,
+			draw,
+			text width=3em,
+			text badly centered,
+			inner sep=0pt
+		},
+		block/.style={
+			rectangle,
+			draw,
+			text width=18em,
+			text centered,
+			rounded corners
+		},
+		cloud/.style={
+			draw,
+			ellipse,
+			minimum height=2em
+		},
+		descr/.style={
+			fill=white,
+			inner sep=2.5pt
+		},
+		connector/.style={
+			-latex,
+			font=\scriptsize
+		},
+		rectangle connector/.style={
+			connector,
+			to path={(\tikztostart) -- ++(#1,0pt) \tikztonodes |- (\tikztotarget) },
+			pos=0.5
+		},
+		rectangle connector/.default=-2cm,
+		straight connector/.style={
+			connector,
+			to path=--(\tikztotarget) \tikztonodes
+		}
+	}
 
 \begin{frontmatter}
 
@@ -145,7 +194,9 @@ Science \sep Publication \sep Complicated
 %%
 
 %% main text
-\section{Introduzione} 
+\newpage
+
+\section{Introduzione}
 
 Lo scopo di questo progetto è quello di valutare l’implementazione, in ambienti di programmazione differenti, del metodo di Cholesky per la risoluzione di sistemi lineari per matrici sparse. La scelta degli ambienti, da parte del team, si è focalizzata su:
 
@@ -168,7 +219,7 @@ In particolare le matrici simmetriche e definite positive che sono state analizz
 		\item \textbf{shallow\_water1}
 		\item \textbf{ex15}
 	\end{itemize}
-
+	
 \end{center}
 
 Un sistema lineare si può rappresentare in forma matriciale come $ A \cdot x = b $
@@ -179,7 +230,36 @@ dove:
 	\item b è il vettore colonna dei termini noti; b è scelto in modo che la soluzione esatta sia il vettore $ xe = [1 1 1 \dots 1 1] $ avente tutte le componenti uguali a 1, tale che $ b = A \cdot xe $ .
 \end{itemize}
 
+
+\subsection{Matrici sparse}
+Le matrici sparse sono una classe di matrici con la caratteristica di contenere un significativo numero di elementi uguali a zero. Spesso il numero di elementi diversi da zero su ogni riga è un numero piccolo (per esempio del- l’ordine di $10^1$) indipendente dalla dimensione della matrice, che può essere anche dell’ordine di $10^8$.
+
+Le matrici sparse si possono memorizzare in modo compatto, tenendo solo conto degli elementi diversi da zero; per esempio, è sufficiente per ogni elemento diverso da zero memorizzare solo la sua posizione $i j$ e il suo valore $a_{ij}$, ignorando gli elementi uguali a zero. Ciò consente di ridurre il tempo di calcolo eliminando operazioni su elementi nulli.
+
+\subsection{Calcolatore utilizzato}
+
+Per effettare i diversi calcoli è stato utilizzato un Surface Book 2 con le seguenti caratteristiche hardware:
+\begin{itemize}
+	\item Intel Core i5-7300U @ 2.60GHz 2.71GHz
+	\item CPU x64
+	\item 8.00 GB RAM
+	\item Intel HD Graphics 620
+\end{itemize}
+
+Il sistema operativo installato e utilizzato per Matlab, C++ e R è stato Windows 10, successivamente è stato incluso nel confronto lo stesso codice C++ lanciato su Ubuntu 20.04 LTS installato su WSL (Windows Subsystem Linux).
+
+In dettaglio sono stati utilizzati:
+\begin{itemize}
+	\item MATLAB R2020a
+	\item g++ (i686-posix-dwarf-rev0, Built by MinGW-W64 project) 8.1.0 (Ambiente Windows)
+	\item RStudio (basato su R versione 3.6.2)
+	\item g++ (Ubuntu 9.3.0-10ubuntu2) 9.3.0 (Ambiente Ubuntu)
+\end{itemize}
+
 \newpage
+
+
+\section{Ambienti di sviluppo}
 
 Il confronto dei vari ambienti di programmazione sui sistemi operativi di Windows e Linux deve avvenire in termini di:
 \begin{description}
@@ -188,14 +268,9 @@ Il confronto dei vari ambienti di programmazione sui sistemi operativi di Window
 	\item[Impiego della memoria:] Quantità di memoria utilizzata per il calcolo del sistema lineare con il metodo di Cholesky.
 \end{description}
 
-\subsection{Matrici sparse}
-Le matrici sparse sono una classe di matrici con la caratteristica di contenere un significativo numero di elementi uguali a zero. Spesso il numero di elementi diversi da zero su ogni riga è un numero piccolo (per esempio del- l’ordine di $10^1$) indipendente dalla dimensione della matrice, che può essere anche dell’ordine di $10^8$.
-
-Le matrici sparse si possono memorizzare in modo compatto, tenendo solo conto degli elementi diversi da zero; per esempio, è sufficiente per ogni elemento diverso da zero memorizzare solo la sua posizione $i j$ e il suo valore $a_{ij}$, ignorando gli elementi uguali a zero. Ciò consente di ridurre il tempo di calcolo eliminando operazioni su elementi nulli.
-
-\section{Descrizione delle librerie}
 
 \subsection{Matlab}
+\medskip
 \begin{description}
 	\item[Versione:] 9.7.0
 	\item[Referenze:] \href{https://it.mathworks.com/products/matlab.html}{Sito} - \href{https://www.mathworks.com/help/matlab/}{Documentazione}
@@ -203,7 +278,8 @@ Le matrici sparse si possono memorizzare in modo compatto, tenendo solo conto de
 
 Matlab (abbreviazione di Matrix Laboratory) è un ambiente per il calcolo numerico e l'analisi statistica scritto in C, che comprende anche l'omonimo linguaggio di programmazione creato dalla MathWorks. MATLAB consente di manipolare matrici, visualizzare funzioni e dati, implementare algoritmi, creare interfacce utente, e interfacciarsi con altri programmi. Matlab è usato da milioni di persone nell'industria e nelle università per via dei suoi numerosi strumenti a supporto dei più disparati campi di studio applicati e funziona su diversi sistemi operativi, tra cui Windows, Mac OS, GNU/Linux e Unix.
 
-\subsection{Eigen C++}
+\subsection{Eigen, C++}
+\medskip
 \begin{description}
 	\item[Versione:] 3.7.7, Novembre 2019
 	\item[Referenze:] \href{http://eigen.tuxfamily.org/index.php?title=Main_Page}{Sito} - \href{http://eigen.tuxfamily.org/dox/}{Documentazione}
@@ -221,12 +297,13 @@ Eigen è un software open source concesso in licenza con Mozilla Public License 
 
 In particolare di Eigen sono state utilizzate le funzioni:
 \begin{description}
-	\item[\verb!SimplicialLDLT< >] Questa classe fornisce fattorizzazioni $LDL^ T$ Cholesky di matrici sparse che sono definite positive. La fattorizzazione consente di risolvere $AX = B$ dove $X$ e $B$ possono essere densi o sparsi. Al fine di ridurre il riempimento, viene applicata una permutazione simmetrica $P$ prima della fattorizzazione in modo tale che la matrice fattorizzata sia $PAP ^ {-1}$;
-	\item[\verb!solve()] Funzione utilizzata per trovare la soluzione di x.
+	\item[\texttt{SimplicialLDLT}] Questa classe fornisce fattorizzazioni $LDL^ T$ Cholesky di matrici sparse che sono definite positive. La fattorizzazione consente di risolvere $AX = B$ dove $X$ e $B$ possono essere densi o sparsi. Al fine di ridurre il riempimento, viene applicata una permutazione simmetrica $P$ prima della fattorizzazione in modo tale che la matrice fattorizzata sia $PAP ^ {-1}$;
+	\item[\texttt{solve()}] Funzione utilizzata per trovare la soluzione di x.
 \end{description}
 
 
-\subsection{Matrix R}
+\subsection{Matrix, R}
+\medskip
 \begin{description}
 	\item[Versione:] 1.2-18, Novembre 2018
 	\item[Referenze:] \href{http://matrix.r-forge.r-project.org}{Sito} - \href{https://www.rdocumentation.org/packages/Matrix}{Documentazione}
@@ -239,8 +316,8 @@ Una caratteristica notevole del pacchetto è che ogni volta che una matrice vien
 In particolare del pacchetto Matrix, sono state usate due funzioni:
 
 \begin{description}
-	\item[\verb!readMM()] Funzione utilizzata per leggere un file di tipo MatrixMarket. All'interno della funzione basta inserire il percorso del file;
-	\item[\verb!chol()] Funzione che calcola la fattorizzazione di Choleski di una matrice quadrata simmetrica e definita positiva. Gli argomenti che si possono inserire all'interno della funzione sono:
+	\item[\texttt{readMM()}] Funzione utilizzata per leggere un file di tipo MatrixMarket. All'interno della funzione basta inserire il percorso del file;
+	\item[\texttt{chol()}] Funzione che calcola la fattorizzazione di Choleski di una matrice quadrata simmetrica e definita positiva. Gli argomenti che si possono inserire all'interno della funzione sono:
 	\begin{description}
 		\item[x] Una matrice quadrata (sparsa o densa); se x non è definito positivo, viene segnalato un errore. per la nostra implementazione abbiamo utilizzato come argomento della funzione solamente la matrice;
 		\item[pivot] Valore logico che indica se si deve usare il pivot. Attualmente, questo non viene utilizzato per matrici dense.
@@ -248,54 +325,250 @@ In particolare del pacchetto Matrix, sono state usate due funzioni:
 	\end{description}
 \end{description}
 
+\newpage
 
-\section{The Second Section}
-\label{S:2}
 
-Reference to Section \ref{S:1}. Etiam congue sollicitudin diam non porttitor. Etiam turpis nulla, auctor a pretium non, luctus quis ipsum. Fusce pretium gravida libero non accumsan. Donec eget augue ut nulla placerat hendrerit ac ut mi. Phasellus euismod ornare mollis. Proin tempus fringilla ultricies. Donec pretium feugiat libero quis convallis. Nam interdum ante sed magna congue eu semper tellus sagittis. Curabitur eu augue elit.
+\section{Implementazioni}
 
-Aenean eleifend purus et massa consequat facilisis. Etiam volutpat placerat dignissim. Ut nec nibh nulla. Aliquam erat volutpat. Nam at massa velit, eu malesuada augue. Maecenas sit amet nunc mauris. Maecenas eu ligula quis turpis molestie elementum nec at est. Sed adipiscing neque ac sapien viverra sit amet vestibulum arcu rhoncus.
+L'implementazione del metodo è stata così suddivisa:
 
-Vivamus pharetra nibh in orci euismod congue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque lacus diam, congue vel laoreet id, iaculis eu sapien. In id risus ac leo pellentesque pellentesque et in dui. Etiam tincidunt quam ut ante vestibulum ultricies. Nam at rutrum lectus. Aenean non justo tortor, nec mattis justo. Aliquam erat volutpat. Nullam ac viverra augue. In tempus venenatis nibh quis semper. Maecenas ac nisl eu ligula dictum lobortis. Sed lacus ante, tempor eu dictum eu, accumsan in velit. Integer accumsan convallis porttitor. Maecenas pretium tincidunt metus sit amet gravida. Maecenas pretium blandit felis, ac interdum ante semper sed.
+\begin{center}
 
-In auctor ultrices elit, vel feugiat ligula aliquam sed. Curabitur aliquam elit sed dui rhoncus consectetur. Cras elit ipsum, lobortis a tempor at, viverra vitae mi. Cras sed urna sed eros bibendum faucibus. Morbi vel leo orci, vel faucibus orci. Vivamus urna nisl, sodales vitae posuere in, tempus vel tellus. Donec magna est, luctus non commodo sit amet, placerat et enim.
 
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-%% \appendix
+\begin{tikzpicture}
+\matrix (m)[matrix of nodes, column  sep=3cm,row  sep=10mm, align=center, nodes={rectangle,draw, anchor=center} ]{
+	|[block]| {Start}       \\
+	|[block]| {\textbf{Setup} \\ Caricamento matrice in \textit{A}, creazione soluzione \textit{xe}, calcolo $b = A \times xe$.}     \\
+	|[block]| {\textbf{Cholesky} \\ Calcolo della matrice di Cholesky \textit{R}.}     \\
+	|[block]| {\textbf{Soluzione} \\ Calcolo soluzione del sistema sfruttando l'ipotesi di Cholesky $A = R \times R'$}     \\
+	|[block]| {Calcolo dell'errore relativo di \textit{x} rispetto a \textit{xe}}     \\
+	|[block]| {\textbf{Fine}}    \\
+};
+\path [>=latex,->] (m-1-1) edge (m-2-1);
+\path [>=latex,->] (m-2-1) edge (m-3-1);
+\path [>=latex,->] (m-3-1) edge (m-4-1);
+\path [>=latex,->] (m-4-1) edge (m-5-1);
+\path [>=latex,->] (m-5-1) edge (m-6-1);
 
-%% \section{}
-%% \label{}
+\end{tikzpicture}
 
-%% References
-%%
-%% Following citation commands can be used in the body text:
-%% Usage of \cite is as follows:
-%%   \cite{key}          ==>>  [#]
-%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
-%%   \citet{key}         ==>>  Author [#]
+\end{center}
 
-%% References with bibTeX database:
+Le fasi segnate in grassetto verranno cronometrate dal sistema, da notare come l'ultima parte (il calcolo dell'errore) non venga inclusa nella misurazione, essa infatti non farà parte di un ipotetico codice definitivo (una volta scelto il linguaggio non avrà più senso calcolare l'errore, e nemmeno cronometrare le funzioni tra l'altro).
 
-\bibliographystyle{model1-num-names}
-\bibliography{sample.bib}
+\newpage
 
-%% Authors are advised to submit their bibtex database files. They are
-%% requested to list a bibtex style file in the manuscript if they do
-%% not want to use model1-num-names.bst.
+\subsection{Matlab}
+L'implementazione su ambiente Matlab è stata effettuata tramite questo semplice script:
 
-%% References without bibTeX database:
+\begin{lstlisting}
+tic
 
-% \begin{thebibliography}{00}
+%Leggo la matrice A
+A = Problem.A;
 
-%% \bibitem must have the following form:
-%%   \bibitem{key}...
-%%
+%Creo soluzione che e' un vettore lungo righe di A con tutti 1
+xe = ones(size(A,1), 1);
 
-% \bibitem{}
+%Calcolo b dalla equazione Axe = b
+b = A * xe;
 
-% \end{thebibliography}
+disp('Time setup:');
+toc
+tic
 
+%Calcolo Cholesky triangolare inferiore della matrice A 
+R = chol(A);
+
+disp('Time Cholesky:');
+toc
+tic
+
+%{
+Siccome per ipotesi di Cholesky A = R * R',
+allora risolvere Ax = b diventa R * R' * x = b,
+quindi x = R \ (R' \ b)
+%}
+
+y = R' \ b;
+x = R \ y;
+
+disp('Time resolve:');
+toc
+
+%Calcolo errore fra x e xe
+errore = norm(x - xe) / norm(xe);
+
+disp('Errore: ');
+disp(errore);
+
+\end{lstlisting}
+
+da notare l'utilizzo dei comandi \mcode{tic} e \mcode{toc} che vengono usati per calcolare il tempo che trascorre per effettuare determinati blocchi di codice.
+
+\subsection{R}
+
+La soluzione per ambiente R è data dal seguente script:
+\begin{figure}[h]
+	\includegraphics[width=0.85\textwidth]{rcode}
+\end{figure}
+
+Una differenza sostanziale con il codice Matlab è data dalla presenza di una variabile che contiene la memoria utilizzata, molto utile per calcolare la memoria utilizzata dallo script (per gli altri ambienti abbiamo utilizzato tool del sistema operativo per controllare la memoria).
+
+\subsection{C++}
+
+Il file \textit{script.cpp} è costruito sul seguente codice:
+
+\begin{minted}{c}
+#include <iostream>
+#include <Eigen/Dense>
+#include <unsupported/Eigen/SparseExtra>
+#include <Eigen/SparseCholesky>
+#include <chrono>
+
+using namespace std;
+using namespace Eigen;
+using namespace chrono;
+
+int main(int argc, char** argv) {	
+
+  cout << endl;
+
+  for (int i = 1; i < argc; ++i) {
+
+    cout << "Cholesky con " << argv[i] << endl;		
+    //Salvo il tempo corrente
+    steady_clock::time_point begin = steady_clock::now();
+
+   //Dichiaro una matrice sparsa di double chiamata A
+    SparseMatrix<double> A;
+
+    //Carico su A la matrice *it corrente data dall'iteratore
+    loadMarket(A, argv[i]);
+
+    //Creo vettore riga lungo righe di A composto da soli uno
+    VectorXd xe = VectorXd::Constant(A.rows(), 1);
+
+    //Calcolo b come prodotto fra A e xe (selfadjointView<Lower>
+    //specifica che la matrice A è definitia
+    //solo inferiormente (essendo simmetrica))
+    VectorXd b = A.selfadjointView<Lower>() * xe;
+
+    steady_clock::time_point end = steady_clock::now();
+
+    //Stampo il tempo trascorso
+    cout << "Time Setup = " 
+         << duration_cast<nanoseconds>(end - begin).count() 
+         << "ns" << endl;
+         
+    begin = steady_clock::now();
+
+
+    //Calcolo la Cholesky con la funzione SimplicialLDLT
+    SimplicialLDLT<SparseMatrix<double>> chol(A);
+
+    end = steady_clock::now();
+    
+    //Stampo il tempo trascorso
+    cout << "Time Cholesky = " 
+         << duration_cast<nanoseconds>(end - begin).count()
+         << "ns" << endl;
+         
+    begin = steady_clock::now();
+    //Trovo la soluzione x con la funzione solve
+    VectorXd x = chol.solve(b);
+    end = steady_clock::now();
+
+    //Stampo il tempo trascorso
+    cout << "Time Resolve = " 
+         << duration_cast<nanoseconds>(end - begin).count() 
+         << "ns" << endl;
+
+
+    //Calcolo errore relativo
+    double relative_error = (x - xe).norm() / (xe).norm();
+
+    cout << "Relative error = " << relative_error << endl;
+
+    cout << endl << "****" << endl << endl;
+  }
+}
+\end{minted}
+
+Come specificato in precedenza, questo script verrà lanciato sia su Windows che su WSL Ubuntu 20.04.
+
+\newpage
+
+\section{Elaborazioni e risultati}
+
+Nella sezione corrente verranno presentati i risultati delle varie elaborazioni su grafici. Essi conterranno valori per matrici fino a 715.176 righe (che sarebbe \textit{apache2.mtx}) in quanto per matrici più grandi il calcolatore non riesce a concludere il calcolo.
+
+\subsection{Time setup}
+La prima parte dell'analisi ha riguardato il tempo di setup, come specificato all'inizio della sezione 3.
+In breve è il tempo di caricamento della matrice $A$, dell'inizializzazione di $xe$ e del calcolo di $b$
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{setup1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{setup2}
+\end{figure}
+
+come si può facilmente osservare chi impiega il minor tempo è Matlab, a seguire (molto distanti) rispettivamente R, C++ su Win e C++ su Linux.
+
+
+Da notare però come Matlab ed R non riescano a gestire matrici con numero di righe $\geq 525.825$, cosa che C++ riesce a fare. Addirittura su ambiente linux il sistema riesce anche a gestirne una da 715.176.
+
+\subsection{Time Cholesky}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{cholesky1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{cholesky2}
+\end{figure}
+
+\subsection{Time resolve}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{solving1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{solving2}
+\end{figure}
+
+\subsection{Errori relativi}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{errore1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{errore2}
+\end{figure}
+
+\subsection{Memoria utilizzata}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{memoria1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{memoria2}
+\end{figure}
 
 \end{document}
 

@@ -6,6 +6,7 @@
 
 using namespace std;
 using namespace Eigen;
+using namespace chrono;
 
 int main(int argc, char** argv)
 {	
@@ -15,7 +16,7 @@ int main(int argc, char** argv)
 		
         cout << "Cholesky con " << argv[i] << endl;		
 		//Salvo il tempo corrente
-        chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+        steady_clock::time_point begin = steady_clock::now();
 
 		//Dichiaro una matrice sparsa di double chiamata A
         SparseMatrix<double> A;
@@ -30,30 +31,29 @@ int main(int argc, char** argv)
 		//definita solo inferiormente (essendo simmetrica))
         VectorXd b = A.selfadjointView<Lower>() * xe;
 		
-		chrono::steady_clock::time_point end = chrono::steady_clock::now();
+		steady_clock::time_point end = steady_clock::now();
 		
 		//Stampo il tempo trascorso
-        cout << "Time Setup = " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() / 1000000000.0 << "s" << endl;
-		begin = chrono::steady_clock::now();
+        cout << "Time Setup = " << duration_cast<nanoseconds>(end - begin).count() << "ns" << endl;
+		begin = steady_clock::now();
 
 
 		//Calcolo la Cholesky con la funzione SimplicialLDLT
         SimplicialLDLT<SparseMatrix<double>> chol(A);
 		
-		end = chrono::steady_clock::now();
+		end = steady_clock::now();
 		
 		//Stampo il tempo trascorso
-        cout << "Time Cholesky = " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count() / 1000000000.0 << "s" << endl;
-		begin = chrono::steady_clock::now();
+        cout << "Time Cholesky = " << duration_cast<nanoseconds>(end - begin).count() << "ns" << endl;
+		begin = steady_clock::now();
 		//Trovo la soluzione x con la funzione solve
         VectorXd x = chol.solve(b);
-		end = chrono::steady_clock::now();
+		end = steady_clock::now();
 		
 		//Stampo il tempo trascorso
-        cout << "Time Resolve = " << chrono::duration_cast<chrono::nanoseconds>(end - begin).count()  / 1000000000.0 << "s" << endl;
+        cout << "Time Resolve = " << duration_cast<nanoseconds>(end - begin).count() << "ns" << endl;
 
 	
-
 		//Calcolo errore relativo
         double relative_error = (x - xe).norm() / (xe).norm();
         
