@@ -368,7 +368,7 @@ A = Problem.A;
 %Creo soluzione che e' un vettore lungo righe di A con tutti 1
 xe = ones(size(A,1), 1);
 
-%Calcolo b dalla equazione Axe = b
+%Calcolo b dalla equazione A * xe = b
 b = A * xe;
 
 disp('Time setup:');
@@ -407,8 +407,9 @@ da notare l'utilizzo dei comandi \mcode{tic} e \mcode{toc} che vengono usati per
 \subsection{R}
 
 La soluzione per ambiente R è data dal seguente script:
-\begin{figure}[h]
-	\includegraphics[width=0.85\textwidth]{rcode}
+
+\begin{figure}[H]
+	\includegraphics[width=0.80\textwidth]{rcode}
 \end{figure}
 
 Una differenza sostanziale con il codice Matlab è data dalla presenza di una variabile che contiene la memoria utilizzata, molto utile per calcolare la memoria utilizzata dallo script (per gli altri ambienti abbiamo utilizzato tool del sistema operativo per controllare la memoria).
