@@ -154,8 +154,8 @@
 %% \fntext[label3]{}
 
 \title{Confronto implementazioni Metodo di Cholesky\\
-\large{Attraverso l'utilizzo di ambienti differenti: Matlab, C++ e R}}
-
+\large{Attraverso l'utilizzo di ambienti differenti: Matlab, C++ e R}
+\vspace{5mm}\\ \normalsize{\texttt{https://github.com/nicoripa/MCS\_Project/}}}
 %% use optional labels to link authors explicitly to addresses:
 %% \author[label1,label2]{<author name>}
 %% \address[label1]{<address>}
@@ -166,10 +166,11 @@
 
 \address{Dipartimento di Informatica, Sistemi e Comunicazione, Universitá degli Studi di Milano-Bicocca, Milano, Italia}
 
+
 \begin{abstract}
-Lo scopo di questo progetto è di studiare l'implementazione in ambienti di programmazione open source del metodo di \textbf{Choleski} per la risoluzione sistemi lineari per matrici sparse, simmetriche e definite positive e successivamente confrontarli con l’implementazione nell'ambiente di programmazione di Matlab.
+Lo scopo di questo progetto è di studiare l'implementazione in ambienti di programmazione open source del metodo di \textbf{Cholesky} per la risoluzione sistemi lineari per matrici sparse, simmetriche e definite positive e successivamente confrontarli con l’implementazione nell'ambiente di programmazione di Matlab.
 	
-Immaginiamo che un'azienda abbia la necessità di munirsi di un ambiente di programmazione per risolvere sistemi lineari con matrici sparse e definite positive di grandi dimensioni utilizzando il metodo di Choleski. 
+Immaginiamo che un'azienda abbia la necessità di munirsi di un ambiente di programmazione per risolvere sistemi lineari con matrici sparse e definite positive di grandi dimensioni utilizzando il metodo di Cholesky. 
 	
 L'alternativa è tra software proprietario (Matlab) oppure open source e anche tra Windows oppure Linux.
 	
@@ -182,10 +183,7 @@ In altre parole bisogna porsi le seguenti domande:
 \end{enumerate}
 \end{abstract}
 	
-\begin{keyword}
-Science \sep Publication \sep Complicated
 
-\end{keyword}
 
 \end{frontmatter}
 
@@ -534,6 +532,9 @@ Da notare però come Matlab ed R non riescano a gestire matrici con numero di ri
 	\includegraphics[width=\linewidth]{cholesky2}
 \end{figure}
 
+Questi grafici rappresentano il tempo forse più significativo, ovvero il tempo per il calcolo della matrice di Cholesky $R$.
+Matlab si conferma l'ambiente tendenzialmente più rapido, anche se la differenza non sembra essere così significativa (nonostante ci sia).
+
 \subsection{Time resolve}
 
 \begin{figure}[H]
@@ -545,6 +546,9 @@ Da notare però come Matlab ed R non riescano a gestire matrici con numero di ri
 	\centering
 	\includegraphics[width=\linewidth]{solving2}
 \end{figure}
+
+Questi grafici rappresentano il tempo impiegato per la risoluzione del sistema finale $R \times R' \times x = b$.
+Come si può notare i vari linguaggi sembrano avere un comportamento molto simile, e anche qui si osserva la leggera superiorità di Matlab rispetto ai suoi avversari, mentre R crolla con dei tempi più lunghi rispetto agli altri.
 
 \subsection{Errori relativi}
 
@@ -558,6 +562,9 @@ Da notare però come Matlab ed R non riescano a gestire matrici con numero di ri
 	\includegraphics[width=\linewidth]{errore2}
 \end{figure}
 
+Si passa ora ad analizzare da un altro punto di vista l'analisi delle diverse elaborazioni. L'errore relativo è un valore che determina con quanta precisione è stata calcolata la soluzione del sistema, in particolare più esso tende a 0 più il calcolo è stato preciso.
+Dalle diverse esecuzioni non si può stabilire univocamente quale sia l'ambiente migliore da questo punto di vista, forse Matlab potrebbe esserlo anche se non sempre è il più preciso.
+
 \subsection{Memoria utilizzata}
 
 \begin{figure}[H]
@@ -570,6 +577,10 @@ Da notare però come Matlab ed R non riescano a gestire matrici con numero di ri
 	\includegraphics[width=\linewidth]{memoria2}
 \end{figure}
 
+Infine ecco la presentazione della memoria utilizzata. Questi risultati stravolgono in parte quello acquisito fino ad ora.
+Se infatti fino ad adesso Matlab si è rivelato il "migliore", soprattutto per quanto riguarda la velocità di esecuzione, per quanto riguarda la memoria esso è un vero e proprio \textit{memory killer}, utilizza infatti quantitativi di memoria superiori rispetto agli altri, decisamente superiori rispetto alle implementazioni C++, infatti queste ultime riescono a gestire matrici di dimensioni maggiori senza incappare in problemi di \textit{out of memory}.
+
+Curioso notare come la memoria utilizzata da Matlab per la risoluzione di un sistema di 123.440 righe è dello stesso ordine di grandezza della memoria utilizzata da C++ per un sistema di 715.176 righe!
 \end{document}
 
 %%
