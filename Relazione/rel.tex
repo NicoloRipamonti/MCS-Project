@@ -403,6 +403,25 @@ disp(errore);
 \end{lstlisting}
 
 da notare l'utilizzo dei comandi \mcode{tic} e \mcode{toc} che vengono usati per calcolare il tempo che trascorre per effettuare determinati blocchi di codice.
+\linebreak
+
+
+\textit{Pro e contro - Script Matlab}\\
+\vspace{4mm}
+L'implementazione di Matlab può essere riassunta con questi pro e contro:
+
+Pro:
+\begin{itemize}
+	\item Codice compatto e intuitivo
+	\item Interfaccia user friendly con gestione variabili e console
+\end{itemize}
+
+Contro:
+\begin{itemize}
+	\item Closed source
+\end{itemize}
+
+\newpage
 
 \subsection{R}
 
@@ -413,6 +432,25 @@ La soluzione per ambiente R è data dal seguente script:
 \end{figure}
 
 Una differenza sostanziale con il codice Matlab è data dalla presenza di una variabile che contiene la memoria utilizzata, molto utile per calcolare la memoria utilizzata dallo script (per gli altri ambienti abbiamo utilizzato tool del sistema operativo per controllare la memoria).
+\medskip
+
+
+\textit{Pro e contro - Script R}\\
+\vspace{4mm}
+L'implementazione di R può essere riassunta con questi pro e contro:
+
+Pro:
+\begin{itemize}
+	\item Interfaccia user friendly con gestione variabili e console
+	\item Supportato da diverse librerie open-source facili da includere
+\end{itemize}
+
+Contro:
+\begin{itemize}
+	\item Sintassi troppo "flessibile" (non ci sono regole precise da seguire)
+\end{itemize}
+
+\newpage
 
 \subsection{C++}
 
@@ -439,7 +477,7 @@ int main(int argc, char** argv) {
     //Salvo il tempo corrente
     steady_clock::time_point begin = steady_clock::now();
 
-   //Dichiaro una matrice sparsa di double chiamata A
+    //Dichiaro una matrice sparsa di double chiamata A
     SparseMatrix<double> A;
 
     //Carico su A la matrice *it corrente data dall'iteratore
@@ -495,12 +533,31 @@ int main(int argc, char** argv) {
 \end{minted}
 
 Come specificato in precedenza, questo script verrà lanciato sia su Windows che su WSL Ubuntu 20.04.
+\medskip
+
+
+\textit{Pro e contro - Script C++}\\
+\vspace{4mm}
+L'implementazione di C++ può essere riassunta con questi pro e contro:
+
+Pro:
+\begin{itemize}
+	\item Tantissime librerie offrono supporto per praticamente ogni cosa
+	\item Velocità - C++ è un linguaggio compilato (a differenza dei linguaggi interpretati)
+\end{itemize}
+
+Contro:
+\begin{itemize}
+	\item Complicato da imparare, codice non facilmente leggibile
+	\item Assenza di un'interfaccia per la gestione delle variabili ecc.
+\end{itemize}
 
 \newpage
 
+
 \section{Elaborazioni e risultati}
 
-Nella sezione corrente verranno presentati i risultati delle varie elaborazioni su grafici. Essi conterranno valori per matrici fino a 715.176 righe (che sarebbe \textit{apache2.mtx}) in quanto per matrici più grandi il calcolatore non riesce a concludere il calcolo.
+Nella sezione corrente verranno presentati i risultati delle varie elaborazioni su grafici. Essi conterranno valori per matrici fino a 715.176 righe (\textit{apache2.mtx}) in quanto per matrici più grandi il calcolatore non riesce a portare a termine l'elaborazione (per mancanza di memoria).
 
 \subsection{Time setup}
 La prima parte dell'analisi ha riguardato il tempo di setup, come specificato all'inizio della sezione 3.
@@ -516,7 +573,7 @@ In breve è il tempo di caricamento della matrice $A$, dell'inizializzazione di 
 	\includegraphics[width=\linewidth]{setup2}
 \end{figure}
 
-come si può facilmente osservare chi impiega il minor tempo è Matlab, a seguire (molto distanti) rispettivamente R, C++ su Win e C++ su Linux.
+Come si può facilmente osservare chi impiega il minor tempo è Matlab, a seguire (molto distanti) rispettivamente R, C++ su Win e C++ su Linux.
 
 
 Da notare però come Matlab ed R non riescano a gestire matrici con numero di righe $\geq 525.825$, cosa che C++ riesce a fare. Addirittura su ambiente linux il sistema riesce anche a gestirne una da 715.176.
