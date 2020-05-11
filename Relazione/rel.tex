@@ -178,8 +178,10 @@ La richiesta è quindi quella di confrontare, in ambiente Linux e Windows, e sul
 	
 In altre parole bisogna porsi le seguenti domande:
 \begin{enumerate}
-		\item \`E meglio affidarsi alla sicurezza di Matlab pagando oppure vale la pena di avventurarsi nel mondo open source? 
 		\item \`E meglio lavorare in ambiente Linux oppure in ambiente Windows?
+		
+		\item \`E meglio affidarsi alla sicurezza di Matlab pagando oppure vale la pena di avventurarsi nel mondo open source? 
+		
 \end{enumerate}
 \end{abstract}
 	
@@ -352,7 +354,7 @@ L'implementazione del metodo è stata così suddivisa:
 
 \end{center}
 
-Le fasi segnate in grassetto verranno cronometrate dal sistema, da notare come l'ultima parte (il calcolo dell'errore) non venga inclusa nella misurazione, essa infatti non farà parte di un ipotetico codice definitivo (una volta scelto il linguaggio non avrà più senso calcolare l'errore, e nemmeno cronometrare le funzioni tra l'altro).
+Le fasi segnate in grassetto verranno cronometrate dal sistema, da notare come l'ultima parte (il calcolo dell'errore) non venga inclusa nella misurazione, essa infatti non farà parte di un ipotetico codice definitivo (una volta scelto il linguaggio non non sarà più necessario calcolare l'errore e tantomeno cronometrare le funzioni).
 
 \newpage
 
@@ -402,7 +404,7 @@ disp(errore);
 
 \end{lstlisting}
 
-da notare l'utilizzo dei comandi \mcode{tic} e \mcode{toc} che vengono usati per calcolare il tempo che trascorre per effettuare determinati blocchi di codice.
+da notare l'utilizzo dei comandi \mcode{tic} e \mcode{toc}, utili per visualizzare il tempo utile per il calcolo di determinati blocchi di codice.
 \linebreak
 
 
@@ -431,7 +433,7 @@ La soluzione per ambiente R è data dal seguente script:
 	\includegraphics[width=0.80\textwidth]{rcode}
 \end{figure}
 
-Una differenza sostanziale con il codice Matlab è data dalla presenza di una variabile che contiene la memoria utilizzata, molto utile per calcolare la memoria utilizzata dallo script (per gli altri ambienti abbiamo utilizzato tool del sistema operativo per controllare la memoria).
+Una differenza sostanziale con il codice Matlab è data dalla presenza di una variabile che contiene la memoria utilizzata. Tale funzione è stata molto utile per calcolare la memoria utilizzata dallo script (per gli altri ambienti abbiamo utilizzato tool del sistema operativo per tener monitorato l'utilizzo della memoria).
 \medskip
 
 
@@ -542,7 +544,7 @@ L'implementazione di C++ può essere riassunta con questi pro e contro:
 
 Pro:
 \begin{itemize}
-	\item Tantissime librerie offrono supporto per praticamente ogni cosa
+	\item Moltissime librerie offrono supporto per qualsivoglia azione
 	\item Velocità - C++ è un linguaggio compilato (a differenza dei linguaggi interpretati)
 \end{itemize}
 
@@ -561,7 +563,7 @@ Nella sezione corrente verranno presentati i risultati delle varie elaborazioni 
 
 \subsection{Time setup}
 La prima parte dell'analisi ha riguardato il tempo di setup, come specificato all'inizio della sezione 3.
-In breve è il tempo di caricamento della matrice $A$, dell'inizializzazione di $xe$ e del calcolo di $b$
+In breve \textit{}Time setup} è il tempo che intercorre tra il caricamento della matrice $A$, l'inizializzazione di $xe$ e il calcolo di $b$
 
 \begin{figure}[H]
 	\centering
@@ -576,7 +578,7 @@ In breve è il tempo di caricamento della matrice $A$, dell'inizializzazione di 
 Come si può facilmente osservare chi impiega il minor tempo è Matlab, a seguire (molto distanti) rispettivamente R, C++ su Win e C++ su Linux.
 
 
-Da notare però come Matlab ed R non riescano a gestire matrici con numero di righe $\geq 525.825$, cosa che C++ riesce a fare. Addirittura su ambiente linux il sistema riesce anche a gestirne una da 715.176.
+Da notare però come Matlab ed R non riescano a gestire matrici con numero di righe $\geq 525.825$, cosa che C++ riesce a fare. Addirittura su ambiente linux il sistema riesce anche a gestire la matrice \textit{apache2.mtx} di dimensione 715.176.
 
 \subsection{Time Cholesky}
 
@@ -606,7 +608,7 @@ Matlab si conferma l'ambiente tendenzialmente più rapido, anche se la differenz
 \end{figure}
 
 Questi grafici rappresentano il tempo impiegato per la risoluzione del sistema finale $R \times R' \times x = b$.
-Come si può notare i vari linguaggi sembrano avere un comportamento molto simile, e anche qui si osserva la leggera superiorità di Matlab rispetto ai suoi avversari, mentre R crolla con dei tempi più lunghi rispetto agli altri.
+Come si può notare i vari linguaggi sembrano avere un comportamento molto simile, e anche qui si osserva la leggera superiorità di Matlab rispetto ai suoi concorrenti, mentre R si denota come il più lento, con dei tempi più lunghi rispetto agli altri.
 
 \subsection{Errori relativi}
 
@@ -621,7 +623,8 @@ Come si può notare i vari linguaggi sembrano avere un comportamento molto simil
 \end{figure}
 
 Si passa ora ad analizzare da un altro punto di vista l'analisi delle diverse elaborazioni. L'errore relativo è un valore che determina con quanta precisione è stata calcolata la soluzione del sistema, in particolare più esso tende a 0 più il calcolo è stato preciso.
-Dalle diverse esecuzioni non si può stabilire univocamente quale sia l'ambiente migliore da questo punto di vista, forse Matlab potrebbe esserlo anche se non sempre è il più preciso.
+Dalle diverse esecuzioni non si può stabilire univocamente quale sia l'ambiente migliore da questo punto di vista, forse Matlab potrebbe esserlo anche se non sempre è il più preciso.\\
+Da notare come per la matrice di dimensione 81.920, l'errore relativo sia pressoché il medesimo in tutti i linguaggi.
 
 \subsection{Memoria utilizzata}
 
@@ -635,11 +638,26 @@ Dalle diverse esecuzioni non si può stabilire univocamente quale sia l'ambiente
 	\includegraphics[width=\linewidth]{memoria2}
 \end{figure}
 
-Infine ecco la presentazione della memoria utilizzata. Questi risultati stravolgono in parte quello acquisito fino ad ora.
+Infine vengono riportati i grafici della memoria utilizzata. Questi risultati stravolgono in parte quello acquisito fino ad ora.
 Se infatti fino ad adesso Matlab si è rivelato il "migliore", soprattutto per quanto riguarda la velocità di esecuzione, per quanto riguarda la memoria esso è un vero e proprio \textit{memory killer}, utilizza infatti quantitativi di memoria superiori rispetto agli altri, decisamente superiori rispetto alle implementazioni C++, infatti queste ultime riescono a gestire matrici di dimensioni maggiori senza incappare in problemi di \textit{out of memory}.
 
-Curioso notare come la memoria utilizzata da Matlab per la risoluzione di un sistema di 123.440 righe è dello stesso ordine di grandezza della memoria utilizzata da C++ per un sistema di 715.176 righe!
-\end{document}
+Curioso notare come la memoria utilizzata da Matlab per la risoluzione di un sistema di dimensione 123.440 è dello stesso ordine di grandezza della memoria utilizzata da C++ per un sistema di 715.176 righe!
 
+\section{Conclusioni}
+All'inizio del progetto ci siamo chiesti cosa era meglio tra il software proprietario Matlab oppure un software open source per la risoluzione dei sistemi lineari e anche se era meglio utilizzare tali software in ambiente linux oppure windows. Ecco le risposte:
+
+\begin{enumerate}
+\item \textbf{\`E meglio lavorare in ambiente Linux oppure in ambiente Windows?}\\
+Come si può evincere dallo studio fatto fin ora, la differenza tra i due ambienti, a parità di software utilizzato, risulta quasi impercettibile. La differenza sostanziale sta nell'uso della memoria.\\
+In ambiente Linux, C++ riesce a ottimizzare meglio l'utilizzo della memoria rispetto a Windows, ma questo non comporta in alcuno modo differenze sostanziali nelle tempistiche di calcolo.
+
+\item \textbf{\`E meglio affidarsi alla sicurezza di Matlab pagando oppure vale la pena
+di avventurarsi nel mondo open source?}\\
+Come visto nei grafici presentati in precedenza, Matlab è sempre stato il migliore in termini di tempo e di accuratezza. Purtroppo però non si può dire lo stesso per quanto riguarda l'uso della memoria che, come nel nostro caso, se si utilizzano calcolatori di fascia media con 8 GB di RAM si incorre nel problema di \textit{out of memory}. In sostanza il vero interrogativo al quale ci siamo sottoposti durante lo studio dei software, è stato "riuscirà a risolvere il sistema lineare o fallirà per mancanza di memoria?". C++ è stato indubbiamente il software che è riuscito a darci più dati su cui lavorare rispetto agli altri, in quanto è stato l'unico che e riuscito a spingersi fino ai sistemi lineari di 715 mila righe e colonne.\\
+In conclusione Matlab risulta essere sicuramente il software più prestante in termini di tempo e di errore, mentre C++ è il più prestante in termini di utilizzo della memoria.\\
+Sicuramente se non si hanno problemi di utilizzo della memoria, Matlab è la soluzione.
+\end{enumerate}
+ 
+\end{document}
 %%
 %% End of file `elsarticle-template-1-num.tex'.
