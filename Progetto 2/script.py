@@ -1,4 +1,5 @@
-from tkinter import * 
+from tkinter import *
+from tkinter import ttk 
 from tkinter.ttk import *
 from tkinter.filedialog import askopenfile 
 from tkinter.messagebox import showerror
@@ -23,13 +24,13 @@ def open_file():
     file = askopenfile(mode ='r', filetypes =[('Immagine bmp - toni di grigio', '*.bmp')]) 
 
 
-root = Tk() 
-root.geometry('300x200') 
+root = Tk(className='Scegli file') 
+root.geometry('550x250') 
 
-w = Label(root, text="\nBenvento nel programma di Lorenzo e Nicolò!\nQua avverranno le magie", justify=CENTER)
+w = Label(root, text="\nBenvento nel programma di Lorenzo e Nicolò!\nQua avverranno le magie...", justify=CENTER)
 w.pack()
 
-btn = Button(root, text ='Open', command = lambda:open_file()) 
+btn = Button(root, text = 'Open', command = lambda:open_file()) 
 
 btn.pack(side = TOP, pady = 10) 
 
