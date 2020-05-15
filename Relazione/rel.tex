@@ -476,55 +476,44 @@ int main(int argc, char** argv) {
   for (int i = 1; i < argc; ++i) {
 
     cout << "Cholesky con " << argv[i] << endl;		
-    //Salvo il tempo corrente
+    
     steady_clock::time_point begin = steady_clock::now();
 
-    //Dichiaro una matrice sparsa di double chiamata A
     SparseMatrix<double> A;
 
-    //Carico su A la matrice *it corrente data dall'iteratore
     loadMarket(A, argv[i]);
 
-    //Creo vettore riga lungo righe di A composto da soli uno
     VectorXd xe = VectorXd::Constant(A.rows(), 1);
 
-    //Calcolo b come prodotto fra A e xe (selfadjointView<Lower>
-    //specifica che la matrice A è definitia
-    //solo inferiormente (essendo simmetrica))
     VectorXd b = A.selfadjointView<Lower>() * xe;
 
     steady_clock::time_point end = steady_clock::now();
 
-    //Stampo il tempo trascorso
     cout << "Time Setup = " 
          << duration_cast<nanoseconds>(end - begin).count() 
          << "ns" << endl;
          
     begin = steady_clock::now();
 
-
-    //Calcolo la Cholesky con la funzione SimplicialLDLT
     SimplicialLDLT<SparseMatrix<double>> chol(A);
 
     end = steady_clock::now();
     
-    //Stampo il tempo trascorso
     cout << "Time Cholesky = " 
          << duration_cast<nanoseconds>(end - begin).count()
          << "ns" << endl;
          
     begin = steady_clock::now();
-    //Trovo la soluzione x con la funzione solve
+
     VectorXd x = chol.solve(b);
+    
     end = steady_clock::now();
 
-    //Stampo il tempo trascorso
+  
     cout << "Time Resolve = " 
          << duration_cast<nanoseconds>(end - begin).count() 
          << "ns" << endl;
 
-
-    //Calcolo errore relativo
     double relative_error = (x - xe).norm() / (xe).norm();
 
     cout << "Relative error = " << relative_error << endl;
@@ -649,11 +638,11 @@ All'inizio del progetto ci siamo chiesti cosa era meglio tra il software proprie
 \begin{enumerate}
 \item \textbf{\`E meglio lavorare in ambiente Linux oppure in ambiente Windows?}\\
 Come si può evincere dallo studio fatto fin ora, la differenza tra i due ambienti, a parità di software utilizzato, risulta quasi impercettibile. La differenza sostanziale sta nell'uso della memoria.\\
-In ambiente Linux, C++ riesce a ottimizzare meglio l'utilizzo della memoria rispetto a Windows, ma questo non comporta in alcuno modo differenze sostanziali nelle tempistiche di calcolo.
+In ambiente Linux, C++ riesce a ottimizzare meglio l'utilizzo della memoria rispetto a Windows, ma questo non comporta in alcun modo differenze sostanziali nelle tempistiche di calcolo.
 
 \item \textbf{\`E meglio affidarsi alla sicurezza di Matlab pagando oppure vale la pena
 di avventurarsi nel mondo open source?}\\
-Come visto nei grafici presentati in precedenza, Matlab è sempre stato il migliore in termini di tempo e di accuratezza. Purtroppo però non si può dire lo stesso per quanto riguarda l'uso della memoria che, come nel nostro caso, se si utilizzano calcolatori di fascia media con 8 GB di RAM si incorre nel problema di \textit{out of memory}. In sostanza il vero interrogativo al quale ci siamo sottoposti durante lo studio dei software, è stato "riuscirà a risolvere il sistema lineare o fallirà per mancanza di memoria?". C++ è stato indubbiamente il software che è riuscito a darci più dati su cui lavorare rispetto agli altri, in quanto è stato l'unico che e riuscito a spingersi fino ai sistemi lineari di 715 mila righe e colonne.\\
+Come visto nei grafici presentati in precedenza, Matlab è sempre stato il migliore in termini di tempo e di accuratezza. Purtroppo però non si può dire lo stesso per quanto riguarda l'uso della memoria che, come nel nostro caso, utilizzando calcolatori di fascia media con 8 GB di RAM si incorre nel problema di \textit{out of memory}. In sostanza il vero interrogativo al quale ci siamo sottoposti durante lo studio dei software, è stato "riuscirà a risolvere il sistema lineare o fallirà per mancanza di memoria?". C++ è stato indubbiamente il software che è riuscito a darci più dati su cui lavorare rispetto agli altri, in quanto è stato l'unico che é riuscito a spingersi fino ai sistemi lineari di 715 mila righe e colonne.\\
 In conclusione Matlab risulta essere sicuramente il software più prestante in termini di tempo e di errore, mentre C++ è il più prestante in termini di utilizzo della memoria.\\
 Sicuramente se non si hanno problemi di utilizzo della memoria, Matlab è la soluzione.
 \end{enumerate}
