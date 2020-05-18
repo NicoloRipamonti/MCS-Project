@@ -22,11 +22,10 @@ def suddividi(img, f):
 
     i = 0
     j = 0
-
-
+    
     while (i < img.shape[0]):
         while(j < img.shape[1]):
-            lista_blocchi.append(img[i:i+f,j:j+f])
+            lista_blocchi.append(img[i:i+f, j:j+f])
             j = j + f
         i = i + f
         j = 0
@@ -59,7 +58,7 @@ def applica_dct(img, d, f_dim):
 
 
 
-    ###### Lista blocchi inversa è ok
+    #Lista blocchi inversa è ok
 
     i = 0
     j = 1
@@ -87,7 +86,6 @@ def applica_dct(img, d, f_dim):
     img_compressa = colonne[0]
 
     for i in range(1, len(colonne)):
-        print(i)
         img_compressa = np.hstack((img_compressa, colonne[i]))
 
     img_compressa = img_compressa.astype(np.uint8)
