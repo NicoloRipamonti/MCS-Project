@@ -14,15 +14,15 @@ img = []
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
-        
+
     global img
-    img = cv2.imread(os.path.basename(file_path), 0)
+    img = cv2.imread((file_path), 0)
 
     print(img)
 
     
 ######## open file ##########
-
+ 
 def open_file(root, btn2): 
     file = askopenfile(mode ='r', filetypes =[('Immagine bmp - toni di grigio', '*.bmp')])
     w = Label(root, text="File caricato: " + os.path.basename(file.name), justify=CENTER)
