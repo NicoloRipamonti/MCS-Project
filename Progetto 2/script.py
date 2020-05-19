@@ -3,11 +3,12 @@ from tkinter import ttk
 from tkinter.ttk import *
 from tkinter.filedialog import askopenfile 
 from tkinter.messagebox import showerror
-from PIL import Image
+from PIL import Image, ImageTk
 import numpy as np
 import os
 import cv2
-from scipy import fftpack
+from scipy.fftpack import dct, idct
+import matplotlib.pylab as plt
 
 file_path = ""
 img = []
@@ -23,10 +24,10 @@ def suddividi(img, f):
     i = 0
     j = 0
     
-    
-    while (i < img.shape[0]):
-        while(j < img.shape[1]):
-            lista_blocchi.append(img[i:i+f,j:j+f])
+    while (i + f < img.shape[0]):
+        while(j + f < img.shape[1]):
+            blocco = img[i:i+f,j:j+f]
+            lista_blocchi.append(blocco)
             j = j + f
         i = i + f
         j = 0
@@ -37,19 +38,22 @@ def applica_dct(img, d, f_dim):
     global lista_blocchi_inversa
     global img_compressa
     
+    lista_blocchi_inversa = []
+    
     for f in lista_blocchi:
-        c = fftpack.dct(f, type = 2)
+        c = dct(np.transpose(dct(np.transpose(f), norm='ortho')), norm='ortho')
     
         for k in range(0, c.shape[0]):
             for l in range(0, c.shape[1]):
                 if k + l >= d:
                     c[k, l] = 0
-                        
-        ff = fftpack.idct(c, type = 2)
+                    
+        ff = idct(np.transpose(idct(np.transpose(c), norm='ortho')), norm='ortho')
 
         for i in range(0, ff.shape[0]):
             for j in range(0, ff.shape[1]):
                 ff[i,j] = int(ff[i,j])
+
                 if ff[i, j] < 0:
                     ff[i,j] = 0
                 elif ff[i,j] > 255:
@@ -57,41 +61,44 @@ def applica_dct(img, d, f_dim):
                     
         lista_blocchi_inversa.append(ff)
         
-        
-        
-    ###### Lista blocchi inversa è ok
     
     i = 0
-    j = 1
-    index = 0
+    j = 0
+    index = 1
     
     col = lista_blocchi_inversa[0]
     
     global colonne
+    colonne = []
     
-    while (i < img.shape[0]):
-        while(j < img.shape[1]):
+    while (i + f_dim< img.shape[0]):
+        while(j + f_dim < img.shape[1]):
             j = j + f_dim
-            if j < img.shape[1]:
-                col = np.vstack((col, lista_blocchi_inversa[index]))
+            if j + f_dim < img.shape[1]:
+                col = np.hstack((col, lista_blocchi_inversa[index]))
                 index = index + 1
         
         i = i + f_dim
         j = 0
         colonne.append(col)
-        col = lista_blocchi_inversa[index]
+        if index < len(lista_blocchi_inversa):
+            col = lista_blocchi_inversa[index]
         index = index + 1
-    
-    
 
     img_compressa = colonne[0]
     
     for i in range(1, len(colonne)):
-        print(i)
-        img_compressa = np.hstack((img_compressa, colonne[i]))
+        img_compressa = np.vstack((img_compressa, colonne[i]))
         
     img_compressa = img_compressa.astype(np.uint8)
-    cv2.imwrite('test_gay.jpg', img_compressa)
+    cv2.imwrite('montagna_gay.jpg', img_compressa)
+    
+    
+    plt.gray()
+    plt.subplot(121), plt.imshow(img), plt.axis('off'), plt.title('original image', size=20)
+    plt.subplot(122), plt.imshow(img_compressa), plt.axis('off'), plt.title('reconstructed image (DCT+IDCT)', size=20)
+    
+    f.savefig("bmp_vs_jpg.pdf", bbox_inches='tight')
     
     
 def main_function(f, d) :
@@ -99,7 +106,7 @@ def main_function(f, d) :
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
         
     global img
-    img = cv2.imread(os.path.basename("test.bmp"), 0)
+    img = cv2.imread(os.path.basename("montagna.bmp"), 0)
 
     img_suddivisa = suddividi(img, f)
     
@@ -116,6 +123,7 @@ def open_file(root, btn2):
     global file_path
     file_path = file.name
     btn2.configure(state=NORMAL)
+    
 
 ######## main funct #########
 
