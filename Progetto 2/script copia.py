@@ -12,7 +12,6 @@ import matplotlib.pylab as plt
 
 file_path = ""
 img = []
-
 lista_blocchi = []
 lista_blocchi_inversa = []
 img_compressa = []
@@ -23,17 +22,11 @@ def suddividi(img, f):
 
     i = 0
     j = 0
-    
-<<<<<<< HEAD
+
     while (i + f < img.shape[0]):
         while(j + f < img.shape[1]):
             blocco = img[i:i+f,j:j+f]
             lista_blocchi.append(blocco)
-=======
-    while (i < img.shape[0]):
-        while(j < img.shape[1]):
-            lista_blocchi.append(img[i:i+f, j:j+f])
->>>>>>> 0e3e99d6deee63344dbdea0a6fd7f3f9fcb2d4b5
             j = j + f
         i = i + f
         j = 0
@@ -43,72 +36,50 @@ def suddividi(img, f):
 def applica_dct(img, d, f_dim):
     global lista_blocchi_inversa
     global img_compressa
-<<<<<<< HEAD
-    
+
     lista_blocchi_inversa = []
-    
+
+    #Applico DCT per ogni blocco f:
     for f in lista_blocchi:
         c = dct(np.transpose(dct(np.transpose(f), norm='ortho')), norm='ortho')
-    
-=======
 
-    for f in lista_blocchi:
-        c = fftpack.dct(f, type = 2)
-
->>>>>>> 0e3e99d6deee63344dbdea0a6fd7f3f9fcb2d4b5
+        #Taglio delle frequenze c_kl con k+l>d
         for k in range(0, c.shape[0]):
             for l in range(0, c.shape[1]):
                 if k + l >= d:
                     c[k, l] = 0
-<<<<<<< HEAD
-                    
+
+        #Applico IDCT per ogni blocco c:
         ff = idct(np.transpose(idct(np.transpose(c), norm='ortho')), norm='ortho')
-=======
 
-        ff = fftpack.idct(c, type = 2)
->>>>>>> 0e3e99d6deee63344dbdea0a6fd7f3f9fcb2d4b5
-
+        #Arrotondamento di ff allintero piu' vicino:
         for i in range(0, ff.shape[0]):
             for j in range(0, ff.shape[1]):
                 ff[i,j] = int(ff[i,j])
 
+                #Se esistono valori negativi, porli uguali a 0:
                 if ff[i, j] < 0:
                     ff[i,j] = 0
+                #Se esistono valori maggiori di 255,
+                #porli uguali a 255:
                 elif ff[i,j] > 255:
                     ff[i,j] = 255
 
         lista_blocchi_inversa.append(ff)
-<<<<<<< HEAD
-        
-    
+
+
+
     i = 0
     j = 0
     index = 1
-    
-=======
 
-
-
-    #Lista blocchi inversa è ok
-
-    i = 0
-    j = 1
-    index = 0
-
->>>>>>> 0e3e99d6deee63344dbdea0a6fd7f3f9fcb2d4b5
     col = lista_blocchi_inversa[0]
 
     global colonne
-<<<<<<< HEAD
     colonne = []
-    
+
     while (i + f_dim< img.shape[0]):
         while(j + f_dim < img.shape[1]):
-=======
-
-    while (i < img.shape[0]):
-        while(j < img.shape[1]):
->>>>>>> 0e3e99d6deee63344dbdea0a6fd7f3f9fcb2d4b5
             j = j + f_dim
             if j + f_dim < img.shape[1]:
                 col = np.hstack((col, lista_blocchi_inversa[index]))
@@ -120,37 +91,23 @@ def applica_dct(img, d, f_dim):
         if index < len(lista_blocchi_inversa):
             col = lista_blocchi_inversa[index]
         index = index + 1
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 0e3e99d6deee63344dbdea0a6fd7f3f9fcb2d4b5
 
     img_compressa = colonne[0]
 
     for i in range(1, len(colonne)):
-<<<<<<< HEAD
         img_compressa = np.vstack((img_compressa, colonne[i]))
-        
+
     img_compressa = img_compressa.astype(np.uint8)
     cv2.imwrite('montagna_gay.jpg', img_compressa)
-    
-    
+
+    #Plot dell'immagine originale affiancata a quella compressa:
     plt.gray()
     plt.subplot(121), plt.imshow(img), plt.axis('off'), plt.title('original image', size=20)
     plt.subplot(122), plt.imshow(img_compressa), plt.axis('off'), plt.title('reconstructed image (DCT+IDCT)', size=20)
-    
+
     f.savefig("bmp_vs_jpg.pdf", bbox_inches='tight')
-    
-    
-=======
-        img_compressa = np.hstack((img_compressa, colonne[i]))
-
-    img_compressa = img_compressa.astype(np.uint8)
-    cv2.imwrite('test_gay.jpg', img_compressa)
 
 
->>>>>>> 0e3e99d6deee63344dbdea0a6fd7f3f9fcb2d4b5
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
@@ -162,8 +119,6 @@ def main_function(f, d) :
 
     applica_dct(img_suddivisa, d, f)
 
-
-
 ######## open file ##########
 
 def open_file(root, btn2):
@@ -173,7 +128,7 @@ def open_file(root, btn2):
     global file_path
     file_path = file.name
     btn2.configure(state=NORMAL)
-    
+
 
 ######## main funct #########
 
@@ -207,8 +162,6 @@ def main():
     btn2 = Button(root, text ='Avvia', command = lambda:main_function(int(spin_F.get()), int(spin_d.get()), ))
 
     btn2.pack(side = TOP, pady = 10)
-
-
 
     mainloop()
 
