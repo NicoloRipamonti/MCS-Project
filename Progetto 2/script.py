@@ -1,7 +1,7 @@
 from tkinter import *
-from tkinter import ttk 
+from tkinter import ttk
 from tkinter.ttk import *
-from tkinter.filedialog import askopenfile 
+from tkinter.filedialog import askopenfile
 from tkinter.messagebox import showerror
 from PIL import Image, ImageTk
 import numpy as np
@@ -20,7 +20,7 @@ colonne = []
 
 def suddividi(img, f):
     global lista_blocchi
-    
+
     i = 0
     j = 0
     
@@ -31,7 +31,7 @@ def suddividi(img, f):
             j = j + f
         i = i + f
         j = 0
-    
+
     return img
 
 def applica_dct(img, d, f_dim):
@@ -58,7 +58,7 @@ def applica_dct(img, d, f_dim):
                     ff[i,j] = 0
                 elif ff[i,j] > 255:
                     ff[i,j] = 255
-                    
+
         lista_blocchi_inversa.append(ff)
         
     
@@ -67,7 +67,7 @@ def applica_dct(img, d, f_dim):
     index = 1
     
     col = lista_blocchi_inversa[0]
-    
+
     global colonne
     colonne = []
     
@@ -77,7 +77,7 @@ def applica_dct(img, d, f_dim):
             if j + f_dim < img.shape[1]:
                 col = np.hstack((col, lista_blocchi_inversa[index]))
                 index = index + 1
-        
+
         i = i + f_dim
         j = 0
         colonne.append(col)
@@ -86,7 +86,7 @@ def applica_dct(img, d, f_dim):
         index = index + 1
 
     img_compressa = colonne[0]
-    
+
     for i in range(1, len(colonne)):
         img_compressa = np.vstack((img_compressa, colonne[i]))
         
@@ -104,19 +104,19 @@ def applica_dct(img, d, f_dim):
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
-        
+
     global img
     img = cv2.imread(os.path.basename("montagna.bmp"), 0)
 
     img_suddivisa = suddividi(img, f)
-    
-    applica_dct(img_suddivisa, d, f)
-    
 
-    
+    applica_dct(img_suddivisa, d, f)
+
+
+
 ######## open file ##########
 
-def open_file(root, btn2): 
+def open_file(root, btn2):
     file = askopenfile(mode ='r', filetypes =[('Immagine bmp - toni di grigio', '*.bmp')])
     w = Label(root, text="File caricato: " + os.path.basename(file.name), justify=CENTER)
     w.pack()
@@ -128,46 +128,41 @@ def open_file(root, btn2):
 ######## main funct #########
 
 def main():
-    root = Tk(className='Scegli file') 
-    root.geometry('350x250') 
-    
+    root = Tk(className='Scegli file')
+    root.geometry('350x250')
+
     w = Label(root, text="\nBenvento nel programma di Lorenzo e Nicolò!\nQua avverranno le magie...", justify=CENTER)
     w.pack()
-    
-    btn = Button(root, text = 'Apri file', command = lambda:open_file(root, btn2)) 
-    
+
+    btn = Button(root, text = 'Apri file', command = lambda:open_file(root, btn2))
+
     info = Label(root, text="", justify=CENTER)
     info.pack()
-    
-    btn.pack(side = TOP, pady = 10) 
-    
+
+    btn.pack(side = TOP, pady = 10)
+
     var_F = StringVar(root)
     var_F.set("4")
     spin_F = Spinbox(root, from_=0, to=100, width=5,textvariable = var_F)
-    
+
     spin_F.pack()
-    
+
     var_d = StringVar(root)
     var_d.set("3")
     spin_d = Spinbox(root, from_=0, to=100, width=5, textvariable = var_d)
-    
+
     spin_d.pack()
-    
+
     #state=DISABLED
     btn2 = Button(root, text ='Avvia', command = lambda:main_function(int(spin_F.get()), int(spin_d.get()), ))
-    
+
     btn2.pack(side = TOP, pady = 10)
-    
-    
-    
-    mainloop() 
-    
+
+
+
+    mainloop()
+
 ###############################################################################
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
