@@ -67,17 +67,17 @@ def applica_dct(img, d, f_dim):
 
         lista_blocchi_inversa.append(ff)
 
+        return lista_blocchi_inversa
 
+
+def ricomponi(lista_blocchi_inversa):
+    global colonne
+    col = lista_blocchi_inversa[0]
+    colonne = []
 
     i = 0
     j = 0
     index = 1
-
-    col = lista_blocchi_inversa[0]
-
-    global colonne
-    colonne = []
-
     while (i + f_dim< img.shape[0]):
         while(j + f_dim < img.shape[1]):
             j = j + f_dim
@@ -100,7 +100,10 @@ def applica_dct(img, d, f_dim):
     img_compressa = img_compressa.astype(np.uint8)
     cv2.imwrite('montagna_gay.jpg', img_compressa)
 
-    #Plot dell'immagine originale affiancata a quella compressa:
+    return img_compressa
+
+#Plot dell'immagine originale affiancata a quella compressa:
+def plot(img, img_compressa):
     plt.gray()
     plt.subplot(121), plt.imshow(img), plt.axis('off'), plt.title('original image', size=20)
     plt.subplot(122), plt.imshow(img_compressa), plt.axis('off'), plt.title('reconstructed image (DCT+IDCT)', size=20)
@@ -108,19 +111,38 @@ def applica_dct(img, d, f_dim):
     f.savefig("bmp_vs_jpg.pdf", bbox_inches='tight')
 
 
+######################################
+#     Funzione principale per        #
+#   l'implementazione del software.  #
+#Valori passati come parametri: F e d#
+######################################
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
 
     global img
+    #caricamento dell'immagine scelta dall'utente:
     img = cv2.imread(os.path.basename("montagna.bmp"), 0)
 
+    #Suddivisione dell'immagine in blocchi F x F:
     img_suddivisa = suddividi(img, f)
 
-    applica_dct(img_suddivisa, d, f)
+    #Operazioni sui blocchi:
+    lista_blocchi = applica_dct(img_suddivisa, d, f)
 
-######## open file ##########
+    #Composizione dei nuovi blocchi:
+    img_compressa = ricomponi(lista_blocchi)
 
+    #Stampa dell'immagine originale e di quella compressa:
+    plot(img, img_compressa)
+
+
+
+#####################
+#Metodo implementato#
+#   per l'apertura  #
+#    del file .bmp  #
+#####################
 def open_file(root, btn2):
     file = askopenfile(mode ='r', filetypes =[('Immagine bmp - toni di grigio', '*.bmp')])
     w = Label(root, text="File caricato: " + os.path.basename(file.name), justify=CENTER)
@@ -130,8 +152,11 @@ def open_file(root, btn2):
     btn2.configure(state=NORMAL)
 
 
-######## main funct #########
-
+##############################
+#    Semplice interfaccia    #
+#per scegliere dal filesystem#
+#      un’immagine .bmp      #
+##############################
 def main():
     root = Tk(className='Scegli file')
     root.geometry('350x250')
@@ -146,12 +171,14 @@ def main():
 
     btn.pack(side = TOP, pady = 10)
 
+    #Scelta da parte del'utente del valore F, macro-blocchi:
     var_F = StringVar(root)
     var_F.set("4")
     spin_F = Spinbox(root, from_=0, to=100, width=5,textvariable = var_F)
 
     spin_F.pack()
 
+    #Scelta da parte dell'utente di d, valore intero compreso tra 0 e 2F-2:
     var_d = StringVar(root)
     var_d.set("3")
     spin_d = Spinbox(root, from_=0, to=100, width=5, textvariable = var_d)
