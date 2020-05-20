@@ -8,7 +8,14 @@ import numpy as np
 import os
 import cv2
 from scipy.fftpack import dct, idct
+
 import matplotlib.pylab as plt
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
+# Implement the default Matplotlib key bindings.
+from matplotlib.backend_bases import key_press_handler
+from matplotlib.figure import Figure
+
 
 file_path = ""
 img = []
@@ -94,11 +101,40 @@ def applica_dct(img, d, f_dim):
     cv2.imwrite('montagna_gay.jpg', img_compressa)
     
     
-    plt.gray()
-    plt.subplot(121), plt.imshow(img), plt.axis('off'), plt.title('original image', size=20)
-    plt.subplot(122), plt.imshow(img_compressa), plt.axis('off'), plt.title('reconstructed image (DCT+IDCT)', size=20)
+    #f.savefig("bmp_vs_jpg.pdf", bbox_inches='tight')
     
-    f.savefig("bmp_vs_jpg.pdf", bbox_inches='tight')
+    root = Tk()
+    root.wm_title("Embedding in Tk")
+    
+    fig = Figure(figsize=(5, 4), dpi=100)
+    t = np.arange(0, 3, .01)
+    fig.add_subplot(121).imshow(img)
+    fig.add_subplot(122).imshow(img_compressa)
+    
+    canvas = FigureCanvasTkAgg(fig, master=root)  # A tk.DrawingArea.
+    canvas.draw()
+    
+    toolbar = NavigationToolbar2Tk(canvas, root)
+    toolbar.update()
+    
+    
+    def on_key_press(event):
+        print("you pressed {}".format(event.key))
+        key_press_handler(event, canvas, toolbar)
+    
+    
+    canvas.mpl_connect("key_press_event", on_key_press)
+    
+    button = Button(master=root, text="Quit", command=root.quit)
+    
+    # Packing order is important. Widgets are processed sequentially and if there
+    # is no space left, because the window is too small, they are not displayed.
+    # The canvas is rather flexible in its size, so we pack it last which makes
+    # sure the UI controls are displayed as long as possible.
+    button.pack(side=BOTTOM)
+    canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+    
+    mainloop()
     
     
 def main_function(f, d) :
