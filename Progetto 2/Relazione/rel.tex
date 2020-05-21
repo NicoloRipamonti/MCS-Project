@@ -1,0 +1,205 @@
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{amssymb}
+
+\usepackage{lineno}
+\usepackage{hyperref}
+\usepackage{quoting}
+\usepackage{float}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{minted}
+\usepackage{amsmath}
+\usetikzlibrary{matrix,shapes,arrows,positioning,chains}
+
+\usepackage[autolinebreaks,useliterate]{mcode}
+
+\begin{document}
+	
+	\tikzset{
+		desicion/.style={
+			diamond,
+			draw,
+			text width=3em,
+			text badly centered,
+			inner sep=0pt
+		},
+		block/.style={
+			rectangle,
+			draw,
+			text width=18em,
+			text centered,
+			rounded corners
+		},
+		cloud/.style={
+			draw,
+			ellipse,
+			minimum height=2em
+		},
+		descr/.style={
+			fill=white,
+			inner sep=2.5pt
+		},
+		connector/.style={
+			-latex,
+			font=\scriptsize
+		},
+		rectangle connector/.style={
+			connector,
+			to path={(\tikztostart) -- ++(#1,0pt) \tikztonodes |- (\tikztotarget) },
+			pos=0.5
+		},
+		rectangle connector/.default=-2cm,
+		straight connector/.style={
+			connector,
+			to path=--(\tikztotarget) \tikztonodes
+		}
+	}
+
+\begin{frontmatter}
+
+\title{Compressione di immagini tramite DCT\\
+\large{Attraverso l'utilizzo di Python}
+\vspace{5mm}\\ \normalsize{\texttt{https://github.com/nicoripa/MCS\_Project/}}}
+
+\author{Lorenzo Rovida, Nicolò Ripamonti\\
+	\small{ \href{mailto:l.rovida1@campus.unimib.it}{l.rovida1@campus.unimib.it},  \href{mailto:n.ripamonti@campus.unimib.it}{n.ripamonti@campus.unimib.it}\\817151, 816171}}
+
+\address{Dipartimento di Informatica, Sistemi e Comunicazione, Universitá degli Studi di Milano-Bicocca, Milano, Italia}
+
+
+\begin{abstract}
+Lo scopo di questo progetto è quello di utilizzare l’implementazione dell'operazione matematica denominata \textbf{DCT2} in un ambiente \textit{open source} e di studiare gli effetti di un algoritmo di compressione di tipo jpeg (senza utilizzare una matrice di quantizzazione) sulle delle immagini in toni di grigio di formato \textit{bitmap}.
+Il progetto si divide in tue macro parti:
+\begin{description}
+\item[Parte 1] Implementare la DCT2  in un ambiente open source a scelta e confrontare i tempi di esecuzione con la DCT2 ottenuta usando la libreria dell’ambiente utilizzato. In particolare, bisogna utilizzare array quadrati $N \times N$ con $N$ crescente e rappresentare su un grafico i tempi di esecuzione dei due algoritmi.
+\item[Parte 2] Scrivere un software in grado di far scegliere all'utente un'immagine in formato bitmap e successivamente comprimere tale immagine utilizzando la DCT2, tagliare le frequenze che l'utente sceglie di eliminare, utilizzare l'inversa della DCT e far visualizzare a schermo l'immagine originale con quella ottenuta dopo aver modificato le frequenze.
+\end{description}
+\end{abstract}
+
+\end{frontmatter}
+
+\newpage
+
+\section{Introduzione}
+\subsection{Discrete Cosine Transform}
+La trasformata discreta del coseno o DCT, è la più diffusa funzione che provvede alla compressione spaziale, capace di rilevare le variazioni di informazione tra un'area e quella contigua di un'immagine digitale trascurando le ripetizioni.
+
+È una trasformata simile alla trasformata discreta di Fourier (DFT), ma fa uso solo di numeri reali.
+
+La variante più comune della trasformata discreta del coseno è la DCT tipo II che è spesso chiamata semplicemente DCT; la sua inversa, la DCT tipo III è, in corrispondenza, chiamata spesso DCT inversa o IDCT. 
+
+La DCT, e in particolare la DCT-II, è spesso usata nell'elaborazione dei segnali e delle immagini, specialmente per la compressione con perdita (compressione di tipo \textbf{lossy}). L'algoritmo JPEG è basato sulla Trasformata discreta del coseno bidimensionale (DCT2), che viene applicata su blocchi di 8x8 pixel, i cui risultati sono poi quantizzati e compressi con tecniche basate sull'entropia (come la Codifica di Huffman o la Codifica aritmetica).
+
+\bigskip
+La formula che descrive il funzionamento della DCT bidimensionale è la seguente:
+\begin{eqnarray*}
+c_{kl} = a_{kl} \sum_{i=0}^{N-1} \sum_{j=0}^{M-1} f_{ij} \,  cos\left(k\pi \frac{2i+1}{2N}\right) \, cos\left(l\pi \frac{2j+1}{2M}\right)
+\end{eqnarray*}
+
+Dove $a_{kl} = a_{k}^{N} a_{l}^{M}$:
+\begin{eqnarray*}
+a_{00} = \frac{1}{\sqrt{NM}},\; e \; a_{k0} = a_{0l} = \sqrt{\frac{2}{NM}},\; a_{kl} = \frac{2}{\sqrt{NM}}, \; k, l \geq 1.
+\end{eqnarray*}
+
+Mentre $f_{ij}$ sono gli indici bidimensionali:
+\begin{eqnarray*}
+\textbf{f} = (f_{ij}), \; i=0, ..., N-1, j=0, ..., M-1.
+\end{eqnarray*}
+
+\subsection{.Formato bitmap}
+Windows bitmap è un formato dati utilizzato per la rappresentazione di immagini \textbf{raster} sui sistemi operativi Microsoft Windows. Noto soprattutto come formato di file, fu introdotto con Windows 3.0 nel 1990.
+Le bitmap, come sono comunemente chiamati i file d'immagine di questo tipo, hanno generalmente l'estensione \textbf{.bmp}.
+
+Sono state sviluppate tre versioni del formato bitmap. La prima e più comunemente utilizzata è la versione 3: non esistono versioni antecedenti. Le versioni successive 4 e 5 si incontrano piuttosto raramente.
+
+Il formato di file Windows bitmap nella versione 3 permette operazioni di lettura e scrittura molto veloci e senza perdita di qualità, ma richiede generalmente una maggior quantità di memoria rispetto ad altri formati analoghi.
+
+Le immagini bitmap possono avere una profondità di 1, 4, 8, 16, 24 o 32 bit per pixel. Le bitmap con 1, 4 e 8 bit contengono una tavolozza per la conversione dei (rispettivamente 2, 16 e 256) possibili indici numerici nei rispettivi colori. Nelle immagini con profondità più alta il colore non è indicizzato bensì codificato direttamente nelle sue componenti cromatiche RGB; con 16 o 32 bit per pixel alcuni bit possono rimanere inutilizzati.
+
+Nel caso in esame le immagini in formato \textit{.bmp} sono state scelte con colori in scala di grigi, ovvero immagini con una profondità di 8 bit. Tali bit servono per convertire gli indici numerici nei rispettivi bit, in questo caso da 0, che identifica il colore nero, a 255, che identifica il colore bianco. Tutti i valori tra l'1 e il 254 sono tutte le possibili varianti di grigio.
+
+\subsection{Calcolatore utilizzato}
+Per effettuare i calcoli sugli script è stato utilizzato un MacBook Pro 2016 con le seguenti caratteristiche hardware:
+\begin{description}
+\item[Processore] 2 GHz Intel Core i5 dual-core
+\item[Architettura] CPU x64
+\item[Memoria] 8 GB 1867 MHz LPDDR3
+\item[Scheda grafica] Intel Iris Graphics 540 1536 MB
+\end{description}
+
+\newpage
+
+\section{Ambiente di sviluppo}
+
+L'ambiente di sviluppo scelto per il progetto, sia per la parte 1 che per la parte 2, è stato \textbf{Python}.
+
+\medskip
+\begin{description}
+	\item[Versione:] 3.7.3
+	\item[Referenze:] \href{https://www.python.org}{Sito} - \href{https://docs.python.org/3/}{Documentazione}
+\end{description}
+
+Python è un linguaggio di programmazione di più "alto livello" rispetto alla maggior parte degli altri linguaggi. È orientato a oggetti, ma non in maniera ferrea come ad esempio Java; adatto, tra gli altri usi, a sviluppare applicazioni distribuite, scripting, computazione numerica e system testing.
+
+È un linguaggio multi-paradigma che ha tra i principali obiettivi: dinamicità, semplicità e flessibilità. Supporta il paradigma object oriented, la programmazione strutturata e molte caratteristiche di programmazione funzionale e riflessione.
+
+Le caratteristiche più immediatamente riconoscibili di Python sono le variabili non tipizzate e l'uso dell'indentazione per la definizione delle specifiche. 
+
+\newpage
+
+\section{Implementazioni}
+\subsection{Parte 1}
+
+\begin{center}
+\begin{tikzpicture}
+\matrix (m)[matrix of nodes, column  sep=3cm,row  sep=10mm, align=center, nodes={rectangle,draw, anchor=center} ]{
+	|[block]| {\textbf{Start}}       \\
+	|[block]| {\textbf{main()} \\ Definizione del Main dello script}     \\
+	|[block]| {\textbf{img = matrice\_random(dim)} \\ Calcolo di una matrice quadrata di valori interi random di dimensione \texttt{dim}}     \\
+	|[block]| {\textbf{img\_slow = dct\_manual(img)} \\ Metodo per il calcolo manuale della DCT}     \\
+	|[block]| {\textbf{img\_fast = dct(img)} \\ Metodo per il calcolo tramite libreria della DCT}     \\
+	|[block]| {\textbf{End}}    \\
+};
+\path [>=latex,->] (m-1-1) edge (m-2-1);
+\path [>=latex,->] (m-2-1) edge (m-3-1);
+\path [>=latex,->] (m-3-1) edge (m-4-1);
+\path [>=latex,->] (m-4-1) edge (m-5-1);
+\path [>=latex,->] (m-5-1) edge (m-6-1);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Parte 2}
+
+\begin{tikzpicture}
+\matrix (m)[matrix of nodes, column  sep=3cm,row  sep=10mm, align=center, nodes={rectangle,draw, anchor=center} ]{
+	|[block]| {\textbf{Start}}       \\
+	|[block]| {\textbf{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}     \\
+	|[block]| {\textbf{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}     \\
+	|[block]| {\textbf{main\_function(F, d)} \\ Funzione principale per l'implementazione del software, F e d sono i parametri scelti dall'utente all'interno della funzione \texttt{main()}}     \\
+	|[block]| {\textbf{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}     \\
+	|[block]| {\textbf{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}    \\
+	|[block]| {\textbf{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}	\\
+	|[block]| {\textbf{plot(img, img\_compressa)} \\ Metodo per il plot dell'immagine originale, affiancata a quella compressa con la DCT2}	\\
+};
+\path [>=latex,->] (m-1-1) edge (m-2-1);
+\path [>=latex,->] (m-2-1) edge (m-3-1);
+\path [>=latex,->] (m-3-1) edge (m-4-1);
+\path [>=latex,->] (m-4-1) edge (m-5-1);
+\path [>=latex,->] (m-5-1) edge (m-6-1);
+\path [>=latex,->] (m-6-1) edge (m-7-1);
+\path [>=latex,->] (m-7-1) edge (m-8-1);
+\end{tikzpicture}
+
+\newpage
+
+\subsection{Codice}
+L'implementazione su ambiente Python è stata effettuata tramite questo script:
+
+SCRIVERE SCRIPT.
+
+\newpage
+
+\section{Elaborazioni e risultati}
+ 
+\end{document}
