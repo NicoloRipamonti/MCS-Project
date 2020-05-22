@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May 20 13:52:33 2020
-
-@author: loren
-"""
 import numpy as np
 import matplotlib.pylab as plt
 import math
@@ -17,21 +11,21 @@ tempi_manual = []
 def dct_manual(x):
     N = len(x)
 
-    y = []
+    c = []
     
     for k in range(0, N):
         somma = 0
-        for n in range(0, N):
-            somma = somma + (x[n] * math.cos(math.pi * k * (2 * n + 1) / (2 * N)))
+        for i in range(0, N):
+            somma = somma + (x[i] * math.cos(math.pi * k * (2 * i + 1) / (2 * N)))
     
         if k == 0:
-            f = math.sqrt(1 / (4 * N))
+            alpha = math.sqrt(1 / N)
         else:
-            f = math.sqrt(1 / (2 * N))
+            alpha = math.sqrt(2 / N)
             
-        y.append(2 * somma * f)
+        c.append(somma * alpha)
             
-    return y
+    return c
 
 
 def dct_manual_2d(x):
@@ -133,36 +127,6 @@ def main():
     print(tempi_scipy)
     print('Tempi manual: ')
     print(tempi_manual)
-        
-        
-        
-        
-        
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
