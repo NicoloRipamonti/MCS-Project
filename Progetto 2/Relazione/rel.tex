@@ -136,15 +136,44 @@ L'ambiente di sviluppo scelto per il progetto, sia per la parte 1 che per la par
 
 \medskip
 \begin{description}
-	\item[Versione:] 3.7.3
-	\item[Referenze:] \href{https://www.python.org}{Sito} - \href{https://docs.python.org/3/}{Documentazione}
+\item[Versione:] 3.7.3
+\item[Referenze:] \href{https://www.python.org}{Sito} - \href{https://docs.python.org/3/}{Documentazione}
 \end{description}
 
 Python è un linguaggio di programmazione di più "alto livello" rispetto alla maggior parte degli altri linguaggi. È orientato a oggetti, ma non in maniera ferrea come ad esempio Java; adatto, tra gli altri usi, a sviluppare applicazioni distribuite, scripting, computazione numerica e system testing.
 
 È un linguaggio multi-paradigma che ha tra i principali obiettivi: dinamicità, semplicità e flessibilità. Supporta il paradigma object oriented, la programmazione strutturata e molte caratteristiche di programmazione funzionale e riflessione.
 
-Le caratteristiche più immediatamente riconoscibili di Python sono le variabili non tipizzate e l'uso dell'indentazione per la definizione delle specifiche. 
+Le caratteristiche più immediatamente riconoscibili di Python sono le variabili non tipizzate e l'uso dell'indentazione per la definizione delle specifiche. \\
+
+\section{Librerie}
+Nello specifico sono state utilizzate diverse librerie sia per l'implementazione del codice della parte 1 del progetto, sia per la parte 2.
+
+Esse nello specifico sono:
+\begin{description}
+\item[TkInter] \href{https://docs.python.org/3/library/tk.html}{Sito} - Versione 3.8.3 \\
+\`E una libreria che permette di creare interfacce grafiche nella programmazione con Python, molto conosciuta e utilizzata per la sua leggerezza e stabilità.
+
+\item[SciPy] \href{https://www.scipy.org}{Sito} - Versione 1.19.0 \\
+\`E una libreria open source di algoritmi e strumenti matematici. Contiene moduli per l'ottimizzazione, per l'algebra lineare, elaborazione di segnali ed immagini  e altri strumenti comuni nelle scienze e nell'ingegneria. Trova utilizzo in quei programmatori che usano anche MATLAB. All'interno di SciPy sono presenti diversi pacchetti tra cui \textbf{fftpack}, che contiene tutti gli algoritmi della trasformata discreta di Fourier e anche classi per l'implementazione della trasformata discreta del coseno (\textbf{DCT});
+
+\item[NumPy] \href{https://numpy.org}{Sito} - Versione 1.18.4 \\
+\`E un pacchetto per l'elaborazione scientifica con Python. In particolare questo pacchetto è stato utilizzato per effettuare operazioni su array bidimensionali;
+
+\item[MathPlotLib] \href{https://matplotlib.org}{Sito} - Versione 3.2.1 \\
+\`E una libreria completa per la creazione di visualizzazioni statiche, animate e interattive. Nel nostro interesse è stata usata per stampare le immagini nella conclusione dello script della seconda parte del progetto;
+
+\item[Random] \href{https://docs.python.org/3.8/library/random.html}{Sito} - Versione 3.0 \\
+Questo modulo implementa generatori di numeri pseudo-casuali per varie distribuzioni. \`E stata utilizzata questa libreria per la generazione di matrici casuali per lo studio dei tempi di esecuzione delle DCT nella prima parte del progetto;
+
+\item[Time] \href{https://docs.python.org/3/library/time.html}{Sito} - Versione 3.7 \\
+Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misurazione dei tempi di esecuzione delle CDT nella prima parte del progetto;
+
+\item[CV2] \href{https://docs.opencv.org/master/index.html}{Sito} - Versione 4.3.0 \\
+\`E un modulo facente parte della libreria OpenCV. CV2 è stata utilizzata all'interno dell'interfaccia grafica per poter far scegliere all'utente il file .bmp.
+\end{description}
+
+
 
 \newpage
 
@@ -169,6 +198,11 @@ Le caratteristiche più immediatamente riconoscibili di Python sono le variabili
 \end{tikzpicture}
 \end{center}
 
+\subsubsection{Codice}
+L'implementazione su ambiente Python è stata effettuata tramite questo script:
+
+SCRIVERE SCRIPT.
+
 \subsection{Parte 2}
 
 \begin{tikzpicture}
@@ -191,15 +225,41 @@ Le caratteristiche più immediatamente riconoscibili di Python sono le variabili
 \path [>=latex,->] (m-7-1) edge (m-8-1);
 \end{tikzpicture}
 
-\newpage
-
-\subsection{Codice}
+\subsubsection{Codice}
 L'implementazione su ambiente Python è stata effettuata tramite questo script:
 
-SCRIVERE SCRIPT.
+SCRIVERE SCRIPT 
+
 
 \newpage
 
 \section{Elaborazioni e risultati}
+\subsection{Parte 1}
+I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto SciPy.fftpack.
+
+Gli array bidimensionali utilizzati di dimensione $N \times N$ sono stati creati in maniera casuale e sono state scelte dimensioni che variano da $100 \times 100$ a $1000 \times 1000$. Non sono state scelte dimensioni maggiori, sia per motivi di eccessivo tempo di calcolo, sia perché un'array $1000 \times 1000$ rispecchia un'immagine di $1000 \times 1000$ pixel, definizione già abbastanza alta, paragonabile in termini di numero di pixel al formato HD a 720p.
+
+Durante l'implementazione abbiamo fatto molta attenzione che il nostro algoritmo venisse implementato correttamente confrontando sempre i risultati degli array dopo il calcolo di entrambe le DCT.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{grafico}
+\end{figure}
+
+Nella figura sopra si possono notare come i tempi della DCT implementata a mano (Manual) siano nettamente superiori rispetto alla DCT implementata dal pacchetto di Python. Questo è del tutto normale in quanto le librerie sono sicuramente implementate meglio e più efficienti.
+
+\newpage
+Nella figura sotto sono riportati in una tabella tutti i tempi di esecuzione della DCT.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{tabella}
+\end{figure}
+
+Si ricorda che i tempi di un algoritmo per DCT2 implementato da una libreria sono di circa $N^2 logN$, mentre i tempi di esecuzione di una DCT2 manuale si aggirano intorno a $N^3$, dove con $N$ si intende ovviamente la dimensione della matrice.
+
+Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quindi possiamo tenerci soddisfatti circa la prima parte del progetto. 
+\subsection{Parte 2}
+Nella sezione corrente verranno presentati i risultati delle varie elaborazioni su grafici.
  
 \end{document}
