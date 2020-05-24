@@ -191,7 +191,7 @@ def main():
     root = Tk(className='Scegli file')
     root.geometry('350x250')
 
-    w = Label(root, text="\nBenvento nel programma di Lorenzo e Nicolò!\nQua avverranno le magie...", justify=CENTER)
+    w = Label(root, text="\nScegli un file .bmp e premi Avvia", justify=CENTER)
     w.pack()
 
     btn = Button(root, text = 'Apri file', command = lambda:open_file(root, btn2))
@@ -203,14 +203,14 @@ def main():
 
     #Scelta da parte del'utente del valore F, macro-blocchi:
     var_F = StringVar(root)
-    var_F.set("4")
+    var_F.set("0")
     spin_F = Spinbox(root, from_=0, to=100, width=5,textvariable = var_F)
 
     spin_F.pack()
 
     #Scelta da parte dell'utente di d, valore intero compreso tra 0 e 2F-2:
     var_d = StringVar(root)
-    var_d.set("3")
+    var_d.set("0")
     spin_d = Spinbox(root, from_=0, to=100, width=5, textvariable = var_d)
 
     spin_d.pack()

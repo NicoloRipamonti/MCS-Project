@@ -8,7 +8,9 @@
 \usepackage{float}
 \usepackage{lipsum}
 \usepackage{tikz}
+\usetikzlibrary{shapes,arrows,chains}
 \usepackage{minted}
+\usepackage{python}
 \usepackage{amsmath}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
 
@@ -214,7 +216,8 @@ SCRIVERE SCRIPT.
 	|[block]| {\textbf{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}     \\
 	|[block]| {\textbf{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}    \\
 	|[block]| {\textbf{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}	\\
-	|[block]| {\textbf{plot(img, img\_compressa)} \\ Metodo per il plot dell'immagine originale, affiancata a quella compressa con la DCT2}	\\
+	|[block]| {\textbf{plot(img, img\_compressa)} \\ Metodo per il plot dell'immagine originale, affiancata a quella compressa con la DCT2} \\
+	|[block]| {\textbf{End}}    \\
 };
 \path [>=latex,->] (m-1-1) edge (m-2-1);
 \path [>=latex,->] (m-2-1) edge (m-3-1);
@@ -223,6 +226,7 @@ SCRIVERE SCRIPT.
 \path [>=latex,->] (m-5-1) edge (m-6-1);
 \path [>=latex,->] (m-6-1) edge (m-7-1);
 \path [>=latex,->] (m-7-1) edge (m-8-1);
+\path [>=latex,->] (m-8-1) edge (m-9-1);
 \end{tikzpicture}
 
 \subsubsection{Codice}
@@ -261,5 +265,5 @@ Si ricorda che i tempi di un algoritmo per DCT2 implementato da una libreria son
 Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quindi possiamo tenerci soddisfatti circa la prima parte del progetto. 
 \subsection{Parte 2}
 Nella sezione corrente verranno presentati i risultati delle varie elaborazioni su grafici.
- 
+
 \end{document}
