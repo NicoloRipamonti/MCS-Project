@@ -10,11 +10,10 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,chains}
 \usepackage{minted}
-\usepackage{python}
+\usepackage{pythontex}
 \usepackage{amsmath}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
-
-\usepackage[autolinebreaks,useliterate]{mcode}
+\newcommand{\comment}[1]{}
 
 \begin{document}
 	
@@ -29,7 +28,7 @@
 		block/.style={
 			rectangle,
 			draw,
-			text width=18em,
+			text width=15em,
 			text centered,
 			rounded corners
 		},
@@ -162,7 +161,7 @@ Esse nello specifico sono:
 \item[NumPy] \href{https://numpy.org}{Sito} - Versione 1.18.4 \\
 \`E un pacchetto per l'elaborazione scientifica con Python. In particolare questo pacchetto è stato utilizzato per effettuare operazioni su array bidimensionali;
 
-\item[MathPlotLib] \href{https://matplotlib.org}{Sito} - Versione 3.2.1 \\
+\item[MatplotLib] \href{https://matplotlib.org}{Sito} - Versione 3.2.1 \\
 \`E una libreria completa per la creazione di visualizzazioni statiche, animate e interattive. Nel nostro interesse è stata usata per stampare le immagini nella conclusione dello script della seconda parte del progetto;
 
 \item[Random] \href{https://docs.python.org/3.8/library/random.html}{Sito} - Versione 3.0 \\
@@ -186,10 +185,10 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 \begin{tikzpicture}
 \matrix (m)[matrix of nodes, column  sep=3cm,row  sep=10mm, align=center, nodes={rectangle,draw, anchor=center} ]{
 	|[block]| {\textbf{Start}}       \\
-	|[block]| {\textbf{main()} \\ Definizione del Main dello script}     \\
-	|[block]| {\textbf{img = matrice\_random(dim)} \\ Calcolo di una matrice quadrata di valori interi random di dimensione \texttt{dim}}     \\
-	|[block]| {\textbf{img\_slow = dct\_manual(img)} \\ Metodo per il calcolo manuale della DCT}     \\
-	|[block]| {\textbf{img\_fast = dct(img)} \\ Metodo per il calcolo tramite libreria della DCT}     \\
+	|[block]| {\texttt{main()} \\ Definizione del Main dello script}     \\
+	|[block]| {\texttt{img = matrice\_random(dim)} \\ Calcolo di una matrice quadrata di valori interi random di dimensione \texttt{dim}}     \\
+	|[block]| {\texttt{img\_slow = dct\_manual(img)} \\ Metodo per il calcolo manuale della DCT}     \\
+	|[block]| {\texttt{img\_fast = dct(img)} \\ Metodo per il calcolo tramite libreria della DCT}     \\
 	|[block]| {\textbf{End}}    \\
 };
 \path [>=latex,->] (m-1-1) edge (m-2-1);
@@ -200,39 +199,42 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 \end{tikzpicture}
 \end{center}
 
+\newpage
+
 \subsubsection{Codice}
 L'implementazione su ambiente Python è stata effettuata tramite questo script:
 
-SCRIVERE SCRIPT.
+\inputminted{python}{../Script/script1.py}
 
 \subsection{Parte 2}
 
+\vspace{3mm}
+
 \begin{tikzpicture}
-\matrix (m)[matrix of nodes, column  sep=3cm,row  sep=10mm, align=center, nodes={rectangle,draw, anchor=center} ]{
-	|[block]| {\textbf{Start}}       \\
-	|[block]| {\textbf{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}     \\
-	|[block]| {\textbf{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}     \\
-	|[block]| {\textbf{main\_function(F, d)} \\ Funzione principale per l'implementazione del software, F e d sono i parametri scelti dall'utente all'interno della funzione \texttt{main()}}     \\
-	|[block]| {\textbf{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}     \\
-	|[block]| {\textbf{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}    \\
-	|[block]| {\textbf{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}	\\
-	|[block]| {\textbf{plot(img, img\_compressa)} \\ Metodo per il plot dell'immagine originale, affiancata a quella compressa con la DCT2} \\
-	|[block]| {\textbf{End}}    \\
+\matrix (m)[matrix of nodes, column  sep=2cm,row  sep=8mm, align=center, nodes={rectangle,draw, anchor=center} ]{
+	|[block]| {\textbf{Start}}              &  \\
+	|[block]| {\texttt{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}               &                                            \\
+	|[block]| {\texttt{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}          &                                             \\
+	|[block]| {\texttt{main\_function(F, d)} \\ Funzione principale per l'implementazione del software, F e d sono i parametri scelti dall'utente all'interno della funzione \texttt{main()}}    &    |[block]| {\textbf{Stop}}                                         \\
+	|[block]| {\texttt{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}         &           |[block]| {\texttt{plot(img, img\_compressa)} \\ Metodo per il plot dell'immagine originale, affiancata a quella compressa con la DCT2}                                   \\
+	|[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}    &    |[block]| {\texttt{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}                                    \\
 };
 \path [>=latex,->] (m-1-1) edge (m-2-1);
 \path [>=latex,->] (m-2-1) edge (m-3-1);
 \path [>=latex,->] (m-3-1) edge (m-4-1);
 \path [>=latex,->] (m-4-1) edge (m-5-1);
 \path [>=latex,->] (m-5-1) edge (m-6-1);
-\path [>=latex,->] (m-6-1) edge (m-7-1);
-\path [>=latex,->] (m-7-1) edge (m-8-1);
-\path [>=latex,->] (m-8-1) edge (m-9-1);
+\path [>=latex,->] (m-6-1) edge (m-6-2);
+\path [>=latex,->] (m-6-2) edge (m-5-2);
+\path [>=latex,->] (m-5-2) edge (m-4-2);
+
+
 \end{tikzpicture}
 
 \subsubsection{Codice}
 L'implementazione su ambiente Python è stata effettuata tramite questo script:
 
-SCRIVERE SCRIPT 
+\inputminted{python}{../Script/script2.py}
 
 
 \newpage
