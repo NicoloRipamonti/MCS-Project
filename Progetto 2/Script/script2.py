@@ -11,10 +11,15 @@ from scipy.fftpack import dct, idct
 import matplotlib.pylab as plt
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
-# Implement the default Matplotlib key bindings.
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
 
+"""
+suddividi(img, f)
+funzione che genera una lista di blocchi di f*f a partire dall'immagine passata
+in input (img dev'essere un numpy array 2d). Se le dimensioni dell'immagine non
+sono multipli di f verranno troncati eventuali pixel. 
+"""
 def suddividi(img, f):
     i = 0
     j = 0
@@ -30,7 +35,12 @@ def suddividi(img, f):
 
     return lista_blocchi
 
-def applica_dct(lista_blocchi, d, f_dim):
+"""
+applica_dct(lista_blocchi, d)
+funzione che effettua una chiamata a scipy.fftpack.dct sui vari blochi passati
+in input, effettua inoltre il taglio delle frequenze usando la variabile d
+"""
+def applica_dct(lista_blocchi, d):
     lista_blocchi_inversa = []
 
     #Applico DCT per ogni blocco f:
@@ -51,11 +61,8 @@ def applica_dct(lista_blocchi, d, f_dim):
             for j in range(0, ff.shape[1]):
                 ff[i,j] = int(ff[i,j])
 
-                #Se esistono valori negativi, porli uguali a 0:
                 if ff[i, j] < 0:
                     ff[i,j] = 0
-                #Se esistono valori maggiori di 255,
-                #porli uguali a 255:
                 elif ff[i,j] > 255:
                     ff[i,j] = 255
 
@@ -63,8 +70,13 @@ def applica_dct(lista_blocchi, d, f_dim):
 
     return lista_blocchi_inversa
 
-
-def ricomponi(img, lista_blocchi_inversa, f):
+"""
+ricomponi(lista_blocchi_inversa, f)
+funzione inversa a suddividi: data una lista di blocchi (che sarebbe la lista 
+di blocchi generata dalla idct), genera un immagine appendendo in modo coerente
+con la funzione suddividi i vari blocchi
+"""
+def ricomponi(lista_blocchi_inversa, f):
     col = lista_blocchi_inversa[0]
     colonne = []
 
@@ -95,7 +107,12 @@ def ricomponi(img, lista_blocchi_inversa, f):
 
     return img_compressa
 
-#Plot dell'immagine originale affiancata a quella compressa:
+"""
+plot(img, img_compressa)
+funzione che genera una nuova finestra nella quale sarà possibile confrontare
+visivamente le differenze fra le due immagini: a sinistra quella originale,
+a destra quella compressa
+"""
 def plot(img, img_compressa):
     root = Tk()
     root.wm_title("Embedding in Tk")
@@ -105,7 +122,7 @@ def plot(img, img_compressa):
     fig.add_subplot(121).imshow(img)
     fig.add_subplot(122).imshow(img_compressa)
     
-    canvas = FigureCanvasTkAgg(fig, master=root)  # A tk.DrawingArea.
+    canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
     
     toolbar = NavigationToolbar2Tk(canvas, root)
@@ -120,22 +137,19 @@ def plot(img, img_compressa):
     canvas.mpl_connect("key_press_event", on_key_press)
     
     button = Button(master=root, text="Quit", command=root.quit)
-    
-    # Packing order is important. Widgets are processed sequentially and if there
-    # is no space left, because the window is too small, they are not displayed.
-    # The canvas is rather flexible in its size, so we pack it last which makes
-    # sure the UI controls are displayed as long as possible.
+
     button.pack(side=BOTTOM)
     canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
     
     mainloop()
 
 
-######################################
-#     Funzione principale per        #
-#   l'implementazione del software.  #
-#Valori passati come parametri: F e d#
-######################################
+"""
+main_function(f, d)
+metodo principale che lancia la DCT su un immagine scelta in precedenza tramite
+open_file(), effettua anche controllo sulla variabile d (in particolare controlla
+che d sia compresa in (0, 2F - 2))
+"""
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
@@ -157,11 +171,11 @@ def main_function(f, d) :
 
 
 
-#######################
-# Metodo implementato #
-#    per l'apertura   #
-#     del file .bmp   #
-#######################
+"""
+open_file(root, btn2)
+metodo che permette di aprire un file e di salvarne il path, successivamente
+setta il bottone 'Avvia' ad 'enabled'
+"""
 def open_file(root, btn2):
     file = askopenfile(mode ='r', filetypes =[('Immagine bmp - toni di grigio', '*.bmp')])
     w = Label(root, text="File caricato: " + os.path.basename(file.name), justify=CENTER)
@@ -171,11 +185,8 @@ def open_file(root, btn2):
     btn2.configure(state=NORMAL)
 
 
-##############################
-#    Semplice interfaccia    #
-#per scegliere dal filesystem#
-#      un’immagine .bmp      #
-##############################
+################################## main ######################################
+
 def main():
     root = Tk(className='Scegli file')
     root.geometry('350x250')

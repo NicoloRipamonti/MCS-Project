@@ -5,12 +5,15 @@ import random
 import time
 from scipy.fftpack import dct
 
-tempi_scipy = []
-tempi_manual = []
-
+"""
+dct_manual(x)
+funzione che prende in input una lista di int e ritorna
+un'applicazione di DCT alla stessa
+"""
 def dct_manual(x):
     N = len(x)
 
+    print(type(x[0]))
     c = []
     
     for k in range(0, N):
@@ -28,12 +31,33 @@ def dct_manual(x):
     return c
 
 
+
+"""
+dct_manual_2d(x)
+funzione che prende in input una matrice 2D
+e applica per righe e per colonne la DCT (DCT2)
+"""
 def dct_manual_2d(x):
     return dct_manual(np.transpose(dct_manual(np.transpose(x))))
 
-def dct_fftpack_2d(x):
-    return dct(np.transpose(dct(np.transpose(x), type = 2, norm = 'ortho')), type = 2, norm='ortho')
 
+
+"""
+dct_fftpack_2d(x)
+funzione che lancia la DCT implementata in scipy.fftpack
+su matrici 2D
+"""
+def dct_fftpack_2d(x):
+    return dct(np.transpose(dct(np.transpose(x), type = 2, norm = 'ortho')), \
+               type = 2, norm='ortho')
+
+
+"""
+test1d()
+metodo che effettua dei test sulla funzione implementata in dct_manual(x),
+in particolare controlla che l'output su un vettore di prova sia 
+uguale a quello ritornato dalla funzione dct(x) di scipy.fftpack
+"""
 def test1d():
     test = [231, 32, 233, 161, 24, 71, 140, 245]
      
@@ -47,6 +71,14 @@ def test1d():
     print("1D - Implementazione: ")
     print(test_dct[0], test_dct[1])
     
+    
+    
+"""
+test2d()
+metodo che effettua dei test sulla funzione implementata in dct_manual_2d(x),
+in particolare controlla che l'output su un vettore di prova sia 
+uguale a quello ritornato dalla funzione dct_fftpack_2d(x)
+"""
 def test2d():
     test = [[231, 32, 233, 161, 24, 71, 140, 245], 
             [247, 40, 248, 245, 124, 204, 36, 107],
@@ -67,6 +99,12 @@ def test2d():
     print("2D - Implementazione: ")
     print(test_dct[0][0], test_dct[0][1])
     
+    
+
+"""
+matrice_random(dim)
+funzione che ritorna una matrice composta da numeri casuali di dimensione dim
+"""
 def matrice_random(dim):
     img = np.arange(dim * dim).reshape(int(dim), int(dim))
     
@@ -80,6 +118,11 @@ def matrice_random(dim):
             
     return img
 
+
+"""
+plot(dimensioni, tempi_manual, tempi_scipy)
+metodo che crea un plot confrontando i tempi di esecuzione delle due funzioni
+"""
 def plot(dimensioni, tempi_manual, tempi_scipy):
     plt.plot(dimensioni, tempi_manual, label = 'Tempi manual')
     plt.plot(dimensioni, tempi_scipy, label = 'Tempi Scipy')
@@ -88,18 +131,20 @@ def plot(dimensioni, tempi_manual, tempi_scipy):
     plt.ylabel("Tempo esecuzione")
     plt.xlim(dimensioni[0], dimensioni[len(dimensioni) - 1] + 10)
     plt.ylim(0, tempi_manual[len(tempi_manual) - 1] + 0.4)
-    plt.show()
-    
+
     from matplotlib import pyplot
     
     pyplot.savefig('confronto_implementazioni.png', bbox_inches='tight',  dpi=200)
-    
 
+
+############################### main() ####################################
+    
 def main():
     test1d()
     test2d()
     
-    global tempi_scipy, tempi_manual
+    tempi_scipy = []
+    tempi_manual = []
     dimensioni = []
     
     dim = 100
@@ -127,6 +172,8 @@ def main():
     print(tempi_scipy)
     print('Tempi manual: ')
     print(tempi_manual)
+    
+############################################################################
 
 
 if __name__ == "__main__":
