@@ -104,7 +104,7 @@ def ricomponi(img, lista_blocchi_inversa, f):
 
     img_compressa = img_compressa.astype(np.uint8)
     global file_path
-    cv2.imwrite(file_path + '_compressa.jpg', img_compressa)
+    cv2.imwrite(file_path.replace('.bmp', '') + '_compressa.jpg', img_compressa)
 
     return img_compressa
 
@@ -154,10 +154,15 @@ che d sia compresa in (0, 2F - 2))
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "ERRORE: d dev'essere compresa fra 0 e 2F-2")
+        return
 
     global img
     #caricamento dell'immagine scelta dall'utente:
     img = cv2.imread(os.path.basename(file_path), 0)
+    
+    if f > img.shape[0] or f > img.shape[1]:
+        showerror("Errore", "ERRORE: f dev'essere minore o uguale alla dimensione dell'immagine")
+        return
 
 
     #Suddivisione dell'immagine in blocchi F x F:
