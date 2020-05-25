@@ -103,7 +103,8 @@ def ricomponi(img, lista_blocchi_inversa, f):
         img_compressa = np.vstack((img_compressa, colonne[i]))
 
     img_compressa = img_compressa.astype(np.uint8)
-    cv2.imwrite('montagna_compressa.jpg', img_compressa)
+    global file_path
+    cv2.imwrite(file_path + '_compressa.jpg', img_compressa)
 
     return img_compressa
 
@@ -153,10 +154,11 @@ che d sia compresa in (0, 2F - 2))
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
+        return
 
     global img
     #caricamento dell'immagine scelta dall'utente:
-    img = cv2.imread(os.path.basename("montagna.bmp"), 0)
+    img = cv2.imread(os.path.basename(file_path), 0)
     
 
     #Suddivisione dell'immagine in blocchi F x F:
@@ -190,8 +192,8 @@ def open_file(root, btn2):
 ################################## main ######################################
 
 def main():
-    root = Tk(className='Scegli file')
-    root.geometry('335x300')
+    root = Tk(className='Compressore JPG')
+    root.geometry('330x330')
 
     w = Label(root, text="\nScegli un file .bmp, imposta le voci \nsottostanti e premi Avvia", justify=CENTER)
     w.pack()
@@ -207,7 +209,7 @@ def main():
 
     #Scelta da parte del'utente del valore F, macro-blocchi:
     var_F = StringVar(root)
-    var_F.set("0")
+    var_F.set("8")
     spin_F = Spinbox(root, from_=0, to=100, width=5,textvariable = var_F)
 
     spin_F.pack()
@@ -215,7 +217,7 @@ def main():
     Label(root, text="\nd", justify=CENTER).pack()
     #Scelta da parte dell'utente di d, valore intero compreso tra 0 e 2F-2:
     var_d = StringVar(root)
-    var_d.set("0")
+    var_d.set("3")
     spin_d = Spinbox(root, from_=0, to=100, width=5, textvariable = var_d)
 
     spin_d.pack()
