@@ -241,33 +241,33 @@ Di seguito viene spiegato approfonditamente come opera lo script.
 
 
 \begin{enumerate}
-\item Nella funzione {\texttt{main()} viene implementato un ciclo {\texttt{while} dove avvengono tutte le operazioni. \`E stato scelto questo metodo per poter implementare uno script che faccia in automatico tutte le operazioni su matrici quadrate di dimensione sempre maggiore, ovvero la dimensione è di $100 \cdot n$, dove $n = 1, 2,  \dots, 10$;
+\item Nella funzione \texttt{main()} viene implementato un ciclo \texttt{while} dove avvengono tutte le operazioni. \`E stato scelto questo metodo per poter implementare uno script che faccia in automatico tutte le operazioni su matrici quadrate di dimensione sempre maggiore, ovvero la dimensione è di $100 \cdot n$, dove $n = 1, 2,  \dots, 10$;
 \begin{lstlisting}[language=Python]
 dim = 100
-    while (dim <= 1000):
-        img = matrice_random(dim)
+while (dim <= 1000):
+    img = matrice_random(dim)
         
-        time1 = time.time()
-        dct_fftpack_2d(img)
-        time2 = time.time()
+    time1 = time.time()
+    dct_fftpack_2d(img)
+    time2 = time.time()
         
-        tempi_scipy.append(time2 - time1)
+    tempi_scipy.append(time2 - time1)
         
-        time1 = time.time()
-        dct_manual_2d(img)
-        time2 = time.time()
+    time1 = time.time()
+    dct_manual_2d(img)
+    time2 = time.time()
         
-        tempi_manual.append(time2 - time1)
+    tempi_manual.append(time2 - time1)
         
-        dimensioni.append(dim)
+    dimensioni.append(dim)
         
-        dim += 100
+    dim += 100
 \end{lstlisting}
 
-\item Viene chiamata la funzione {\texttt{matrice\_random()} che crea un array bidimensionale di valori random compresi tra $0$ e $256$, ovvero i valori che corrispondono alla scala di grigi in formato bitmap. Questa funzione prende in ingresso il valore che corrisponde alla dimensione che si vuole dare alla matrice;
+\item Viene chiamata la funzione \texttt{matrice\_random()} che crea un array bidimensionale di valori random compresi tra $0$ e $256$, ovvero i valori che corrispondono alla scala di grigi in formato bitmap. Questa funzione prende in ingresso il valore che corrisponde alla dimensione che si vuole dare alla matrice;
 \begin{lstlisting}[language=Python]
 def matrice_random(dim):
-    img = np.arange(dim * dim).reshape(int(dim), int(dim))
+    img = arange(dim * dim).reshape(int(dim), int(dim))
     
     m = img.shape[0]
     
@@ -275,12 +275,10 @@ def matrice_random(dim):
         for j in range(0, m):
             img[i][j] = random.randrange(256)
             
-    img[0][0] = random.randrange(256)
-            
     return img
 \end{lstlisting}
 
-\item Viene calcolata la DCT della libreria ScyPy e i tempi di esecuzione;
+\item Viene calcolata la DCT della libreria Scipy e i tempi di esecuzione;
 \begin{lstlisting}[language=Python]
 def dct_fftpack_2d(x):
     return dct(np.transpose(dct(np.transpose(x), type = 2, norm = 'ortho')), \
@@ -325,9 +323,11 @@ def dct_manual(x):
 
 \end{enumerate}
 
+\newpage
+
 
 \subsection{Risultati}
-I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto SciPy.fftpack.
+I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto Scipy.fftpack.
 
 Gli array bidimensionali utilizzati di dimensione $N \times N$ sono stati creati in maniera casuale e sono state scelte dimensioni che variano da $100 \times 100$ a $1000 \times 1000$. Non sono state scelte dimensioni maggiori, sia per motivi di eccessivo tempo di calcolo, sia perché un'array $1000 \times 1000$ rispecchia un'immagine di $1000 \times 1000$ pixel, definizione già abbastanza alta, paragonabile in termini di numero di pixel al formato HD a 720p.
 
@@ -363,35 +363,33 @@ I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressio
 \begin{description}
 \item[F] è un intero che verrà utilizzato per la divisione in blocchi dell'immagine. Tali blocchi avranno dimensione $F \times F$ ed è proprio su di essi che verrà calcolata la DCT.
 \item[d] è il valore intero che serve per eliminare le frequenze all'interno dei blocchi una volta calcolata la DCT. Tale valore deve essere un numero intero compreso tra $0$ e $2F-2$, perché le frequenze vengono eliminate sui blocchi $F \times F$, dove il valore che ha indici $k$ ed $l$ del blocco viene eliminato se $k + l \geq d$. 
-\begin{figure}[H]
+\end{description}
+
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\linewidth]{esempio}
 \end{figure}
-\end{description}
+
 
 \subsection{Diagramma}
 
-\vspace{3mm}
-
 \begin{tikzpicture}
 \matrix (m)[matrix of nodes, column  sep=2cm,row  sep=8mm, align=center, nodes={rectangle,draw, anchor=center} ]{
-	|[block]| {\textbf{Start}} \\
+	|[block]| {\textbf{Start}} &  |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}  \\
 	|[block]| {\texttt{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}               &          |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}                                  \\
 	|[block]| {\texttt{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}          &       |[block]| {\texttt{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}                                      \\
-	|[block]| {\texttt{main\_function(F, d)} \\ Funzione principale per l'implementazione del software, F e d sono i parametri scelti dall'utente all'interno della funzione \texttt{main()}}    &    |[block]| {\texttt{plot(img, img\_compressa)} \\ Metodo per il disegno dell'immagine originale, affiancata a quella compressa con la DCT2}                                         \\
-	|[block]| {\texttt{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}         &           |[block]| {\textbf{Stop}}                                   \\
-	|[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}                               \\
+	|[block]| {\texttt{main\_function(F, d)} \\ Funzione principale, F e d sono i parametri scelti dall'utente all'interno del \texttt{main()}}    &    |[block]| {\texttt{plot(img, img\_compressa)} \\ Metodo per il disegno dell'immagine originale, affiancata a quella compressa con la DCT2}                                         \\
+	|[block]| {\texttt{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}         &           |[block]| {\textbf{Stop}} \\
 };
 \path [>=latex,->] (m-1-1) edge (m-2-1);
 \path [>=latex,->] (m-2-1) edge (m-3-1);
 \path [>=latex,->] (m-3-1) edge (m-4-1);
 \path [>=latex,->] (m-4-1) edge (m-5-1);
-\path [>=latex,->] (m-5-1) edge (m-6-1);
 
+\path [>=latex,->] (m-1-2) edge (m-2-2);
 \path [>=latex,->] (m-2-2) edge (m-3-2);
 \path [>=latex,->] (m-3-2) edge (m-4-2);
 \path [>=latex,->] (m-4-2) edge (m-5-2);
-
 
 
 \end{tikzpicture}
@@ -503,7 +501,6 @@ Verrà visualizzato un errore anche nel caso l'utente scelga un valore di \texti
 
 Se i dati inseriti sono consistenti e l'immagine viene letta correttamente, il risultato sarà stampato su una schermata apposita in cui verrà visualizzata anche l'immagine originale.
 Le due immagini (originale a sinistra, compressa a destra) saranno quindi confrontabili a "occhio".
-
 
 
 \begin{figure}[H]
