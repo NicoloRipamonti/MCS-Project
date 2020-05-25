@@ -191,7 +191,7 @@ def main():
     root = Tk(className='Scegli file')
     root.geometry('350x250')
 
-    w = Label(root, text="\nScegli un file .bmp e premi Avvia", justify=CENTER)
+    w = Label(root, text="\nScegli un file .bmp, imposta le voci \nsottostanti e premi Avvia", justify=CENTER)
     w.pack()
 
     btn = Button(root, text = 'Apri file', command = lambda:open_file(root, btn2))
