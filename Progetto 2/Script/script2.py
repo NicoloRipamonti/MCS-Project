@@ -152,7 +152,7 @@ che d sia compresa in (0, 2F - 2))
 """
 def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
-        showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
+        showerror("Errore", "ERRORE: d dev'essere compresa fra 0 e 2F-2")
 
     global img
     #caricamento dell'immagine scelta dall'utente:

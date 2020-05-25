@@ -297,7 +297,10 @@ Nella sezione corrente verranno presentati i risultati della seconda parte del p
 Il software creato permette di utilizzare la formula della DCT su immagini in formato bitmap in scala di grigi.
 Tale programma di presenta con una semplice interfaccia grafica che facilita l'utente nelle scelta dell'immagine .bmp da scegliere tra i propri file.
 
-INSERIRE IMMAGINE GUI!!!
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{gui}
+\end{figure}
 
 Una volta caricato il file e scelti i valori $F$ e $d$, l'utente può premere il tasto \textit{Avvia} e aspettare che il programma elabori il risultato, per poi farlo visualizzare all'utente.
 
@@ -306,7 +309,16 @@ Nel dettaglio il programma implementato elabora l'immagine .bpm come segue.
 I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
 \begin{description}
 \item[F] è un intero che verrà utilizzato per la divisione in blocchi dell'immagine. Tali blocchi avranno dimensione $F \times F$ ed è proprio su di essi che verrà calcolata la DCT.
-\item[d] è il valore intero che serve per eliminare le frequenze all'interno dei blocchi una volta calcolata la DCT. Tale valore deve essere un numero intero compreso tra $0$ e $2F-2$, perché le frequenze vengono eliminate sui blocchi $F \times F$, dove il valore che ha indici $k$ ed $l$ del blocco viene eliminato se $k + l \geq d$. Se $d$ non è compreso tra $0$ e $2F-2$, il programma fa visualizzare un messaggio di errore.
+\item[d] è il valore intero che serve per eliminare le frequenze all'interno dei blocchi una volta calcolata la DCT. Tale valore deve essere un numero intero compreso tra $0$ e $2F-2$, perché le frequenze vengono eliminate sui blocchi $F \times F$, dove il valore che ha indici $k$ ed $l$ del blocco viene eliminato se $k + l \geq d$. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{esempio}
+\end{figure}
+Se $d$ non è compreso tra $0$ e $2F-2$, il programma fa visualizzare un messaggio di errore.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.55\linewidth]{errore}
+\end{figure}
 \end{description}
 
 Di seguito viene spiegato approfonditamente come opera il programa.
@@ -359,7 +371,27 @@ for i in range(0, ff.shape[0]):
 
 \item Viene ricomposta l'immagine;
 \begin{lstlisting}[language=Python]
+    i = 0
+    j = 0
+    index = 1
+    while (i + f < img.shape[0]):
+        while(j + f  < img.shape[1]):
+            j = j + f
+            if j + f < img.shape[1]:
+                col = np.hstack((col, lista_blocchi_inversa[index]))
+                index = index + 1
 
+        i = i + f
+        j = 0
+        colonne.append(col)
+        if index < len(lista_blocchi_inversa):
+            col = lista_blocchi_inversa[index]
+        index = index + 1
+
+    img_compressa = colonne[0]
+
+    for i in range(1, len(colonne)):
+        img_compressa = np.vstack((img_compressa, colonne[i]))
 \end{lstlisting}
 
 \item Viene visualizzata a schermo l'immagine originale affiancata dall'immagine ottenuta dopo aver eliminato le frequenze.
