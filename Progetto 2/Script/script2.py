@@ -116,7 +116,7 @@ a destra quella compressa
 """
 def plot(img, img_compressa):
     root = Tk()
-    root.wm_title("Embedding in Tk")
+    root.wm_title("Risultato")
 
     fig = Figure(figsize=(5, 4), dpi=100)
     t = np.arange(0, 3, .01)
