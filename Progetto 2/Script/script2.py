@@ -18,7 +18,7 @@ from matplotlib.figure import Figure
 suddividi(img, f)
 funzione che genera una lista di blocchi di f*f a partire dall'immagine passata
 in input (img dev'essere un numpy array 2d). Se le dimensioni dell'immagine non
-sono multipli di f verranno troncati eventuali pixel. 
+sono multipli di f verranno troncati eventuali pixel.
 """
 def suddividi(img, f):
     i = 0
@@ -72,7 +72,7 @@ def applica_dct(lista_blocchi, d):
 
 """
 ricomponi(img, lista_blocchi_inversa, f)
-funzione inversa a suddividi: data una lista di blocchi (che sarebbe la lista 
+funzione inversa a suddividi: data una lista di blocchi (che sarebbe la lista
 di blocchi generata dalla idct), genera un immagine appendendo in modo coerente
 con la funzione suddividi i vari blocchi
 """
@@ -103,7 +103,8 @@ def ricomponi(img, lista_blocchi_inversa, f):
         img_compressa = np.vstack((img_compressa, colonne[i]))
 
     img_compressa = img_compressa.astype(np.uint8)
-    cv2.imwrite('montagna_compressa.jpg', img_compressa)
+    global file_path
+    cv2.imwrite(file_path + '_compressa.jpg', img_compressa)
 
     return img_compressa
 
@@ -116,31 +117,31 @@ a destra quella compressa
 def plot(img, img_compressa):
     root = Tk()
     root.wm_title("Embedding in Tk")
-    
+
     fig = Figure(figsize=(5, 4), dpi=100)
     t = np.arange(0, 3, .01)
     fig.add_subplot(121).imshow(img,cmap='gray', vmin=0, vmax=255)
     fig.add_subplot(122).imshow(img_compressa, cmap='gray', vmin=0, vmax=255)
-    
+
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
-    
+
     toolbar = NavigationToolbar2Tk(canvas, root)
     toolbar.update()
-    
-    
+
+
     def on_key_press(event):
         print("you pressed {}".format(event.key))
         key_press_handler(event, canvas, toolbar)
-    
-    
+
+
     canvas.mpl_connect("key_press_event", on_key_press)
-    
+
     button = Button(master=root, text="Quit", command=root.quit)
 
     button.pack(side=BOTTOM)
     canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-    
+
     mainloop()
 
 
@@ -156,15 +157,15 @@ def main_function(f, d) :
 
     global img
     #caricamento dell'immagine scelta dall'utente:
-    img = cv2.imread(os.path.basename("montagna.bmp"), 0)
-    
+    img = cv2.imread(os.path.basename(file_path), 0)
+
 
     #Suddivisione dell'immagine in blocchi F x F:
     lista_blocchi = suddividi(img, f)
 
     #Operazioni sui blocchi:
     lista_blocchi_inversa = applica_dct(lista_blocchi, d)
-    
+
     #Composizione dei nuovi blocchi:
     img_compressa = ricomponi(img, lista_blocchi_inversa, f)
 
@@ -190,8 +191,8 @@ def open_file(root, btn2):
 ################################## main ######################################
 
 def main():
-    root = Tk(className='Scegli file')
-    root.geometry('335x300')
+    root = Tk(className='Compressore JPG')
+    root.geometry('330x330')
 
     w = Label(root, text="\nScegli un file .bmp, imposta le voci \nsottostanti e premi Avvia", justify=CENTER)
     w.pack()
@@ -202,12 +203,12 @@ def main():
     info.pack()
 
     btn.pack(side = TOP, pady = 10)
-    
+
     Label(root, text="F", justify=CENTER).pack()
 
     #Scelta da parte del'utente del valore F, macro-blocchi:
     var_F = StringVar(root)
-    var_F.set("0")
+    var_F.set("8")
     spin_F = Spinbox(root, from_=0, to=100, width=5,textvariable = var_F)
 
     spin_F.pack()
@@ -215,19 +216,19 @@ def main():
     Label(root, text="\nd", justify=CENTER).pack()
     #Scelta da parte dell'utente di d, valore intero compreso tra 0 e 2F-2:
     var_d = StringVar(root)
-    var_d.set("0")
+    var_d.set("3")
     spin_d = Spinbox(root, from_=0, to=100, width=5, textvariable = var_d)
 
     spin_d.pack()
-    
+
     Label(root, text="\n", justify=CENTER).pack()
 
-    
+
     btn2 = Button(root, text ='Avvia', state=DISABLED, command = lambda:main_function(int(spin_F.get()), int(spin_d.get()), ))
 
     btn2.pack(side = TOP, pady = 10)
-    
-    
+
+
     mainloop()
 
 ###############################################################################
