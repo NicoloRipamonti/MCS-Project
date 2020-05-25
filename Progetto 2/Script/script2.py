@@ -71,12 +71,12 @@ def applica_dct(lista_blocchi, d):
     return lista_blocchi_inversa
 
 """
-ricomponi(lista_blocchi_inversa, f)
+ricomponi(img, lista_blocchi_inversa, f)
 funzione inversa a suddividi: data una lista di blocchi (che sarebbe la lista 
 di blocchi generata dalla idct), genera un immagine appendendo in modo coerente
 con la funzione suddividi i vari blocchi
 """
-def ricomponi(lista_blocchi_inversa, f):
+def ricomponi(img, lista_blocchi_inversa, f):
     col = lista_blocchi_inversa[0]
     colonne = []
 
@@ -119,8 +119,8 @@ def plot(img, img_compressa):
     
     fig = Figure(figsize=(5, 4), dpi=100)
     t = np.arange(0, 3, .01)
-    fig.add_subplot(121).imshow(img)
-    fig.add_subplot(122).imshow(img_compressa)
+    fig.add_subplot(121).imshow(img,cmap='gray', vmin=0, vmax=255)
+    fig.add_subplot(122).imshow(img_compressa, cmap='gray', vmin=0, vmax=255)
     
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.draw()
@@ -154,14 +154,16 @@ def main_function(f, d) :
     if d < 0 or d > 2 * f - 2:
         showerror("Errore", "d dev'essere compresa fra 0 e 2F-2")
 
+    global img
     #caricamento dell'immagine scelta dall'utente:
     img = cv2.imread(os.path.basename("montagna.bmp"), 0)
+    
 
     #Suddivisione dell'immagine in blocchi F x F:
     lista_blocchi = suddividi(img, f)
 
     #Operazioni sui blocchi:
-    lista_blocchi_inversa = applica_dct(lista_blocchi, d, f)
+    lista_blocchi_inversa = applica_dct(lista_blocchi, d)
     
     #Composizione dei nuovi blocchi:
     img_compressa = ricomponi(img, lista_blocchi_inversa, f)
@@ -189,7 +191,7 @@ def open_file(root, btn2):
 
 def main():
     root = Tk(className='Scegli file')
-    root.geometry('350x250')
+    root.geometry('335x300')
 
     w = Label(root, text="\nScegli un file .bmp, imposta le voci \nsottostanti e premi Avvia", justify=CENTER)
     w.pack()
@@ -200,6 +202,8 @@ def main():
     info.pack()
 
     btn.pack(side = TOP, pady = 10)
+    
+    Label(root, text="F", justify=CENTER).pack()
 
     #Scelta da parte del'utente del valore F, macro-blocchi:
     var_F = StringVar(root)
@@ -208,18 +212,22 @@ def main():
 
     spin_F.pack()
 
+    Label(root, text="\nd", justify=CENTER).pack()
     #Scelta da parte dell'utente di d, valore intero compreso tra 0 e 2F-2:
     var_d = StringVar(root)
     var_d.set("0")
     spin_d = Spinbox(root, from_=0, to=100, width=5, textvariable = var_d)
 
     spin_d.pack()
+    
+    Label(root, text="\n", justify=CENTER).pack()
 
-    #state=DISABLED
-    btn2 = Button(root, text ='Avvia', command = lambda:main_function(int(spin_F.get()), int(spin_d.get()), ))
+    
+    btn2 = Button(root, text ='Avvia', state=DISABLED, command = lambda:main_function(int(spin_F.get()), int(spin_d.get()), ))
 
     btn2.pack(side = TOP, pady = 10)
-
+    
+    
     mainloop()
 
 ###############################################################################
