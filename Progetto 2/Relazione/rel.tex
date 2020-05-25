@@ -210,9 +210,10 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 \newpage
 
 \section{Parte 1}
-Come spiegato all'inizio dell'elaborato, .....
+Come spiegato all'inizio dell'elaborato, nella prima parte del progetto il compito è quello di creare un algoritmo di compressione del tipo DCT e confrontare i tempi di esecuzione con un algoritmo DCT implementato da una libreria.
 
 \subsection{Diagramma}
+Di seguito viene presentato un diagramma a blocchi che spiega in maniera veloce come è avvenuta l'implementazione dell'intera parte 1.
 
 \begin{center}
 \begin{tikzpicture}
@@ -235,7 +236,95 @@ Come spiegato all'inizio dell'elaborato, .....
 \newpage
 
 \subsection{Implementazione}
-FARE TUTTO LOL..
+
+Di seguito viene spiegato approfonditamente come opera lo script.
+
+
+\begin{enumerate}
+\item Nella funzione {\texttt{main()} viene implementato un ciclo {\texttt{while} dove avvengono tutte le operazioni. \`E stato scelto questo metodo per poter implementare uno script che faccia in automatico tutte le operazioni su matrici quadrate di dimensione sempre maggiore, ovvero la dimensione è di $100 \cdot n$, dove $n = 1, 2,  \dots, 10$;
+\begin{lstlisting}[language=Python]
+dim = 100
+    while (dim <= 1000):
+        img = matrice_random(dim)
+        
+        time1 = time.time()
+        dct_fftpack_2d(img)
+        time2 = time.time()
+        
+        tempi_scipy.append(time2 - time1)
+        
+        time1 = time.time()
+        dct_manual_2d(img)
+        time2 = time.time()
+        
+        tempi_manual.append(time2 - time1)
+        
+        dimensioni.append(dim)
+        
+        dim += 100
+\end{lstlisting}
+
+\item Viene chiamata la funzione {\texttt{matrice\_random()} che crea un array bidimensionale di valori random compresi tra $0$ e $256$, ovvero i valori che corrispondono alla scala di grigi in formato bitmap. Questa funzione prende in ingresso il valore che corrisponde alla dimensione che si vuole dare alla matrice;
+\begin{lstlisting}[language=Python]
+def matrice_random(dim):
+    img = np.arange(dim * dim).reshape(int(dim), int(dim))
+    
+    m = img.shape[0]
+    
+    for i in range(0, m):
+        for j in range(0, m):
+            img[i][j] = random.randrange(256)
+            
+    img[0][0] = random.randrange(256)
+            
+    return img
+\end{lstlisting}
+
+\item Viene calcolata la DCT della libreria ScyPy e i tempi di esecuzione;
+\begin{lstlisting}[language=Python]
+def dct_fftpack_2d(x):
+    return dct(np.transpose(dct(np.transpose(x), type = 2, norm = 'ortho')), \
+               type = 2, norm='ortho')
+\end{lstlisting}
+
+\item Viene calcolata la DCT manuale e i tempi di esecuzione. La DCT viene implementata come segue;
+\begin{lstlisting}[language=Python]
+def dct_manual_2d(x):
+    return dct_manual(np.transpose(dct_manual(np.transpose(x))))
+    
+def dct_manual(x):
+    N = len(x)
+
+    print(type(x[0]))
+    c = []
+    
+    for k in range(0, N):
+        somma = 0
+        for i in range(0, N):
+            somma = somma + (x[i] * math.cos(math.pi * k * (2 * i + 1) / (2 * N)))
+    
+        if k == 0:
+            alpha = math.sqrt(1 / N)
+        else:
+            alpha = math.sqrt(2 / N)
+            
+        c.append(somma * alpha)
+            
+    return c
+\end{lstlisting}
+
+\item Vengono stampati in console tutti i tempi di esecuzione delle due DCT per ogni dimensione dell'array bidimensionale;
+\begin{lstlisting}[language=Python]
+ plot(dimensioni, tempi_manual, tempi_scipy)
+    print('Tempi Scipy: ')
+    print(tempi_scipy)
+    print('Tempi manual: ')
+    print(tempi_manual)
+\end{lstlisting}
+
+
+\end{enumerate}
+
 
 \subsection{Risultati}
 I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto SciPy.fftpack.
