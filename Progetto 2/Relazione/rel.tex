@@ -13,6 +13,34 @@
 \usepackage{pythontex}
 \usepackage{amsmath}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{1,1,1}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                                 
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
 \newcommand{\comment}[1]{}
 
 \begin{document}
@@ -174,8 +202,6 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 \`E un modulo facente parte della libreria OpenCV. CV2 è stata utilizzata all'interno dell'interfaccia grafica per poter far scegliere all'utente il file .bmp.
 \end{description}
 
-
-
 \newpage
 
 \section{Implementazioni}
@@ -266,6 +292,100 @@ Si ricorda che i tempi di un algoritmo per DCT2 implementato da una libreria son
 
 Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quindi possiamo tenerci soddisfatti circa la prima parte del progetto. 
 \subsection{Parte 2}
-Nella sezione corrente verranno presentati i risultati delle varie elaborazioni su grafici.
+Nella sezione corrente verranno presentati i risultati della seconda parte del progetto.
+
+Il software creato permette di utilizzare la formula della DCT su immagini in formato bitmap in scala di grigi.
+Tale programma di presenta con una semplice interfaccia grafica che facilita l'utente nelle scelta dell'immagine .bmp da scegliere tra i propri file.
+
+INSERIRE IMMAGINE GUI!!!
+
+Una volta caricato il file e scelti i valori $F$ e $d$, l'utente può premere il tasto \textit{Avvia} e aspettare che il programma elabori il risultato, per poi farlo visualizzare all'utente.
+
+Nel dettaglio il programma implementato elabora l'immagine .bpm come segue.
+
+I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
+\begin{description}
+\item[F] è un intero che verrà utilizzato per la divisione in blocchi dell'immagine. Tali blocchi avranno dimensione $F \times F$ ed è proprio su di essi che verrà calcolata la DCT.
+\item[d] è il valore intero che serve per eliminare le frequenze all'interno dei blocchi una volta calcolata la DCT. Tale valore deve essere un numero intero compreso tra $0$ e $2F-2$, perché le frequenze vengono eliminate sui blocchi $F \times F$, dove il valore che ha indici $k$ ed $l$ del blocco viene eliminato se $k + l \geq d$. Se $d$ non è compreso tra $0$ e $2F-2$, il programma fa visualizzare un messaggio di errore.
+\end{description}
+
+Di seguito viene spiegato approfonditamente come opera il programa.
+\begin{enumerate}
+\item Crea una lista di blocchi $F \timesf F$ dell'immagine importata partendo dall'alto a sinistra, eliminando li scarti sotto e a destra qualora ce ne siano;
+
+\begin{lstlisting}[language=Python]
+while (i + f < img.shape[0]):
+        while(j + f < img.shape[1]):
+            blocco = img[i:i+f,j:j+f]
+            lista_blocchi.append(blocco)
+            j = j + f
+        i = i + f
+        j = 0
+\end{lstlisting}
+
+\item Viene applicata la DCT ad ogni blocco;
+\begin{lstlisting}[language=Python]
+ for f in lista_blocchi:
+        c = dct(np.transpose(dct
+        		(np.transpose(f), norm='ortho')), norm='ortho')
+\end{lstlisting}
+
+\item Vengono eliminate le frequente utilizzando come valore $d$;
+\begin{lstlisting}[language=Python]
+for k in range(0, c.shape[0]):
+            for l in range(0, c.shape[1]):
+                if k + l >= d:
+                    c[k, l] = 0
+\end{lstlisting}
+
+\item Viene applicata la DCT inversa ad ogni blocco;
+\begin{lstlisting}[language=Python]
+ff = idct(np.transpose(idct
+				(np.transpose(c), norm='ortho')), norm='ortho')
+\end{lstlisting}
+
+\item Vengono arrotondati i valori di ogni blocco all'intero più vicino e, i valori minori di $0$ vengono resi uguali a $0$, mentre i valori maggiori di $255$ vengono resi uguali a $255$;
+\begin{lstlisting}[language=Python]
+for i in range(0, ff.shape[0]):
+            for j in range(0, ff.shape[1]):
+                ff[i,j] = int(ff[i,j])
+
+                if ff[i, j] < 0:
+                    ff[i,j] = 0
+                    
+                elif ff[i,j] > 255:
+                    ff[i,j] = 255
+\end{lstlisting}
+
+\item Viene ricomposta l'immagine;
+\begin{lstlisting}[language=Python]
+
+\end{lstlisting}
+
+\item Viene visualizzata a schermo l'immagine originale affiancata dall'immagine ottenuta dopo aver eliminato le frequenze.
+\begin{lstlisting}[language=Python]    
+    fig = Figure(figsize=(5, 4), dpi=100)
+    t = np.arange(0, 3, .01)
+    fig.add_subplot(121).imshow(img)
+    fig.add_subplot(122).imshow(img_compressa)
+\end{lstlisting}
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
