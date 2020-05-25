@@ -169,6 +169,11 @@ L'ambiente di sviluppo scelto per il progetto, sia per la parte 1 che per la par
 \item[Referenze:] \href{https://www.python.org}{Sito} - \href{https://docs.python.org/3/}{Documentazione}
 \end{description}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.3\linewidth]{logo}
+\end{figure}
+
 Python è un linguaggio di programmazione di più "alto livello" rispetto alla maggior parte degli altri linguaggi. È orientato a oggetti, ma non in maniera ferrea come ad esempio Java; adatto, tra gli altri usi, a sviluppare applicazioni distribuite, scripting, computazione numerica e system testing.
 
 È un linguaggio multi-paradigma che ha tra i principali obiettivi: dinamicità, semplicità e flessibilità. Supporta il paradigma object oriented, la programmazione strutturata e molte caratteristiche di programmazione funzionale e riflessione.
@@ -204,8 +209,10 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 
 \newpage
 
-\section{Implementazioni}
-\subsection{Parte 1}
+\section{Parte 1}
+Come spiegato all'inizio dell'elaborato, .....
+
+\subsection{Diagramma}
 
 \begin{center}
 \begin{tikzpicture}
@@ -227,12 +234,51 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 
 \newpage
 
-\subsubsection{Codice}
-L'implementazione su ambiente Python è stata effettuata tramite questo script:
+\subsection{Implementazione}
+FARE TUTTO LOL..
 
-\inputminted{python}{../Script/script1.py}
+\subsection{Risultati}
+I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto SciPy.fftpack.
 
-\subsection{Parte 2}
+Gli array bidimensionali utilizzati di dimensione $N \times N$ sono stati creati in maniera casuale e sono state scelte dimensioni che variano da $100 \times 100$ a $1000 \times 1000$. Non sono state scelte dimensioni maggiori, sia per motivi di eccessivo tempo di calcolo, sia perché un'array $1000 \times 1000$ rispecchia un'immagine di $1000 \times 1000$ pixel, definizione già abbastanza alta, paragonabile in termini di numero di pixel al formato HD a 720p.
+
+Durante l'implementazione abbiamo fatto molta attenzione che il nostro algoritmo venisse implementato correttamente confrontando sempre i risultati degli array dopo il calcolo di entrambe le DCT.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{grafico}
+\end{figure}
+
+Nella figura sopra si possono notare come i tempi della DCT implementata a mano (Manual) siano nettamente superiori rispetto alla DCT implementata dal pacchetto di Python. Questo è del tutto normale in quanto le librerie sono sicuramente implementate meglio e più efficienti.
+
+\newpage
+Nella figura sotto sono riportati in una tabella tutti i tempi di esecuzione della DCT.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{tabella}
+\end{figure}
+
+Si ricorda che i tempi di un algoritmo per DCT2 implementato da una libreria sono di circa $O(N^2 logN)$, mentre i tempi di esecuzione di una DCT2 manuale si aggirano intorno a $O(N^3)$, dove con $N$ si intende ovviamente la dimensione della matrice.
+
+Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quindi possiamo tenerci soddisfatti circa la prima parte del progetto. 
+
+\newpage
+
+\section{Parte 2}
+Come spiegato all'inizio dell'elaborato, .....
+
+Nel dettaglio il programma implementato elabora l'immagine .bmp come segue.
+
+I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
+\begin{description}
+\item[F] è un intero che verrà utilizzato per la divisione in blocchi dell'immagine. Tali blocchi avranno dimensione $F \times F$ ed è proprio su di essi che verrà calcolata la DCT.
+\item[d] è il valore intero che serve per eliminare le frequenze all'interno dei blocchi una volta calcolata la DCT. Tale valore deve essere un numero intero compreso tra $0$ e $2F-2$, perché le frequenze vengono eliminate sui blocchi $F \times F$, dove il valore che ha indici $k$ ed $l$ del blocco viene eliminato se $k + l \geq d$. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{esempio}
+\end{figure}
+\subsection{Diagramma}
 
 \vspace{3mm}
 
@@ -257,78 +303,10 @@ L'implementazione su ambiente Python è stata effettuata tramite questo script:
 
 \end{tikzpicture}
 
-\subsubsection{Codice}
-L'implementazione su ambiente Python è stata effettuata tramite questo script:
-
-\inputminted{python}{../Script/script2.py}
-
-
-\newpage
-
-\section{Elaborazioni e risultati}
-\subsection{Parte 1}
-I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto SciPy.fftpack.
-
-Gli array bidimensionali utilizzati di dimensione $N \times N$ sono stati creati in maniera casuale e sono state scelte dimensioni che variano da $100 \times 100$ a $1000 \times 1000$. Non sono state scelte dimensioni maggiori, sia per motivi di eccessivo tempo di calcolo, sia perché un'array $1000 \times 1000$ rispecchia un'immagine di $1000 \times 1000$ pixel, definizione già abbastanza alta, paragonabile in termini di numero di pixel al formato HD a 720p.
-
-Durante l'implementazione abbiamo fatto molta attenzione che il nostro algoritmo venisse implementato correttamente confrontando sempre i risultati degli array dopo il calcolo di entrambe le DCT.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{grafico}
-\end{figure}
-
-Nella figura sopra si possono notare come i tempi della DCT implementata a mano (Manual) siano nettamente superiori rispetto alla DCT implementata dal pacchetto di Python. Questo è del tutto normale in quanto le librerie sono sicuramente implementate meglio e più efficienti.
-
-\newpage
-Nella figura sotto sono riportati in una tabella tutti i tempi di esecuzione della DCT.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{tabella}
-\end{figure}
-
-Si ricorda che i tempi di un algoritmo per DCT2 implementato da una libreria sono di circa $N^2 logN$, mentre i tempi di esecuzione di una DCT2 manuale si aggirano intorno a $N^3$, dove con $N$ si intende ovviamente la dimensione della matrice.
-
-Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quindi possiamo tenerci soddisfatti circa la prima parte del progetto. 
-\subsection{Parte 2}
-Nella sezione corrente verranno presentati i risultati della seconda parte del progetto.
-
-Il software creato permette di utilizzare la formula della DCT su immagini in formato bitmap in scala di grigi.
-Tale programma di presenta con una semplice interfaccia grafica che facilita l'utente nelle scelta dell'immagine .bmp da scegliere tra i propri file.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\linewidth]{gui}
-\end{figure}
-
-Una volta caricato il file e scelti i valori $F$ e $d$, l'utente può premere il tasto \textit{Avvia} e aspettare che il programma elabori il risultato, per poi farlo visualizzare all'utente.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\linewidth]{risultato}
-\end{figure}
-
-Nel dettaglio il programma implementato elabora l'immagine .bpm come segue.
-
-I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
-\begin{description}
-\item[F] è un intero che verrà utilizzato per la divisione in blocchi dell'immagine. Tali blocchi avranno dimensione $F \times F$ ed è proprio su di essi che verrà calcolata la DCT.
-\item[d] è il valore intero che serve per eliminare le frequenze all'interno dei blocchi una volta calcolata la DCT. Tale valore deve essere un numero intero compreso tra $0$ e $2F-2$, perché le frequenze vengono eliminate sui blocchi $F \times F$, dove il valore che ha indici $k$ ed $l$ del blocco viene eliminato se $k + l \geq d$. 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\linewidth]{esempio}
-\end{figure}
-Se $d$ non è compreso tra $0$ e $2F-2$, il programma fa visualizzare un messaggio di errore.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.55\linewidth]{errore}
-\end{figure}
-\end{description}
-
-Di seguito viene spiegato approfonditamente come opera il programa.
+\subsection{Implementazione}
+Di seguito viene spiegato approfonditamente come opera il programma.
 \begin{enumerate}
-\item Crea una lista di blocchi $F \timesf F$ dell'immagine importata partendo dall'alto a sinistra, eliminando li scarti sotto e a destra qualora ce ne siano;
+\item Crea una lista di blocchi $F \times F$ dell'immagine importata partendo dall'alto a sinistra, eliminando li scarti sotto e a destra qualora ce ne siano;
 
 \begin{lstlisting}[language=Python]
 while (i + f < img.shape[0]):
@@ -408,5 +386,30 @@ for i in range(0, ff.shape[0]):
 \end{lstlisting}
 
 \end{enumerate}
+
+\newpage
+
+\subsection{Risultati}
+Il software creato permette di utilizzare la formula della DCT su immagini in formato bitmap in scala di grigi.
+Tale programma di presenta con una semplice interfaccia grafica che facilita l'utente nelle scelta dell'immagine .bmp da scegliere tra i propri file.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{gui}
+\end{figure}
+
+Una volta caricato il file e scelti i valori $F$ e $d$, l'utente può premere il tasto \textit{Avvia} e aspettare che il programma elabori il risultato, per poi farlo visualizzare all'utente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{risultato}
+\end{figure}
+
+Se $d$ non è compreso tra $0$ e $2F-2$, il programma fa visualizzare un messaggio di errore.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.55\linewidth]{errore}
+\end{figure}
+\end{description}
 
 \end{document}
