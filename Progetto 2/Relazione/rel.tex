@@ -209,7 +209,7 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 
 \newpage
 
-\section{Parte 1}
+\section{Parte 1 - Confronto implementazioni DCT}
 Come spiegato all'inizio dell'elaborato, nella prima parte del progetto il compito è quello di creare un algoritmo di compressione del tipo DCT e confrontare i tempi di esecuzione con un algoritmo DCT implementato da una libreria.
 
 \subsection{Diagramma}
@@ -354,8 +354,8 @@ Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quind
 
 \newpage
 
-\section{Parte 2}
-Come spiegato all'inizio dell'elaborato, .....
+\section{Parte 2 - Interfaccia grafica per la compressione di immagini}
+Come spiegato all'inizio dell'elaborato, la seconda parte del progetto si occupa di implementare un interfaccia grafica che permetta all'utente di effettuare una compressione da .bmp a .jpg
 
 Nel dettaglio il programma implementato elabora l'immagine .bmp come segue.
 
@@ -367,27 +367,31 @@ I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressio
 	\centering
 	\includegraphics[width=0.5\linewidth]{esempio}
 \end{figure}
+\end{description}
+
 \subsection{Diagramma}
 
 \vspace{3mm}
 
 \begin{tikzpicture}
 \matrix (m)[matrix of nodes, column  sep=2cm,row  sep=8mm, align=center, nodes={rectangle,draw, anchor=center} ]{
-	|[block]| {\textbf{Start}}              &  \\
-	|[block]| {\texttt{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}               &                                            \\
-	|[block]| {\texttt{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}          &                                             \\
-	|[block]| {\texttt{main\_function(F, d)} \\ Funzione principale per l'implementazione del software, F e d sono i parametri scelti dall'utente all'interno della funzione \texttt{main()}}    &    |[block]| {\textbf{Stop}}                                         \\
-	|[block]| {\texttt{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}         &           |[block]| {\texttt{plot(img, img\_compressa)} \\ Metodo per il plot dell'immagine originale, affiancata a quella compressa con la DCT2}                                   \\
-	|[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}    &    |[block]| {\texttt{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}                                    \\
+	|[block]| {\textbf{Start}} \\
+	|[block]| {\texttt{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}               &          |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}                                  \\
+	|[block]| {\texttt{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}          &       |[block]| {\texttt{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}                                      \\
+	|[block]| {\texttt{main\_function(F, d)} \\ Funzione principale per l'implementazione del software, F e d sono i parametri scelti dall'utente all'interno della funzione \texttt{main()}}    &    |[block]| {\texttt{plot(img, img\_compressa)} \\ Metodo per il disegno dell'immagine originale, affiancata a quella compressa con la DCT2}                                         \\
+	|[block]| {\texttt{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}         &           |[block]| {\textbf{Stop}}                                   \\
+	|[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}                               \\
 };
 \path [>=latex,->] (m-1-1) edge (m-2-1);
 \path [>=latex,->] (m-2-1) edge (m-3-1);
 \path [>=latex,->] (m-3-1) edge (m-4-1);
 \path [>=latex,->] (m-4-1) edge (m-5-1);
 \path [>=latex,->] (m-5-1) edge (m-6-1);
-\path [>=latex,->] (m-6-1) edge (m-6-2);
-\path [>=latex,->] (m-6-2) edge (m-5-2);
-\path [>=latex,->] (m-5-2) edge (m-4-2);
+
+\path [>=latex,->] (m-2-2) edge (m-3-2);
+\path [>=latex,->] (m-3-2) edge (m-4-2);
+\path [>=latex,->] (m-4-2) edge (m-5-2);
+
 
 
 \end{tikzpicture}
@@ -489,16 +493,23 @@ Tale programma di presenta con una semplice interfaccia grafica che facilita l'u
 
 Una volta caricato il file e scelti i valori $F$ e $d$, l'utente può premere il tasto \textit{Avvia} e aspettare che il programma elabori il risultato, per poi farlo visualizzare all'utente.
 
+Se $d$ non è compreso tra $0$ e $2F-2$, il programma mostra un messaggio di errore e termina l'esecuzione.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.55\linewidth]{errore}
+\end{figure}
+
+Verrà visualizzato un errore anche nel caso l'utente scelga un valore di \textit{F} maggiore di almeno una delle due dimensioni dell'immagine (righe e/o colonne).
+
+Se i dati inseriti sono consistenti e l'immagine viene letta correttamente, il risultato sarà stampato su una schermata apposita in cui verrà visualizzata anche l'immagine originale.
+Le due immagini (originale a sinistra, compressa a destra) saranno quindi confrontabili a "occhio".
+
+
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{risultato}
 \end{figure}
 
-Se $d$ non è compreso tra $0$ e $2F-2$, il programma fa visualizzare un messaggio di errore.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.55\linewidth]{errore}
-\end{figure}
-\end{description}
 
 \end{document}
