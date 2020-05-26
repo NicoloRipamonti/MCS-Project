@@ -101,7 +101,8 @@
 Lo scopo di questo progetto è quello di utilizzare l’implementazione dell'operazione matematica denominata \textbf{DCT2} in un ambiente \textit{open source} e di studiare gli effetti di un algoritmo di compressione di tipo jpeg (senza utilizzare una matrice di quantizzazione) sulle delle immagini in toni di grigio di formato \textit{bitmap}.
 Il progetto si divide in tue macro parti:
 \begin{description}
-\item[Parte 1] Implementare la DCT2  in un ambiente open source a scelta e confrontare i tempi di esecuzione con la DCT2 ottenuta usando la libreria dell’ambiente utilizzato. In particolare, bisogna utilizzare array quadrati $N \times N$ con $N$ crescente e rappresentare su un grafico i tempi di esecuzione dei due algoritmi.
+\item[Parte 1] Implementare la DCT2  in un ambiente open source a scelta e confrontare i tempi di esecuzione con la DCT2 ottenuta usando la libreria dell’ambiente utilizzato. \\
+In particolare, bisogna utilizzare array quadrati $N \times N$ con $N$ crescente e rappresentare su un grafico i tempi di esecuzione dei due algoritmi.
 \item[Parte 2] Scrivere un software in grado di far scegliere all'utente un'immagine in formato bitmap e successivamente comprimere tale immagine utilizzando la DCT2, tagliare le frequenze che l'utente sceglie di eliminare, utilizzare l'inversa della DCT e far visualizzare a schermo l'immagine originale con quella ottenuta dopo aver modificato le frequenze.
 \end{description}
 \end{abstract}
@@ -355,9 +356,7 @@ Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quind
 \newpage
 
 \section{Parte 2 - Interfaccia grafica per la compressione di immagini}
-Come spiegato all'inizio dell'elaborato, la seconda parte del progetto si occupa di implementare un interfaccia grafica che permetta all'utente di effettuare una compressione da .bmp a .jpg
-
-Nel dettaglio il programma implementato elabora l'immagine .bmp come segue.
+Come spiegato all'inizio dell'elaborato, la seconda parte del progetto si occupa di implementare un interfaccia grafica che permetta all'utente di effettuare una compressione di un file .bmp
 
 I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
 \begin{description}
@@ -481,12 +480,13 @@ for i in range(0, ff.shape[0]):
 \newpage
 
 \subsection{Risultati}
-Il software creato permette di utilizzare la formula della DCT su immagini in formato bitmap in scala di grigi.
+Il software creato permette di utilizzare la formula della DCT su immagini in formato bitmap in scala di grigi.\\
 Tale programma di presenta con una semplice interfaccia grafica che facilita l'utente nelle scelta dell'immagine .bmp da scegliere tra i propri file.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{gui}
+	\caption{GUI principale dell'applicazione}
 \end{figure}
 
 Una volta caricato il file e scelti i valori $F$ e $d$, l'utente può premere il tasto \textit{Avvia} e aspettare che il programma elabori il risultato, per poi farlo visualizzare all'utente.
@@ -495,9 +495,12 @@ Se $d$ non è compreso tra $0$ e $2F-2$, il programma mostra un messaggio di err
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.55\linewidth]{errore}
+	\caption{Messaggio di errore in caso di \textit{d} incostistente} 
 \end{figure}
 
 Verrà visualizzato un errore anche nel caso l'utente scelga un valore di \textit{F} maggiore di almeno una delle due dimensioni dell'immagine (righe e/o colonne).
+
+\newpage
 
 Se i dati inseriti sono consistenti e l'immagine viene letta correttamente, il risultato sarà stampato su una schermata apposita in cui verrà visualizzata anche l'immagine originale.
 Le due immagini (originale a sinistra, compressa a destra) saranno quindi confrontabili a "occhio".
@@ -505,8 +508,17 @@ Le due immagini (originale a sinistra, compressa a destra) saranno quindi confro
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{risultato}
+	\includegraphics[width=1\linewidth]{img_jpg}
+	\caption{Risultato finale dell'elaborazione}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img_bmp}
+	\caption{Risultato finale dell'elaborazione}
+\end{figure}
+
+
 
 
 \end{document}
