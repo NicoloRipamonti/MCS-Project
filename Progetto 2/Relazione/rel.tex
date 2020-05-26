@@ -1,5 +1,13 @@
 \documentclass[preprint,12pt]{elsarticle}
 
+\makeatletter
+\def\ps@pprintTitle{%
+	\let\@oddhead\@empty
+	\let\@evenhead\@empty
+	\def\@oddfoot{\centerline{\thepage}}%
+	\let\@evenfoot\@oddfoot}
+\makeatother
+
 \usepackage{amssymb}
 
 \usepackage{lineno}
@@ -94,7 +102,7 @@
 
 \title{Compressione di immagini tramite DCT\\
 \large{Attraverso l'utilizzo di Python}
-\vspace{5mm}\\ \normalsize{\texttt{https://github.com/nicoripa/MCS\_Project/}}}
+\vspace{5mm}\\ \normalsize{\texttt{\href{https://github.com/nicoripa/MCS-Project/}{https://github.com/nicoripa/MCS-Project/}}}}
 
 \author{Lorenzo Rovida, Nicolò Ripamonti\\
 	\small{ \href{mailto:l.rovida1@campus.unimib.it}{l.rovida1@campus.unimib.it},  \href{mailto:n.ripamonti@campus.unimib.it}{n.ripamonti@campus.unimib.it}\\817151, 816171}}
@@ -103,8 +111,8 @@
 
 
 \begin{abstract}
-Lo scopo di questo progetto è quello di utilizzare l’implementazione dell'operazione matematica denominata \textbf{DCT2} in un ambiente \textit{open source} e di studiare gli effetti di un algoritmo di compressione di tipo jpeg (senza utilizzare una matrice di quantizzazione) sulle delle immagini in toni di grigio di formato \textit{bitmap}.
-Il progetto si divide in tue macro parti:
+Lo scopo di questo progetto è quello di utilizzare l’implementazione dell'operazione matematica denominata \textbf{DCT2} in un ambiente \textit{open source} e di studiare gli effetti di un algoritmo di compressione di tipo jpeg (senza utilizzare una matrice di quantizzazione) su delle immagini in toni di grigio di formato \textit{bitmap}.
+Il progetto si divide in due macro parti:
 \begin{description}
 \item[Parte 1] Implementare la DCT2  in un ambiente open source a scelta e confrontare i tempi di esecuzione con la DCT2 ottenuta usando la libreria dell’ambiente utilizzato. \\
 In particolare, bisogna utilizzare array quadrati $N \times N$ con $N$ crescente e rappresentare su un grafico i tempi di esecuzione dei due algoritmi.
