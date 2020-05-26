@@ -372,7 +372,9 @@ Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quind
 
 Come spiegato all'inizio dell'elaborato, la seconda parte del progetto si occupa di implementare un interfaccia grafica che permetta all'utente di effettuare una compressione di un file .bmp
 
-I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
+Come prima cosa, il programma si preoccupa di fare scegliere all'utente un immagine .bmp e successivamente di scegliere due valori, $F$ e $d$, che saranno il fulcro di tutta l'implementazione del programma.
+
+In particolare, i valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
 \begin{description}
 \item[F] è un intero che verrà utilizzato per la divisione in blocchi dell'immagine. Tali blocchi avranno dimensione $F \times F$ ed è proprio su di essi che verrà calcolata la DCT.
 \item[d] è il valore intero che serve per eliminare le frequenze all'interno dei blocchi una volta calcolata la DCT. Tale valore deve essere un numero intero compreso tra $0$ e $2F-2$, perché le frequenze vengono eliminate sui blocchi $F \times F$, dove il valore che ha indici $k$ ed $l$ del blocco viene eliminato se $k + l \geq d$. 
@@ -381,6 +383,7 @@ I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressio
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\linewidth]{esempio}
+	\caption{Blocco dove i quadrati rossi indicano le frequenze eliminate e i quadrati verdi indicano le frequente che non vengono eliminate}
 \end{figure}
 
 
@@ -388,8 +391,8 @@ I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressio
 
 \begin{tikzpicture}
 \matrix (m)[matrix of nodes, column  sep=2cm,row  sep=8mm, align=center, nodes={rectangle,draw, anchor=center} ]{
-	|[block]| {\textbf{Start}} &  |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}  \\
-	|[block]| {\texttt{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}               &          |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d, f)} \\ Metodo in cui viene implementato il calcolo della DCT2, il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}                                  \\
+	|[block]| {\textbf{Start}} &  |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d)} \\ Metodo in cui viene implementato il calcolo della DCT2 e il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}  \\
+	|[block]| {\texttt{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}               &          |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d)} \\ Metodo in cui viene implementato il calcolo della DCT2 e il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}                                  \\
 	|[block]| {\texttt{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}          &       |[block]| {\texttt{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}                                      \\
 	|[block]| {\texttt{main\_function(F, d)} \\ Funzione principale, F e d sono i parametri scelti dall'utente all'interno del \texttt{main()}}    &    |[block]| {\texttt{plot(img, img\_compressa)} \\ Metodo per il disegno dell'immagine originale, affiancata a quella compressa con la DCT2}                                         \\
 	|[block]| {\texttt{lista\_blocchi = suddividi(img, F)} \\ Metodo per suddividere l’immagine in blocchi quadrati di dimensioni $F \times F$ partendo in alto a sinistra, scartando gli avanzi}         &           |[block]| {\textbf{Stop}} \\
@@ -410,7 +413,7 @@ I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressio
 \subsection*{Implementazione}
 Di seguito viene spiegato approfonditamente come opera il programma.
 \begin{enumerate}
-\item Crea una lista di blocchi $F \times F$ dell'immagine importata partendo dall'alto a sinistra, eliminando li scarti sotto e a destra qualora ce ne siano;
+\item Crea una lista di blocchi $F \times F$ dell'immagine importata partendo dall'alto a sinistra, eliminando gli scarti sotto e a destra qualora ce ne siano;
 
 \begin{lstlisting}[language=Python]
 while (i + f < img.shape[0]):
@@ -455,7 +458,7 @@ for i in range(0, ff.shape[0]):
                 elif ff[i,j] > 255:
                     ff[i,j] = 255
 \end{lstlisting}
-
+\newpage
 \item Viene ricomposta l'immagine;
 \begin{lstlisting}[language=Python]
     i = 0
@@ -512,7 +515,7 @@ Se $d$ non è compreso tra $0$ e $2F-2$, il programma mostra un messaggio di err
 	\caption{Messaggio di errore in caso di \textit{d} incostistente} 
 \end{figure}
 
-Verrà visualizzato un errore anche nel caso l'utente scelga un valore di \textit{F} maggiore di almeno una delle due dimensioni dell'immagine (righe e/o colonne).
+Verrà visualizzato un errore anche nel caso in cui l'utente scelga un valore di \textit{F} maggiore di almeno una delle due dimensioni dell'immagine (righe e/o colonne).
 
 \newpage
 
@@ -529,7 +532,7 @@ Le due immagini (originale a sinistra, compressa a destra) saranno quindi confro
 
 \subsection*{Conclusioni}
 
-Il programma opera come previsto, l'immagine compressa avrà un peso minore (in termini di archiviazione) e la sua qualità però viene ridotta.
+Il programma opera come previsto, l'immagine compressa avrà un peso minore (in termini di archiviazione) e la sua qualità sarà ovviamente ridotta.
 Le differenze non sono immediatamente visibili, solo con un'attenta osservazione si possono cogliere le sottili differenze fra le due immagini.
 Questo ovviamente ha i suoi vantaggi e i suoi svantaggi, di sicuro se non si lavora in ambiti in cui la qualità di un'immagine dev'essere pari all'originale (ad esempio in fotografia), questo tipo di compressione è molto vantaggiosa.
 
