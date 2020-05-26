@@ -16,6 +16,11 @@
 
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{titlesec}
+
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -111,8 +116,8 @@ In particolare, bisogna utilizzare array quadrati $N \times N$ con $N$ crescente
 
 \newpage
 
-\section{Introduzione}
-\subsection{Discrete Cosine Transform}
+\section*{Introduzione}
+\subsection*{Discrete Cosine Transform}
 La trasformata discreta del coseno o DCT, è la più diffusa funzione che provvede alla compressione spaziale, capace di rilevare le variazioni di informazione tra un'area e quella contigua di un'immagine digitale trascurando le ripetizioni.
 
 È una trasformata simile alla trasformata discreta di Fourier (DFT), ma fa uso solo di numeri reali.
@@ -137,7 +142,7 @@ Mentre $f_{ij}$ sono gli indici bidimensionali:
 \textbf{f} = (f_{ij}), \; i=0, ..., N-1, j=0, ..., M-1.
 \end{eqnarray*}
 
-\subsection{.Formato bitmap}
+\subsection*{.Formato bitmap}
 Windows bitmap è un formato dati utilizzato per la rappresentazione di immagini \textbf{raster} sui sistemi operativi Microsoft Windows. Noto soprattutto come formato di file, fu introdotto con Windows 3.0 nel 1990.
 Le bitmap, come sono comunemente chiamati i file d'immagine di questo tipo, hanno generalmente l'estensione \textbf{.bmp}.
 
@@ -149,7 +154,7 @@ Le immagini bitmap possono avere una profondità di 1, 4, 8, 16, 24 o 32 bit per
 
 Nel caso in esame le immagini in formato \textit{.bmp} sono state scelte con colori in scala di grigi, ovvero immagini con una profondità di 8 bit. Tali bit servono per convertire gli indici numerici nei rispettivi bit, in questo caso da 0, che identifica il colore nero, a 255, che identifica il colore bianco. Tutti i valori tra l'1 e il 254 sono tutte le possibili varianti di grigio.
 
-\subsection{Calcolatore utilizzato}
+\subsection*{Calcolatore utilizzato}
 Per effettuare i calcoli sugli script è stato utilizzato un MacBook Pro 2016 con le seguenti caratteristiche hardware:
 \begin{description}
 \item[Processore] 2 GHz Intel Core i5 dual-core
@@ -160,7 +165,7 @@ Per effettuare i calcoli sugli script è stato utilizzato un MacBook Pro 2016 co
 
 \newpage
 
-\section{Ambiente di sviluppo}
+\section*{Ambiente di sviluppo}
 
 L'ambiente di sviluppo scelto per il progetto, sia per la parte 1 che per la parte 2, è stato \textbf{Python}.
 
@@ -181,7 +186,7 @@ Python è un linguaggio di programmazione di più "alto livello" rispetto alla m
 
 Le caratteristiche più immediatamente riconoscibili di Python sono le variabili non tipizzate e l'uso dell'indentazione per la definizione delle specifiche. \\
 
-\section{Librerie}
+\section*{Librerie}
 Nello specifico sono state utilizzate diverse librerie sia per l'implementazione del codice della parte 1 del progetto, sia per la parte 2.
 
 Esse nello specifico sono:
@@ -210,10 +215,10 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 
 \newpage
 
-\section{Parte 1 - Confronto implementazioni DCT}
+\section*{Confronto implementazioni DCT\\  \large{\textit{Parte 1}}}
 Come spiegato all'inizio dell'elaborato, nella prima parte del progetto il compito è quello di creare un algoritmo di compressione del tipo DCT e confrontare i tempi di esecuzione con un algoritmo DCT implementato da una libreria.
 
-\subsection{Diagramma}
+\subsection*{Diagramma}
 Di seguito viene presentato un diagramma a blocchi che spiega in maniera veloce come è avvenuta l'implementazione dell'intera parte 1.
 
 \begin{center}
@@ -236,7 +241,7 @@ Di seguito viene presentato un diagramma a blocchi che spiega in maniera veloce 
 
 \newpage
 
-\subsection{Implementazione}
+\subsection*{Implementazione}
 
 Di seguito viene spiegato approfonditamente come opera lo script.
 
@@ -327,7 +332,7 @@ def dct_manual(x):
 \newpage
 
 
-\subsection{Risultati}
+\subsection*{Risultati}
 I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto Scipy.fftpack.
 
 Gli array bidimensionali utilizzati di dimensione $N \times N$ sono stati creati in maniera casuale e sono state scelte dimensioni che variano da $100 \times 100$ a $1000 \times 1000$. Non sono state scelte dimensioni maggiori, sia per motivi di eccessivo tempo di calcolo, sia perché un'array $1000 \times 1000$ rispecchia un'immagine di $1000 \times 1000$ pixel, definizione già abbastanza alta, paragonabile in termini di numero di pixel al formato HD a 720p.
@@ -355,7 +360,8 @@ Detto ciò, i risultati finali dei tempi rispecchiamo a pieno tale regola, quind
 
 \newpage
 
-\section{Parte 2 - Interfaccia grafica per la compressione di immagini}
+\section*{GUI per la compressione\\ \large{\textit{Parte 2}}}
+
 Come spiegato all'inizio dell'elaborato, la seconda parte del progetto si occupa di implementare un interfaccia grafica che permetta all'utente di effettuare una compressione di un file .bmp
 
 I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressione dell'immagine nel seguente modo:
@@ -370,7 +376,7 @@ I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressio
 \end{figure}
 
 
-\subsection{Diagramma}
+\subsection*{Diagramma}
 
 \begin{tikzpicture}
 \matrix (m)[matrix of nodes, column  sep=2cm,row  sep=8mm, align=center, nodes={rectangle,draw, anchor=center} ]{
@@ -393,7 +399,7 @@ I valori $F$ e $d$ scelti dall'utente servono per l'elaborazione e la compressio
 
 \end{tikzpicture}
 
-\subsection{Implementazione}
+\subsection*{Implementazione}
 Di seguito viene spiegato approfonditamente come opera il programma.
 \begin{enumerate}
 \item Crea una lista di blocchi $F \times F$ dell'immagine importata partendo dall'alto a sinistra, eliminando li scarti sotto e a destra qualora ce ne siano;
@@ -479,7 +485,7 @@ for i in range(0, ff.shape[0]):
 
 \newpage
 
-\subsection{Risultati}
+\subsection*{Risultati}
 Il software creato permette di utilizzare la formula della DCT su immagini in formato bitmap in scala di grigi.\\
 Tale programma di presenta con una semplice interfaccia grafica che facilita l'utente nelle scelta dell'immagine .bmp da scegliere tra i propri file.
 
@@ -508,16 +514,29 @@ Le due immagini (originale a sinistra, compressa a destra) saranno quindi confro
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{img_jpg}
-	\caption{Risultato finale dell'elaborazione}
+	\includegraphics[width=1\linewidth]{risultato}
+	\caption{Risultato finale dell'elaborazione, presentato su due plot}
 \end{figure}
+
+
+\subsection*{Conclusioni}
+
+Il programma opera come previsto, l'immagine compressa avrà un peso minore (in termini di archiviazione) e la sua qualità però viene ridotta.
+Le differenze non sono immediatamente visibili, solo con un'attenta osservazione si possono cogliere le sottili differenze fra le due immagini.
+Questo ovviamente ha i suoi vantaggi e i suoi svantaggi, di sicuro se non si lavora in ambiti in cui la qualità di un'immagine dev'essere pari all'originale (ad esempio in fotografia), questo tipo di compressione è molto vantaggiosa.
+
+\newpage
+
+Questo è un esempio di compressione su un'immagine .bmp monocromatica recuperata dal web, in particolare sono stati usati i seguenti valori:\\ \textit{F = 8, d = 10}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{img_bmp}
-	\caption{Risultato finale dell'elaborazione}
+	\includegraphics[width=1.15\linewidth]{img}
 \end{figure}
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.15\linewidth]{imgcompressa}
+\end{figure}
 
 
 
