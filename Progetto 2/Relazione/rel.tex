@@ -14,8 +14,10 @@
 \usepackage{hyperref}
 \usepackage{quoting}
 \usepackage{float}
+\usepackage{subfig}
 \usepackage{lipsum}
 \usepackage{tikz}
+\usepackage{appendix}
 \usetikzlibrary{shapes,arrows,chains}
 \usepackage{minted}
 \usepackage{pythontex}
@@ -52,7 +54,8 @@
 }
 
 \lstset{style=mystyle}
-
+\renewcommand\appendixtocname{Appendice}
+\renewcommand*{\appendixname}{Appendice}
 
 \newcommand{\comment}[1]{}
 
@@ -152,7 +155,7 @@ Mentre $f_{ij}$ sono gli indici bidimensionali:
 
 \newpage 
 
-\subsection*{Formato bitmap}
+\subsection*{Formato .bitmap}
 Windows bitmap è un formato dati utilizzato per la rappresentazione di immagini \textbf{raster} sui sistemi operativi Microsoft Windows. Noto soprattutto come formato di file, fu introdotto con Windows 3.0 nel 1990.
 Le bitmap, come sono comunemente chiamati i file d'immagine di questo tipo, hanno generalmente l'estensione \textbf{.bmp}.
 
@@ -547,33 +550,67 @@ Verrà visualizzato un errore anche nel caso in cui l'utente scelga un valore di
 Se i dati inseriti sono consistenti e l'immagine viene letta correttamente, il risultato sarà stampato su una schermata apposita in cui verrà visualizzata anche l'immagine originale.
 Le due immagini (originale a sinistra, compressa a destra) saranno quindi confrontabili a "occhio".
 
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{risultato}
-	\caption{Risultato finale dell'elaborazione, presentato su due plot}
+	\caption{Risultato finale dell'elaborazione, presentato su due plot. A sinistra immagine originale, a destra immagine compressa}
 \end{figure}
 
+Il risultato verrà salvato in un'immagine di tipo .jpg all'interno della stessa cartella in cui si trova lo script.
 
-\subsection*{Conclusioni}
-
-Il programma opera come previsto, l'immagine compressa avrà un peso minore (in termini di archiviazione) e la sua qualità sarà ovviamente ridotta.
-Le differenze non sono immediatamente visibili, solo con un'attenta osservazione si possono cogliere le sottili differenze fra le due immagini.
-Questo ovviamente ha i suoi vantaggi e i suoi svantaggi, di sicuro se non si lavora in ambiti in cui la qualità di un'immagine dev'essere pari all'originale (ad esempio in fotografia), questo tipo di compressione è molto vantaggiosa.
 
 \newpage
 
-Questo è un esempio di compressione su un'immagine .bmp monocromatica recuperata dal web, in particolare sono stati usati i seguenti valori:\\ \textit{F = 8, d = 10}
+\subsection*{Conclusioni}
+
+\begin{description}
+	\item[Parte 1] Il risultato dell'esperimento ha soddisfatto le aspettative, la DCT implementata in modo 'grezzo' si è rivelata nettamente più lenta nell'esecuzione rispetto a quella disponibile su \texttt{scipy.fftpack.dct}.
+	In particolare i test con i quali si verifica che i due algoritmi restituiscano i risultati corretti sono passati (si è assunto come vero il risultato della DCT mostrato nella traccia del progetto), e l'esperimento sulle matrici stocastiche di dimensioni crescenti ha avuto il riscontro previsto: l'algoritmo disponibile nella libreria è statisticamente migliore in termini di tempi di calcolo.
+	
+	\item[Parte 2] L'applicazione implementata funziona in modo corretto e in linea con la richiesta: in particolare si nota una perdita di qualità nel momento in cui si scelgono dei valori di \textit{d} molto piccoli, questo a causa del taglio delle frequenze.\\
+	Coerentemente, aumentando il valore di \textit{d}, stando attenti a non superare la soglia del $2F-2$, l'immagine risulterà molto più simile all'originale, perdendo solo dettagli poco/non visibili all'occhio umano.
+\end{description}
+
+\newpage
+\appendix
+
+\section{Esperimenti}
 
 \begin{figure}[H]
+	\includegraphics[width=\linewidth]{f1}
 	\centering
-	\includegraphics[width=1.15\linewidth]{img}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1.15\linewidth]{imgcompressa}
 \end{figure}
 
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{f2}
+	\caption{Immagine compressa\\$F = 8, d = 10$}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{f3}
+	\caption{Immagine compressa\\$F = 8, d = 6$}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\includegraphics[width=\linewidth]{f4}
+	\caption{Immagine compressa\\$F = 8, d = 2$}
+	\centering
+\end{figure}
+
+\newpage
+
+\section{Codici}
+
+\subsection{Parte 1}
+
+\lstinputlisting[language=python]{"../Script/script1.py"}
+
+\newpage 
+\subsection{Parte 2}
+
+\lstinputlisting[language=python]{"../Script/script2.py"}
 
 
 \end{document}

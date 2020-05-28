@@ -76,6 +76,7 @@ def test1d():
     
     
     
+    
 """
 test2d()
 metodo che effettua dei test sulla funzione implementata in dct_manual_2d(x),
