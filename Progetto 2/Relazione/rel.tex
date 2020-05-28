@@ -564,11 +564,10 @@ Il risultato verrà salvato in un'immagine di tipo .jpg all'interno della stessa
 \subsection*{Conclusioni}
 
 \begin{description}
-	\item[Parte 1] Il risultato dell'esperimento ha soddisfatto le aspettative, la DCT implementata in modo 'grezzo' si è rivelata nettamente più lenta nell'esecuzione rispetto a quella disponibile su \texttt{scipy.fftpack.dct}.
-	In particolare i test con i quali si verifica che i due algoritmi restituiscano i risultati corretti sono passati (si è assunto come vero il risultato della DCT mostrato nella traccia del progetto), e l'esperimento sulle matrici stocastiche di dimensioni crescenti ha avuto il riscontro previsto: l'algoritmo disponibile nella libreria è statisticamente migliore in termini di tempi di calcolo.
+\item[Parte 1] Il risultato dell'esperimento ha soddisfatto le aspettative, la DCT implementata in modo 'grezzo' si è rivelata nettamente più lenta nell'esecuzione rispetto a quella disponibile su \texttt{scipy.fftpack.dct}.
+In particolare i test con i quali si verifica che i due algoritmi restituiscano i risultati corretti sono passati (si è assunto come vero il risultato della DCT mostrato nella traccia del progetto), e l'esperimento sulle matrici stocastiche di dimensioni crescenti ha avuto il riscontro previsto: l'algoritmo disponibile nella libreria è statisticamente migliore in termini di tempi di calcolo.
 	
-	\item[Parte 2] L'applicazione implementata funziona in modo corretto e in linea con la richiesta: in particolare si nota una perdita di qualità nel momento in cui si scelgono dei valori di \textit{d} molto piccoli, questo a causa del taglio delle frequenze.\\
-	Coerentemente, aumentando il valore di \textit{d}, stando attenti a non superare la soglia del $2F-2$, l'immagine risulterà molto più simile all'originale, perdendo solo dettagli poco/non visibili all'occhio umano.
+\item[Parte 2] L'applicazione implementata, a nostro avviso, funziona in modo corretto e in linea con la richiesta. \\In particolare, per ogni immagine bitmap che si sceglie, si nota che la compressione effettuata ha una perdita di qualità nel momento in cui si scelgono valori di \textit{d} molto piccoli; questo è dovuto al gran numero di frequenze che vengono eliminate.\\ Coerentemente con quanto appena detto, aumentando il valore di \textit{d}, stando attenti a non superare la soglia del $2F-2$, l'immagine caricata nell'interfaccia risulterà molto simile all'originale e, nel caso in cui la \textit{d} sia molto vicina alla soglia massima consentita, vengono persi solo i dettagli poco visibili ad occhio nudo. Detto ciò, la dimensione dell'immagine in termini di spazio della memoria è molto minore all'originale anche quando i valori di \textit{d} scelti sono vicini alla soglia massima ammissibile. In conclusione il gruppo di lavoro si ritiene soddisfatto dei propri risultati.
 \end{description}
 
 \newpage
