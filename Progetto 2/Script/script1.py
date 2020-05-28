@@ -13,7 +13,6 @@ un'applicazione di DCT alla stessa
 def dct_manual(x):
     N = len(x)
 
-    print(type(x[0]))
     c = []
     
     for k in range(0, N):
@@ -64,12 +63,16 @@ def test1d():
     test_dct = dct(test, type = 2, norm='ortho')
     
     print("1D - Libreria: ")
-    print(test_dct[0], test_dct[1])
+    
+    for el in test_dct:
+        print("{:.2e}".format(el))
     
     test_dct = dct_manual(test)
     
-    print("1D - Implementazione: ")
-    print(test_dct[0], test_dct[1])
+    print("Test 1D - Implementazione manuale: ")
+
+    for el in test_dct:
+        print("{:.2e}".format(el))
     
     
     

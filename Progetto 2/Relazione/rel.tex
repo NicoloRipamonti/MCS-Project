@@ -101,7 +101,7 @@
 \begin{frontmatter}
 
 \title{Compressione di immagini tramite DCT\\
-\large{Attraverso l'utilizzo di Python}
+\large{Confronto implementazioni e creazione applicazione grafica}
 \vspace{5mm}\\ \normalsize{\texttt{\href{https://github.com/nicoripa/MCS-Project/}{https://github.com/nicoripa/MCS-Project/}}}}
 
 \author{Lorenzo Rovida, Nicolò Ripamonti\\
@@ -150,7 +150,9 @@ Mentre $f_{ij}$ sono gli indici bidimensionali:
 \textbf{f} = (f_{ij}), \; i=0, ..., N-1, j=0, ..., M-1.
 \end{eqnarray*}
 
-\subsection*{.Formato bitmap}
+\newpage 
+
+\subsection*{Formato bitmap}
 Windows bitmap è un formato dati utilizzato per la rappresentazione di immagini \textbf{raster} sui sistemi operativi Microsoft Windows. Noto soprattutto come formato di file, fu introdotto con Windows 3.0 nel 1990.
 Le bitmap, come sono comunemente chiamati i file d'immagine di questo tipo, hanno generalmente l'estensione \textbf{.bmp}.
 
@@ -224,19 +226,19 @@ Questo modulo offre varie funzioni correlate al tempo. Utilizzata per la misuraz
 \newpage
 
 \section*{Confronto implementazioni DCT\\  \large{\textit{Parte 1}}}
-Come spiegato all'inizio dell'elaborato, nella prima parte del progetto il compito è quello di creare un algoritmo di compressione del tipo DCT e confrontare i tempi di esecuzione con un algoritmo DCT implementato da una libreria.
+Nella prima parte del progetto il compito è quello di creare un algoritmo di compressione del tipo DCT e confrontare i tempi di esecuzione con un algoritmo DCT implementato da una libreria (verrà utilizzata Scipy).
 
 \subsection*{Diagramma}
-Di seguito viene presentato un diagramma a blocchi che spiega in maniera veloce come è avvenuta l'implementazione dell'intera parte 1.
+Viene presentato un diagramma a blocchi che riassume lo svolgimento dell'elaborazione.
 
 \begin{center}
 \begin{tikzpicture}
 \matrix (m)[matrix of nodes, column  sep=3cm,row  sep=10mm, align=center, nodes={rectangle,draw, anchor=center} ]{
-	|[block]| {\textbf{Start}}       \\
-	|[block]| {\texttt{main()} \\ Definizione del Main dello script}     \\
-	|[block]| {\texttt{img = matrice\_random(dim)} \\ Calcolo di una matrice quadrata di valori interi random di dimensione \texttt{dim}}     \\
+	|[block]| {\texttt{main()}}     \\
+	|[block]| {\texttt{img = matrice\_random(dim)} \\ Calcolo di una matrice quadrata di dimensione \texttt{dim}}     \\
 	|[block]| {\texttt{img\_slow = dct\_manual(img)} \\ Metodo per il calcolo manuale della DCT}     \\
 	|[block]| {\texttt{img\_fast = dct(img)} \\ Metodo per il calcolo tramite libreria della DCT}     \\
+	|[block]| {Stampa su console dei tempi di esecuzione} \\
 	|[block]| {\textbf{End}}    \\
 };
 \path [>=latex,->] (m-1-1) edge (m-2-1);
@@ -278,10 +280,10 @@ while (dim <= 1000):
     dim += 100
 \end{lstlisting}
 
-\item Viene chiamata la funzione \texttt{matrice\_random()} che crea un array bidimensionale di valori random compresi tra $0$ e $256$, ovvero i valori che corrispondono alla scala di grigi in formato bitmap. Questa funzione prende in ingresso il valore che corrisponde alla dimensione che si vuole dare alla matrice;
+\item Viene chiamata la funzione \texttt{matrice\_random()} che crea un array bidimensionale di valori random compresi tra 0 e 255, ovvero i valori che corrispondono alla scala di grigi in formato bitmap. Questa funzione prende in ingresso il valore che corrisponde alla dimensione che si vuole dare alla matrice;
 \begin{lstlisting}[language=Python]
 def matrice_random(dim):
-    img = arange(dim * dim).reshape(int(dim), int(dim))
+    img = np.arange(dim * dim).reshape(dim, dim)
     
     m = img.shape[0]
     
@@ -297,7 +299,9 @@ def matrice_random(dim):
 def dct_fftpack_2d(x):
     return dct(np.transpose(dct(np.transpose(x), type = 2, norm = 'ortho')), \
                type = 2, norm='ortho')
+               
 \end{lstlisting}
+
 
 \item Viene calcolata la DCT manuale e i tempi di esecuzione. La DCT viene implementata come segue;
 \begin{lstlisting}[language=Python]
@@ -325,7 +329,7 @@ def dct_manual(x):
     return c
 \end{lstlisting}
 
-\item Vengono stampati in console tutti i tempi di esecuzione delle due DCT per ogni dimensione dell'array bidimensionale;
+\item Vengono stampati in console tutti i tempi di esecuzione delle due DCT per ogni dimensione dell'array bidimensionale e viene creato un semplice plot;
 \begin{lstlisting}[language=Python]
 plot(dimensioni, tempi_manual, tempi_scipy)
 print('Tempi Scipy: ')
@@ -340,21 +344,39 @@ print(tempi_manual)
 \newpage
 
 
-\subsection*{Risultati}
-I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto Scipy.fftpack.
+\subsection*{Test e risultati}
+I risultati della prima parte del progetto riguardano il confronto dei tempi d'esecuzione della DCT2. In particolare il confronto è stato fatto tra una DCT implementata a mano e la funzione DCT del pacchetto \texttt{scipy.fftpack}.
 
 Gli array bidimensionali utilizzati di dimensione $N \times N$ sono stati creati in maniera casuale e sono state scelte dimensioni che variano da $100 \times 100$ a $1000 \times 1000$. Non sono state scelte dimensioni maggiori, sia per motivi di eccessivo tempo di calcolo, sia perché un'array $1000 \times 1000$ rispecchia un'immagine di $1000 \times 1000$ pixel, definizione già abbastanza alta, paragonabile in termini di numero di pixel al formato HD a 720p.
 
-Durante l'implementazione abbiamo fatto molta attenzione che il nostro algoritmo venisse implementato correttamente confrontando sempre i risultati degli array dopo il calcolo di entrambe le DCT.
+Durante l'implementazione abbiamo prestato molta attenzione al fatto che il nostro algoritmo venisse implementato correttamente confrontando sempre i risultati degli array dopo il calcolo di entrambe le DCT.
+
+
+In particolare è stata effettuata una verifica basata su questo risultato (esatto per ipotesi):
+
+\begin{center}
+	\texttt{231 32 233 161 24 71 140 245}\\
+	\vspace{2mm}
+	$\downarrow$\\
+	\vspace{2mm}
+	\texttt{4.01e+02 6.60e+00 1.09e+02 -1.12e+02 6.54e+01 1.21e+02 1.16e+02 2.88e+01
+}
+\end{center}
+
+Il programma calcola la DCT in modo corretto (assumiamo come 'accettabili' differenze con la soluzione dell'ordine di 0.01e+02, ovvero 1):
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screentest}
+\end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{grafico}
 \end{figure}
 
-Nella figura sopra si possono notare come i tempi della DCT implementata a mano (Manual) siano nettamente superiori rispetto alla DCT implementata dal pacchetto di Python. Questo è del tutto normale in quanto le librerie sono sicuramente implementate meglio e più efficienti.
+Nella figura sopra si possono notare come i tempi della DCT implementata a mano (\texttt{dct\_manual()}) siano nettamente superiori rispetto alla DCT implementata in \texttt{scipy.fftpack.dct}. Questo è del tutto normale in quanto le librerie sono sicuramente implementate meglio e più efficienti.
 
-\newpage
 Nella figura sotto sono riportati in una tabella tutti i tempi di esecuzione della DCT.
 
 \begin{figure}[H]
@@ -388,10 +410,11 @@ In particolare, i valori $F$ e $d$ scelti dall'utente servono per l'elaborazione
 
 
 \subsection*{Diagramma}
+\vspace{5mm}
 
 \begin{tikzpicture}
 \matrix (m)[matrix of nodes, column  sep=2cm,row  sep=8mm, align=center, nodes={rectangle,draw, anchor=center} ]{
-	|[block]| {\textbf{Start}} &  |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d)} \\ Metodo in cui viene implementato il calcolo della DCT2 e il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}  \\
+	|[block]| {\textbf{Start}} \\
 	|[block]| {\texttt{main()} \\ Definizione del Main in cui viene implementata l'interfaccia per scegliere dal Filesystem un'immagine in formato \texttt{.bmp}}               &          |[block]| {\texttt{lista\_blocchi\_inversa = applica\_dct(lista\_blocchi, d)} \\ Metodo in cui viene implementato il calcolo della DCT2 e il taglio delle frequenze $c_{kl}$ con $k + l \geq d$}                                  \\
 	|[block]| {\texttt{open\_file()} \\ Metodo utilizzato per l'apertura del file \texttt{.bmp}}          &       |[block]| {\texttt{img\_compressa = ricomponi(img, lista\_blocchi\_inversa, f)} \\ Metodo in cui vengono ricomposti nell'ordine giusto tutti i blocchi compressi con la DCT2}                                      \\
 	|[block]| {\texttt{main\_function(F, d)} \\ Funzione principale, F e d sono i parametri scelti dall'utente all'interno del \texttt{main()}}    &    |[block]| {\texttt{plot(img, img\_compressa)} \\ Metodo per il disegno dell'immagine originale, affiancata a quella compressa con la DCT2}                                         \\
@@ -402,13 +425,15 @@ In particolare, i valori $F$ e $d$ scelti dall'utente servono per l'elaborazione
 \path [>=latex,->] (m-3-1) edge (m-4-1);
 \path [>=latex,->] (m-4-1) edge (m-5-1);
 
-\path [>=latex,->] (m-1-2) edge (m-2-2);
+
 \path [>=latex,->] (m-2-2) edge (m-3-2);
 \path [>=latex,->] (m-3-2) edge (m-4-2);
 \path [>=latex,->] (m-4-2) edge (m-5-2);
 
 
 \end{tikzpicture}
+
+\newpage
 
 \subsection*{Implementazione}
 Di seguito viene spiegato approfonditamente come opera il programma.

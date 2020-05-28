@@ -62,6 +62,11 @@
 \usepackage{minted}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
 
+\usepackage{titlesec}
+
+\titleformat*{\section}{\LARGE\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+
 \makeatletter
 \def\ps@pprintTitle{%
 	\let\@oddhead\@empty
@@ -205,7 +210,7 @@ In altre parole bisogna porsi le seguenti domande:
 %% main text
 \newpage
 
-\section{Introduzione}
+\section*{Introduzione}
 
 Lo scopo di questo progetto è quello di valutare l’implementazione, in ambienti di programmazione differenti, del metodo di Cholesky per la risoluzione di sistemi lineari per matrici sparse. La scelta degli ambienti, da parte del team, si è focalizzata su:
 
@@ -240,12 +245,12 @@ dove:
 \end{itemize}
 
 
-\subsection{Matrici sparse}
+\subsection*{Matrici sparse}
 Le matrici sparse sono una classe di matrici con la caratteristica di contenere un significativo numero di elementi uguali a zero. Spesso il numero di elementi diversi da zero su ogni riga è un numero piccolo (per esempio del- l’ordine di $10^1$) indipendente dalla dimensione della matrice, che può essere anche dell’ordine di $10^8$.
 
 Le matrici sparse si possono memorizzare in modo compatto, tenendo solo conto degli elementi diversi da zero; per esempio, è sufficiente per ogni elemento diverso da zero memorizzare solo la sua posizione $i j$ e il suo valore $a_{ij}$, ignorando gli elementi uguali a zero. Ciò consente di ridurre il tempo di calcolo eliminando operazioni su elementi nulli.
 
-\subsection{Calcolatore utilizzato}
+\subsection*{Calcolatore utilizzato}
 
 Per effettare i diversi calcoli è stato utilizzato un Surface Book 2 con le seguenti caratteristiche hardware:
 \begin{itemize}
@@ -268,7 +273,7 @@ In dettaglio sono stati utilizzati:
 \newpage
 
 
-\section{Ambienti di sviluppo}
+\section*{Ambienti di sviluppo}
 
 Il confronto dei vari ambienti di programmazione sui sistemi operativi di Windows e Linux deve avvenire in termini di:
 \begin{description}
@@ -278,7 +283,7 @@ Il confronto dei vari ambienti di programmazione sui sistemi operativi di Window
 \end{description}
 
 
-\subsection{Matlab}
+\subsection*{Matlab}
 \medskip
 \begin{description}
 	\item[Versione:] 9.7.0
@@ -289,7 +294,7 @@ Matlab (abbreviazione di Matrix Laboratory) è un ambiente per il calcolo numeri
 La funzione principale utilizzata è stata \texttt{chol()}, la cui documentazione si trova qui:\\
 \textit{\href{https://it.mathworks.com/help/matlab/ref/chol.html}{https://it.mathworks.com/help/matlab/ref/chol.html}}
 
-\subsection{Eigen, C++}
+\subsection*{Eigen, C++}
 \medskip
 \begin{description}
 	\item[Versione:] 3.7.7, Novembre 2019
@@ -308,7 +313,7 @@ La documentazione per quanto riguarda quest'ultima si trova qui:\\
 \textit{\href{https://eigen.tuxfamily.org/dox/classEigen_1_1SimplicialLDLT.html}{https://eigen.tuxfamily.org/dox/classEigen\_1\_1SimplicialLDLT.html} }
 
 
-\subsection{Matrix, R}
+\subsection*{Matrix, R}
 \medskip
 \begin{description}
 	\item[Versione:] 1.2-18, Novembre 2018
@@ -325,7 +330,7 @@ Il link alla documentazione per questa funzione è il seguente:\\
 \newpage
 
 
-\section{Implementazioni}
+\section*{Implementazioni}
 
 L'implementazione del metodo è stata così suddivisa:
 
@@ -355,7 +360,7 @@ Le fasi segnate in grassetto verranno cronometrate dal sistema, da notare come l
 
 \newpage
 
-\subsection{Matlab}
+\subsection*{Matlab}
 L'implementazione su ambiente Matlab è stata effettuata tramite questo semplice script:
 
 \begin{lstlisting}
@@ -422,7 +427,7 @@ Contro:
 
 \newpage
 
-\subsection{R}
+\subsection*{R}
 
 La soluzione per ambiente R è data dal seguente script:
 
@@ -451,7 +456,7 @@ Contro:
 
 \newpage
 
-\subsection{C++}
+\subsection*{C++}
 
 Il file \textit{script.cpp} è costruito sul seguente codice:
 
@@ -543,11 +548,11 @@ Contro:
 \newpage
 
 
-\section{Elaborazioni e risultati}
+\section*{Elaborazioni e risultati}
 
 Nella sezione corrente verranno presentati i risultati delle varie elaborazioni su grafici. Essi conterranno valori per matrici fino a 715.176 righe (\textit{apache2.mtx}) in quanto per matrici più grandi il calcolatore non riesce a portare a termine l'elaborazione (per mancanza di memoria).
 
-\subsection{Time setup}La prima parte dell'analisi ha riguardato il tempo di setup, come specificato all'inizio della sezione 3.
+\subsection*{Time setup}La prima parte dell'analisi ha riguardato il tempo di setup, come specificato all'inizio della sezione 3.
 In breve \textit{Time setup} è il tempo che intercorre tra il caricamento della matrice $A$, l'inizializzazione di $xe$ e il calcolo di $b$
 
 \begin{figure}[H]
@@ -565,7 +570,7 @@ Come si può facilmente osservare chi impiega il minor tempo è Matlab, a seguir
 
 Da notare però come Matlab ed R non riescano a gestire matrici con numero di righe $\geq 525.825$, cosa che C++ riesce a fare. Addirittura su ambiente linux il sistema riesce anche a gestire la matrice \textit{apache2.mtx} di dimensione 715.176.
 
-\subsection{Time Cholesky}
+\subsection*{Time Cholesky}
 
 \begin{figure}[H]
 	\centering
@@ -580,7 +585,7 @@ Da notare però come Matlab ed R non riescano a gestire matrici con numero di ri
 Questi grafici rappresentano il tempo forse più significativo, ovvero il tempo per il calcolo della matrice di Cholesky $R$.
 Matlab si conferma l'ambiente tendenzialmente più rapido, anche se la differenza non sembra essere così significativa (nonostante ci sia).
 
-\subsection{Time resolve}
+\subsection*{Time resolve}
 
 \begin{figure}[H]
 	\centering
@@ -595,7 +600,7 @@ Matlab si conferma l'ambiente tendenzialmente più rapido, anche se la differenz
 Questi grafici rappresentano il tempo impiegato per la risoluzione del sistema finale $R \times R' \times x = b$.
 Come si può notare i vari linguaggi sembrano avere un comportamento molto simile, e anche qui si osserva la leggera superiorità di Matlab rispetto ai suoi concorrenti, mentre R si denota come il più lento, con dei tempi più lunghi rispetto agli altri.
 
-\subsection{Time total}
+\subsection*{Time total}
 
 \begin{figure}[H]
 	\centering
@@ -610,7 +615,7 @@ Come si può notare i vari linguaggi sembrano avere un comportamento molto simil
 Mentre i grafici precedenti misurano le singole quantità di tempo, questi rappresentano la somma di tutti i precedenti, e quindi sono forse i più significativi.
 In definitiva si può concludere che Matlab sia l'ambiente di sviluppo più rapido, ma questo come si vedrà in seguito avrà delle ripercussioni sulla memoria utilizzata, infatti esso si limita a risolvere solo i sistemi relativamente più "semplici", oltre le 123.440 righe esso infatti avrà problemi di \textit{out of mem}.
 
-\subsection{Errori relativi}
+\subsection*{Errori relativi}
 
 \begin{figure}[H]
 	\centering
@@ -626,7 +631,7 @@ Si passa ora ad analizzare da un altro punto di vista l'analisi delle diverse el
 Dalle diverse esecuzioni non si può stabilire univocamente quale sia l'ambiente migliore da questo punto di vista, forse Matlab potrebbe esserlo anche se non sempre è il più preciso.\\
 Da notare come per la matrice di dimensione 81.920, l'errore relativo sia pressoché il medesimo in tutti i linguaggi.
 
-\subsection{Memoria utilizzata}
+\subsection*{Memoria utilizzata}
 
 \begin{figure}[H]
 	\centering
@@ -643,7 +648,7 @@ Se infatti fino ad adesso Matlab si è rivelato il "migliore", soprattutto per q
 
 Curioso notare come la memoria utilizzata da Matlab per la risoluzione di un sistema di dimensione 123.440 è dello stesso ordine di grandezza della memoria utilizzata da C++ per un sistema di 715.176 righe!
 
-\section{Conclusioni}
+\section*{Conclusioni}
 All'inizio del progetto ci siamo chiesti cosa era meglio tra il software proprietario Matlab oppure un software open source per la risoluzione dei sistemi lineari e anche se era meglio utilizzare tali software in ambiente linux oppure windows. Ecco le risposte:
 
 \begin{enumerate}
