@@ -116,6 +116,7 @@ a destra quella compressa
 """
 def plot(img, img_compressa):
     root = Tk()
+    root.geometry('1280x720')
     root.wm_title("Risultato")
 
     fig = Figure(figsize=(5, 4), dpi=100)
@@ -158,8 +159,8 @@ def main_function(f, d) :
 
     global img
     #caricamento dell'immagine scelta dall'utente:
-    img = cv2.imread(os.path.basename(file_path), 0)
-    
+    img = cv2.imread(file_path, 0)
+
     if f > img.shape[0] or f > img.shape[1]:
         showerror("Errore", "ERRORE: f dev'essere minore o uguale alla dimensione dell'immagine")
         return
