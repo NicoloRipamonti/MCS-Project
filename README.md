@@ -140,7 +140,7 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 
 Il secondo progetto è suddiviso in due parti:
 
-# Parte 1
+### Parte 1
 L'obiettivo della prima parte è quello di confrontare l'implementazione della DCT di una libreria ad un'implementazione effettuata dal gruppo.
 Come linguaggio di programmazione è stato scelto Python, la libreria in questione invece è Scipy, più precisamente si è utilizzato scipy.fftpack.dct (https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html
 
@@ -168,6 +168,26 @@ Di seguito i risultati ottenuti su MacBook Pro 2016 i5 Dual Core 2GHz
 | 800x800             | 0.01818 s          | 10.02264s   |
 | 900x900             | 0.04131 s          | 13.11710s   |
 | 1000x1000           | 0.03638 s          | 20.02069s   |
+
+### Parte 2
+L'obiettivo della seconda parte è quello di creare un interfaccia grafica che permetta di effettuare una compressione di un immagine monocromatica .bmp utilizzando il metodo della DCT2.
+
+L'interfaccia in questione è stata realizzata tramite la libreria TkInter (https://wiki.python.org/moin/TkInter/) insieme a Matplotlib (https://matplotlib.org/) per la visualizzaizone dei risultati.
+
+Lo script può essere lanciato attraverso:
+
+```bash
+python Progetto2/Script/script2.py
+```
+
+Questo avvia la GUI attraverso la quale sarà possibile scegliere un immagine .bmp monocromatica, e successivamente scegliere dei valori F e d.
+
+
+* F: dimensioni dei blocchi su cui applicare la DCT2 (nello standard .jpeg i blocchi sono 8x8)
+* d: valore per il taglio delle frequenze: valori più alti rappresentano maggiore fedeltà all'originale, viceversa valori bassi taglieranno diverse frequenze
+
+Dopodiche bisognerà solamente premere 'Avvia' e attendere qualche istante per osservare direttamente il risultato della compressione, inoltre verrà generato un file chiamato *nome_file*_compresso.jpg
+
 
 
 
