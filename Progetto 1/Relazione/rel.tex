@@ -1,5 +1,3 @@
-%% This is file `elsarticle-template-1-num.tex',
-%%
 %% Copyright 2009 Elsevier Ltd
 %%
 %% This file is part of the 'Elsarticle Bundle'.
@@ -61,6 +59,7 @@
 \usepackage{tikz}
 \usepackage{minted}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains}
+\usepackage{multicol}
 
 \usepackage{titlesec}
 
@@ -186,7 +185,7 @@ Lo scopo di questo progetto è di studiare l'implementazione in ambienti di prog
 	
 Immaginiamo che un'azienda abbia la necessità di munirsi di un ambiente di programmazione per risolvere sistemi lineari con matrici sparse e definite positive di grandi dimensioni utilizzando il metodo di Cholesky. 
 	
-L'alternativa è tra software proprietario (Matlab) oppure open source e anche tra Windows oppure Linux.
+L'alternativa è tra software proprietario (Matlab) oppure open source; la scelta è anche tra Windows oppure Linux.
 	
 La richiesta è quindi quella di confrontare, in ambiente Linux e Windows, e sulla stessa macchina, l'ambiente di programmazione Matlab con una libreria open source. 
 	
@@ -221,7 +220,7 @@ Lo scopo di questo progetto è quello di valutare l’implementazione, in ambien
 Le matrici che sono state considerate per la realizzazione del progetto sono quelle del gruppo \textit{SuiteSparse Matrix Collection} che colleziona matrici sparse derivanti da applicazioni di problemi reali (ingegneria strutturale, fluidodinamica, elettromagnetismo, termodinamica, computer graphics/vision, network e grafi).
 
 In particolare le matrici simmetriche e definite positive che sono state analizzate sono le seguenti:
-\begin{center}
+\begin{multicols}{2}
 	\begin{itemize}
 		\item \textbf{Flan\_1565}
 		\item \textbf{StocF-1465}
@@ -233,9 +232,7 @@ In particolare le matrici simmetriche e definite positive che sono state analizz
 		\item \textbf{shallow\_water1}
 		\item \textbf{ex15}
 	\end{itemize}
-	
-\end{center}
-
+\end{multicols}
 Un sistema lineare si può rappresentare in forma matriciale come $ A \cdot x = b $
 dove:
 \begin{itemize}
@@ -424,6 +421,7 @@ Pro:
 Contro:
 \begin{itemize}
 	\item Closed source
+	\item Licenza commerciale non gratuita
 \end{itemize}
 
 \newpage
@@ -453,6 +451,7 @@ Pro:
 Contro:
 \begin{itemize}
 	\item Sintassi troppo "flessibile" (non ci sono regole precise da seguire)
+	\item Inclusione e installazione di librerie macchinosa
 \end{itemize}
 
 \newpage
@@ -655,13 +654,15 @@ All'inizio del progetto ci siamo chiesti cosa era meglio tra il software proprie
 \begin{enumerate}
 \item \textbf{\`E meglio lavorare in ambiente Linux oppure in ambiente Windows?}\\
 Come si può evincere dallo studio fatto fin ora, la differenza tra i due ambienti, a parità di software utilizzato, risulta quasi impercettibile. La differenza sostanziale sta nell'uso della memoria.\\
-In ambiente Linux, C++ riesce a ottimizzare meglio l'utilizzo della memoria rispetto a Windows, ma questo non comporta in alcun modo differenze sostanziali nelle tempistiche di calcolo.
+In ambiente Linux, C++ riesce a ottimizzare meglio l'utilizzo della memoria rispetto a Windows, ma questo non comporta in alcun modo differenze sostanziali nelle tempistiche di calcolo.\\
+Forse per avere delle statistiche ancora più precise sarebbe stato meglio effettuare il test su due partizioni divise Windows e Linux, ma causa forza maggiore abbiamo optato per la soluzione WSL; la macchina Windows a nostra disposizione, un Surface Book 2, non permette l'installazione di un altro sistema operativo (in realtà è possibile, ma è una soluzione non ufficiale che si basa su un kernel modificato non stabile, tant'è che il sistema operativo risulta pieno di bug).
 
 \item \textbf{\`E meglio affidarsi alla sicurezza di Matlab pagando oppure vale la pena
 di avventurarsi nel mondo open source?}\\
 Come visto nei grafici presentati in precedenza, Matlab è sempre stato il migliore in termini di tempo e di accuratezza. Purtroppo però non si può dire lo stesso per quanto riguarda l'uso della memoria che, come nel nostro caso, utilizzando calcolatori di fascia media con 8 GB di RAM si incorre nel problema di \textit{out of memory}. In sostanza il vero interrogativo al quale ci siamo sottoposti durante lo studio dei software, è stato "riuscirà a risolvere il sistema lineare o fallirà per mancanza di memoria?". C++ è stato indubbiamente il software che è riuscito a darci più dati su cui lavorare rispetto agli altri, in quanto è stato l'unico che é riuscito a spingersi fino ai sistemi lineari di 715 mila righe e colonne.\\
 In conclusione Matlab risulta essere sicuramente il software più prestante in termini di tempo e di errore, mentre C++ è il più prestante in termini di utilizzo della memoria.\\
-Sicuramente se non si hanno problemi di utilizzo della memoria, Matlab è la soluzione.
+R d'altra parte si comporta in modo discreto: non ha prestazioni migliori ma non si può dire che sia significativamente peggiore rispetto agli altri; questo vale anche per gli errori.\\
+Sicuramente se non si hanno problemi di utilizzo della memoria (ed ecomomici, anche se in modo relativo), Matlab sarebbe la soluzione ideale.
 \end{enumerate}
  
 \end{document}

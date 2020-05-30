@@ -572,8 +572,11 @@ Il risultato verrà salvato in un'immagine di tipo .jpg all'interno della stessa
 \item[Parte 1] Il risultato dell'esperimento ha soddisfatto le aspettative, la DCT implementata “a mano" si è rivelata nettamente più lenta nell'esecuzione rispetto a quella disponibile su \texttt{scipy.fftpack.dct}.
 In particolare i test con i quali si verifica che i due algoritmi restituiscano i risultati corretti sono passati (si è assunto come vero il risultato della DCT mostrato nella traccia del progetto), e l'esperimento sulle matrici stocastiche di dimensioni crescenti ha avuto il riscontro previsto: l'algoritmo disponibile nella libreria è statisticamente migliore in termini di tempi di calcolo.
 	
-\item[Parte 2] L'applicazione implementata, a nostro avviso, funziona in modo corretto e in linea con la richiesta. \\In particolare, per ogni immagine bitmap che si sceglie, si nota che la compressione effettuata ha una perdita di qualità nel momento in cui si scelgono valori di \textit{d} molto piccoli; questo è dovuto al gran numero di frequenze che vengono eliminate.\\ Coerentemente con quanto appena detto, aumentando il valore di \textit{d}, stando attenti a non superare la soglia del $2F-2$, l'immagine caricata nell'interfaccia risulterà molto simile all'originale e, nel caso in cui la \textit{d} sia molto vicina alla soglia massima consentita, vengono persi solo i dettagli poco visibili ad occhio nudo. Detto ciò, la dimensione dell'immagine in termini di spazio della memoria è molto minore all'originale anche quando i valori di \textit{d} scelti sono vicini alla soglia massima ammissibile. In conclusione il gruppo di lavoro si ritiene soddisfatto dei propri risultati.
+\item[Parte 2] L'applicazione implementata, funziona in modo corretto e in linea con la richiesta. \\In particolare, per ogni immagine bitmap che si sceglie, si nota che la compressione effettuata ha una perdita di qualità nel momento in cui si scelgono valori di \textit{d} molto piccoli; questo è dovuto al gran numero di frequenze che vengono eliminate.\\ Coerentemente con quanto appena detto, aumentando il valore di \textit{d}, stando attenti a non superare la soglia del $2F-2$, l'immagine caricata nell'interfaccia risulterà molto simile all'originale e, nel caso in cui la \textit{d} sia molto vicina alla soglia massima consentita, vengono persi solo i dettagli poco visibili ad occhio nudo.\\
+Stabilito ciò, la dimensione dell'immagine in termini di spazio della memoria è molto minore all'originale anche quando i valori di \textit{d} scelti sono vicini alla soglia massima ammissibile. 
 \end{description}
+
+In conclusione il gruppo di lavoro si ritiene soddisfatto dei propri risultati.
 
 \newpage
 \appendix
@@ -609,12 +612,12 @@ In particolare i test con i quali si verifica che i due algoritmi restituiscano 
 
 \subsection{Parte 1}
 
-%\lstinputlisting[language=python]{"../Script/script1.py"}
+\lstinputlisting[language=python]{"../Script/script1.py"}
 
 \newpage 
 \subsection{Parte 2}
 
-%\lstinputlisting[language=python]{"../Script/script2.py"}
+\lstinputlisting[language=python]{"../Script/script2.py"}
 
 
 \end{document}
