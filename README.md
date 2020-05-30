@@ -29,6 +29,9 @@ Per eseguire lo script su Matlab, caricare nel workspace la matrice da trattare 
 ```bash
 load('cfd2.mat')
 ```
+
+N.B. i file .mat si trovano in Progetto1/Matlab
+
 Successivamente lanciare lo script.
 
 Su console verranno stampati i risultati come segue:
@@ -47,8 +50,14 @@ Errore:
 
 ### C++ 
 
-Per eseguire lo script su C++, compilarlo attraverso
+Per eseguire lo script su C++, 
 
+entrare nella cartella contenente gli script:
+
+```bash
+cd Progetto1/C++
+```
+poi compilarlo attraverso
 ```bash
 g++ -I eigen-eigen-323c052e1731 script.cpp -o script
 ```
