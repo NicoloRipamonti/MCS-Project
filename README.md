@@ -2,7 +2,7 @@
 
 Relazioni e implementazioni Progetto 1 e Progetto 2
 
-## Progetto 1 - Cholesky
+## Progetto 1 - Implementazione metodo di Cholesky
 
 L'obiettivo del primo progetto è quello di implementare algoritmi per la risoluzione di matrici sparse simmetriche e definite positive di grandi dimensioni, per farlo abbiamo utilizzato quattro ambienti:
 
@@ -126,11 +126,11 @@ Questi sono i risultati ottenuti su Surface Book 2 (i5-7300U, 8GB RAM) lanciati 
 | parabolic_fem.mtx  | `out of mem` | 85.8982 s       | 75.7502 s   | `out of mem` |
 | apache2.mtx        | `out of mem` | `std::badalloc` | 1611.8161 s | `out of mem` |
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
+## Progetto 2 - Esperimenti su DCT
 
+Il secondo progetto è suddiviso in due parti:
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+# Parte 1
+L'obiettivo della prima parte è quello di confrontare l'implementazione della DCT di una libreria ad un'implementazione effettuata dal gruppo.
+Come linguaggio di programmazione è stato scelto Python, la libreria in questione invece è Scipy, più precisamente si è utilizzato scipy.fftpack.dct (https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html)
