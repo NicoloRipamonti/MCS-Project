@@ -133,4 +133,26 @@ Il secondo progetto è suddiviso in due parti:
 
 # Parte 1
 L'obiettivo della prima parte è quello di confrontare l'implementazione della DCT di una libreria ad un'implementazione effettuata dal gruppo.
-Come linguaggio di programmazione è stato scelto Python, la libreria in questione invece è Scipy, più precisamente si è utilizzato scipy.fftpack.dct (https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html)
+Come linguaggio di programmazione è stato scelto Python, la libreria in questione invece è Scipy, più precisamente si è utilizzato scipy.fftpack.dct (https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html
+
+Il confronto è stato effettuato in termini di tempi su un insieme di matrici generate in modo pseudo-casuale di dimensione 100n x 100n con n che va da 1 a 10
+
+I risultati sono stati prevedibili in quanto la libreria è risultata decisamente più veloce rispetto alla implementazione "ad-hoc".
+
+Di seguito i risultati ottenuti su 
+
+| Dimensione matrice  | scipy.fftpack.dct  | dct_manuale |
+|---------------------|--------------------|-------------|
+| 100x100             | 0.00041 s          | 0.06779s    |
+| 200x200             | 0.00157 s          | 0.30789s    |
+| 300x300             | 0.00217 s          | 0.75378s    |
+| 400x400             | 0.00369 s          | 1.60575s    |
+| 500x500             | 0.00703 s          | 2.46435s    |
+| 600x600             | 0.00976 s          | 3.99684s    |
+| 700x700             | 0.01821 s          | 5.74928s    |
+| 800x800             | 0.01818 s          | 10.02264s   |
+| 900x900             | 0.04131 s          | 13.11710s   |
+| 1000x1000           | 0.03638 s          | 20.02069s   |
+
+
+
