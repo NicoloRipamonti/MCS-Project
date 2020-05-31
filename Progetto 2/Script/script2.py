@@ -13,6 +13,7 @@ from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
+import platform
 
 """
 suddividi(img, f)
@@ -104,7 +105,7 @@ def ricomponi(img, lista_blocchi_inversa, f):
 
     img_compressa = img_compressa.astype(np.uint8)
     global file_path
-    cv2.imwrite('img_compressa.jpg', img_compressa)
+    cv2.imwrite(os.path.basename(file_path) + '_compresso.bmp', img_compressa)
 
     return img_compressa
 
@@ -159,7 +160,13 @@ def main_function(f, d) :
 
     global img
     #caricamento dell'immagine scelta dall'utente:
-    img = cv2.imread(file_path, 0)
+    
+    
+    if platform.system() == 'Windows':
+        img = cv2.imread(file_path, 0)
+    else:
+        img = cv2.imread(os.path.basename(file_path), 0)
+
 
     if f > img.shape[0] or f > img.shape[1]:
         showerror("Errore", "ERRORE: f dev'essere minore o uguale alla dimensione dell'immagine")
